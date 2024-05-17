@@ -9,8 +9,8 @@ namespace Assets.Scripts
         // 攻击范围
         public float atkRange;
 
-        // 攻击前摇帧数
-        public byte preAttackFrame = 0;
+        // 攻击前摇时间
+        public float preAttackTime = 0;
 
         // 攻击投射物相关信息
         public GameObject atkProjectile;
@@ -21,6 +21,8 @@ namespace Assets.Scripts
         Animator animator;
         SpriteRenderer spriteRenderer;
         Rigidbody2D rigidbody2;
+
+        EventManager eventManager = new EventManager();
 
         protected void Awake()
         {
@@ -42,7 +44,6 @@ namespace Assets.Scripts
             {
                 return;
             }
-            Debug.Log(moveSpeed);
             Vector2 position = rigidbody2.position;
             position.x += moveSpeed * horizontal * Time.fixedDeltaTime;
             position.y += moveSpeed * vertical * Time.fixedDeltaTime;
@@ -86,15 +87,16 @@ namespace Assets.Scripts
             }
             // 执行攻击动画
             animator.SetTrigger("attack");
-            OnPreAtkEnd(target);
 
+            OnPreAtkEnd(target);
         }
 
         // 攻击前摇执行完毕
-        public void OnPreAtkEnd(GameObject target)
+        public void OnPreAtkEnd(GameObject target = null)
         {
+            Debug.Log("OnPreAtkEnd");
             // 远程不会有攻击飞弹特效
-            if (atkProjectile != null)
+            if (target != null && atkProjectile != null)
             {
                 Vector2 selfPos = rigidbody2.position;
                 // 攻击对象起始位置
