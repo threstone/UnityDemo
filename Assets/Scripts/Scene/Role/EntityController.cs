@@ -87,8 +87,8 @@ namespace Assets.Scripts
             }
             // 执行攻击动画
             animator.SetTrigger("attack");
+            UnityTimer.Timer.Register(preAttackTime, () => OnPreAtkEnd(target));
 
-            OnPreAtkEnd(target);
         }
 
         // 攻击前摇执行完毕

@@ -123,11 +123,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   atkRange: 5.5
-  preAttackFrame: 8
+  preAttackTime: 0.66
   atkProjectile: {fileID: 7869857916958929102, guid: 702cbf4e2ee0c3c4aab715b6f59490b9, type: 3}
   atkProjectileSpeed: 8
   atkProjectileStartX: 0.5
-  atkProjectileStartY: 0.7
+  atkProjectileStartY: 0.58
 --- !u!61 &3741283990492699247
 BoxCollider2D:
   m_ObjectHideFlags: 0
