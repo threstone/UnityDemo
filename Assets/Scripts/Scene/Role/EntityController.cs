@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -24,6 +26,10 @@ namespace Assets.Scripts
 
         EventManager eventManager = new EventManager();
 
+        // 动作执行回调，如果遇到眩晕等控制用来打断动作执行回调
+        private readonly List<Timer> actionCbList = new();
+        private long stopStunTicks = -1;
+
         protected void Awake()
         {
             animator = GetComponent<Animator>();
@@ -35,10 +41,6 @@ namespace Assets.Scripts
         public void DoMove(float horizontal, float vertical)
         {
             Vector2 move = new Vector2(horizontal, vertical);
-            if (Mathf.Approximately(move.x, 0.0f) && Mathf.Approximately(move.y, 0.0f))
-            {
-                return;
-            }
             animator.SetFloat("speed", move.magnitude);
             if (CanOprate() == false)
             {
@@ -87,8 +89,30 @@ namespace Assets.Scripts
             }
             // 执行攻击动画
             animator.SetTrigger("attack");
-            // todo 考虑打断时的停止操作
-            Timer.Register(preAttackTime, () => OnPreAtkEnd(target));
+            actionCbList.Add(Timer.Register(preAttackTime, () => OnPreAtkEnd(target)));
+            Timer.Register(0.2f, () => DoStun(2f));
+            Timer.Register(1.2f, () => DoStun(2f));
+        }
+
+       
+        // 使眩晕、将打断
+        public void DoStun(float stunTime)// todo 眩晕时间实现
+        {
+            long tempTicks = DateTime.Now.Ticks + (long)(stunTime * 10000000);
+            if (tempTicks < stopStunTicks)
+            {
+                return;
+            }
+            stopStunTicks = tempTicks;
+            Debug.Log("Stun" + stunTime + "  DateTime.Now" + DateTime.Now + "   DateTime.UtcNow" + DateTime.UtcNow);
+            animator.SetTrigger("stun");
+            actionCbList.ForEach((timer) =>
+            {
+                Timer.Cancel(timer);
+            });
+
+            actionCbList.Add(Timer.Register(stunTime, () => animator.SetTrigger("stopStun")));
+            actionCbList.Add(Timer.Register(stunTime, () => Debug.Log("stun end")));
         }
 
         // 攻击前摇执行完毕

@@ -11,10 +11,10 @@ public class EventManagerTest : MonoBehaviour
     private void Test()
     {
 
-        Timer.UnityTimer.Register(5f, () => Debug.Log("Hello World"));
-        Timer.UnityTimer.Register(3f, () =>
-        {
-            Debug.Log("123");
-        });
+        //Timer.Register(5f, () => Debug.Log("Hello World"));
+        //Timer.Register(3f, () =>
+        //{
+        //    Debug.Log("123");
+        //});
     }
 }

@@ -23,8 +23,8 @@ public class RoleController : MonoBehaviour
 
     private void Move()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
         entityController.DoMove(horizontal, vertical);
     }
 
