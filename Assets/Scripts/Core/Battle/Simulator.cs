@@ -6,41 +6,42 @@ public class Simulator
     // 随机数种子
     int randomSeed;
     Random random;
+
+    public float FrameInterval { get; set; }
+
     // 当前帧数
-    int curFrame = -1;
-    public int CurFrame { get => curFrame; }
+    public int CurFrame { get; set; }
 
     // 场景实体
     readonly List<Entity> entityList;
 
     // 帧数据
-    Dictionary<int, Frame> frameDic;
+    readonly Dictionary<int, Frame> frameDic;
 
-    Simulator(int randomSeed, List<Entity> entityList, Dictionary<int, Frame> frameList)
+    public Simulator(int randomSeed, List<Entity> entityList, Dictionary<int, Frame> frameDic, float frameInterval)
     {
         this.randomSeed = randomSeed;
         this.entityList = entityList;
-        this.frameDic = frameList;
+        this.frameDic = frameDic;
+        FrameInterval = frameInterval;
         random = new Random(randomSeed);
         entityList.ForEach(e => e.SetSimulator(this));
     }
 
     public void FixedUpdate()
     {
-        curFrame++;
-        // 处理用户输入
-        if (frameDic.TryGetValue(curFrame, out Frame? frame))
-        {
-            HandleUserInput(frame);
-        }
-        entityList?.ForEach(e => e.FixedUpdate());
+        CurFrame++;
+
+        HandleUserInput();
+
+        entityList?.ForEach(e => e.FixedUpdate(CurFrame));
     }
 
     public void OnUserInput(string key)
     {
 
-        int f = curFrame + 1;
-        if (!frameDic.TryGetValue(f, out Frame? frame))
+        int f = CurFrame + 1;
+        if (!frameDic.TryGetValue(f, out Frame frame))
         {
             frame = new Frame(f);
             frameDic.TryAdd(f, frame);
@@ -49,12 +50,16 @@ public class Simulator
 
     }
 
-    void HandleUserInput(Frame frame)
+    void HandleUserInput()
     {
-        frame.userInput.ForEach(key =>
+        // 处理用户输入
+        if (frameDic.TryGetValue(CurFrame, out Frame frame))
         {
-            // do something
-        });
+            frame.userInput.ForEach(key =>
+            {
+                // do something
+            });
+        }
     }
 
     public int RandomNext(int minValue = 0, int maxValue = int.MaxValue)

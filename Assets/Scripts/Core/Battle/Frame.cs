@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-class Frame
+public class Frame
 {
     public int id;
     public List<string> userInput;
