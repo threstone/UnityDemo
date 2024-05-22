@@ -25,7 +25,7 @@ public class Simulator
         this.frameDic = frameDic;
         FrameInterval = frameInterval;
         random = new Random(randomSeed);
-        entityList.ForEach(e => e.SetSimulator(this));
+        entityList.ForEach(e => e.Simulator = this);
     }
 
     public void FixedUpdate()
