@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class ConfigMgr
 {
     public static ConfigClass AllConfig { get; set; }
 
-    static Dictionary<int, Role> roleMap;
+    static Dictionary<int, RoleConfig> roleMap;
 
     public static void Init()
     {
@@ -14,13 +16,12 @@ public static class ConfigMgr
         string filePath = Path.Combine(Application.dataPath, "Config/config.json");
         string json = File.ReadAllText(filePath);
         AllConfig = JsonUtility.FromJson<ConfigClass>(json);
-        Debug.Log(JsonUtility.ToJson(AllConfig));
         InitRoleMap();
     }
 
-    public static Role GetRoleInfoById(int id)
+    public static RoleConfig GetRoleInfoById(int id)
     {
-        return roleMap[id];
+        return roleMap[id].Clone();
     }
     static void InitRoleMap()
     {

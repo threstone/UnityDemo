@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 public class Simulator
 {
+
+    public static float FrameInterval = 0.12f;
+
     // 随机数种子
     int randomSeed;
     Random random;
-
-    public float FrameInterval { get; set; }
 
     // 当前帧数
     public int CurFrame { get; set; }
@@ -18,12 +19,11 @@ public class Simulator
     // 帧数据
     readonly Dictionary<int, Frame> frameDic;
 
-    public Simulator(int randomSeed, List<Entity> entityList, Dictionary<int, Frame> frameDic, float frameInterval)
+    public Simulator(int randomSeed, List<Entity> entityList, Dictionary<int, Frame> frameDic)
     {
         this.randomSeed = randomSeed;
         this.entityList = entityList;
         this.frameDic = frameDic;
-        FrameInterval = frameInterval;
         random = new Random(randomSeed);
         entityList.ForEach(e => e.Simulator = this);
     }

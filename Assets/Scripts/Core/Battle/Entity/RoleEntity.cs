@@ -5,11 +5,19 @@ using System.Collections.Generic;
 
 public class RoleEntity : SceneEntity
 {
+    public int RoleId { get; set; }
+    public RoleConfig RoleInfo { get; set; }
+    public bool Face { get; set; }
+
+
     Equipment[] equipmentArray;
     Dictionary<int, Buff> buffMap;
     public Status Status { get; set; }
-    public RoleEntity()
+
+    public RoleEntity(int roleId, int userId) : base(userId)
     {
+        RoleId = roleId;
+        RoleInfo = ConfigMgr.GetRoleInfoById(roleId);
         equipmentArray = new Equipment[6];
         buffMap = new();
         Status = new IdleStatus(this);

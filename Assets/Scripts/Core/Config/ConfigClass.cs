@@ -1,12 +1,12 @@
 ﻿[System.Serializable]
 public class ConfigClass
 {
-    public Role[] roles;
+    public RoleConfig[] roles;
 }
 
 
 [System.Serializable]
-public class Role
+public class RoleConfig : System.Object
 {
     public int id;
     public string heroName;
@@ -50,6 +50,11 @@ public class Role
     public float atkProjectileSpeed;
     /* 攻击弹道初始位置 */
     public float[] atkProjectilePos;
+
+    public RoleConfig Clone() {
+
+        return (RoleConfig)MemberwiseClone();
+    }
 }
 
 public enum AtkType {
