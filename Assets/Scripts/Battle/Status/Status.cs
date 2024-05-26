@@ -1,6 +1,6 @@
 ﻿public abstract class Status
 {
-    public StatusEnum type;
+    public StatusEnum Type;
     protected RoleEntity entity;
 
     public Status(RoleEntity entity)

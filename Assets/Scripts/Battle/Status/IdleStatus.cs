@@ -3,7 +3,7 @@
     int idleFrame;
     public IdleStatus(RoleEntity entity) : base(entity)
     {
-        type = StatusEnum.Idle;
+        Type = StatusEnum.Idle;
         idleFrame = (int)(1 / Simulator.FrameInterval);
     }
 

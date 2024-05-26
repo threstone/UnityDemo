@@ -21,12 +21,12 @@ public class Main : MonoBehaviour
 
     private void DoTest()
     {
-        List<Entity> entityList = new()
-        {
-            new RoleEntity(1001,1),
-            new RoleEntity(1001,2)
+        List<Role> roleList = new() {
+            new Role(1001,1),
+            new Role(1001,2)
         };
         Dictionary<int, Frame> frameDic = new();
-        simulator = new Simulator(1, entityList, frameDic);
+        int randSeed = 1;
+        simulator = new Simulator(randSeed, roleList, frameDic);
     }
 }

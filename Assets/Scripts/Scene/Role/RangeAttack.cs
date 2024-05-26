@@ -21,7 +21,7 @@ public class RangeAttack : MonoBehaviour
         }
 
         Vector2 targetPosition = target.GetComponent<Transform>().position;
-        Vector2 newPostion =  Vector2.MoveTowards(ts.position, targetPosition, sourceController.atkProjectileSpeed * Time.fixedDeltaTime);
+        Vector2 newPostion =  Vector2.MoveTowards(ts.position, targetPosition, sourceController.AtkProjectileSpeed * Time.fixedDeltaTime);
         if (newPostion.Equals(ts.position)) {
             Destroy(gameObject);
             return;

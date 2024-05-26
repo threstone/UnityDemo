@@ -3,12 +3,12 @@
 public class CollisionBox
 {
     readonly SceneEntity entity;
-    public Vector2 offset;
+    public Vector2 Offset;
     public float Width { get; set; }
     public float Height { get; set; }
 
-    public float X { get { return entity.position.X + offset.X; } }
-    public float Y { get { return entity.position.Y + offset.Y; } }
+    public float X { get { return entity.Position.X + Offset.X; } }
+    public float Y { get { return entity.Position.Y + Offset.Y; } }
 
     public CollisionBox(SceneEntity entity)
     {
@@ -30,6 +30,6 @@ public class CollisionBox
     // 检测与另一个场景实体的碰撞
     public bool CheckCollision(SceneEntity entity)
     {
-        return CheckCollision(entity?.collisionBox);
+        return CheckCollision(entity?.CollisionBox);
     }
 }

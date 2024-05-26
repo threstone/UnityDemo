@@ -3,7 +3,7 @@
     RoleEntity lockEnemy;
     public AttackStatus(RoleEntity entity) : base(entity)
     {
-        type = StatusEnum.Attack;
+        Type = StatusEnum.Attack;
     }
 
     public override void FixedUpdate(int curFrame)

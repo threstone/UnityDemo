@@ -16,6 +16,7 @@ public static class ConfigMgr
         string filePath = Path.Combine(Application.dataPath, "Config/config.json");
         string json = File.ReadAllText(filePath);
         AllConfig = JsonUtility.FromJson<ConfigClass>(json);
+        Debug.Log("配置初始化"+JsonUtility.ToJson(AllConfig));
         InitRoleMap();
     }
 
@@ -28,7 +29,7 @@ public static class ConfigMgr
         roleMap = new();
         foreach (var role in AllConfig.roles)
         {
-            roleMap.TryAdd(role.id, role);
+            roleMap.TryAdd(role.Id, role);
         }
     }
 

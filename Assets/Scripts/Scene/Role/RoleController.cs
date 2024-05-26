@@ -4,7 +4,7 @@ using UnityEngine;
 public class RoleController : MonoBehaviour
 {
     EntityController entityController;
-    public GameObject enemy;
+    public GameObject Enemy;
     private void Awake()
     {
         entityController = GetComponent<EntityController>();
@@ -41,7 +41,7 @@ public class RoleController : MonoBehaviour
     }
     private void Attack()
     {
-        entityController.DoAttack(enemy);
+        entityController.DoAttack(Enemy);
     }
 
 

@@ -17,7 +17,18 @@ public class RoleEntity : SceneEntity
     public RoleEntity(int roleId, int userId) : base(userId)
     {
         RoleId = roleId;
-        RoleInfo = ConfigMgr.GetRoleInfoById(roleId);
+        Init();
+    }
+
+    public RoleEntity(Role role) : base(role.UserId)
+    {
+        RoleId = role.RoleId;
+        Init();
+    }
+
+    private void Init()
+    {
+        RoleInfo = ConfigMgr.GetRoleInfoById(RoleId);
         equipmentArray = new Equipment[6];
         buffMap = new();
         Status = new IdleStatus(this);

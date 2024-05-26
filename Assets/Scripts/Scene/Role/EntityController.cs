@@ -6,19 +6,19 @@ namespace Assets.Scripts
 {
     public class EntityController : MonoBehaviour
     {
-        public float moveSpeed;
+        public float MoveSpeed;
 
         // 攻击范围
-        public float atkRange;
+        public float AtkRange;
 
         // 攻击前摇时间
-        public float preAttackTime = 0;
+        public float PreAttackTime = 0;
 
         // 攻击投射物相关信息
-        public GameObject atkProjectile;
-        public float atkProjectileSpeed;
-        public float atkProjectileStartX;
-        public float atkProjectileStartY;
+        public GameObject AtkProjectile;
+        public float AtkProjectileSpeed;
+        public float AtkProjectileStartX;
+        public float AtkProjectileStartY;
 
         Animator animator;
         SpriteRenderer spriteRenderer;
@@ -47,8 +47,8 @@ namespace Assets.Scripts
                 return;
             }
             Vector2 position = rigidbody2.position;
-            position.x += moveSpeed * horizontal * Time.fixedDeltaTime;
-            position.y += moveSpeed * vertical * Time.fixedDeltaTime;
+            position.x += MoveSpeed * horizontal * Time.fixedDeltaTime;
+            position.y += MoveSpeed * vertical * Time.fixedDeltaTime;
             rigidbody2.MovePosition(position);
             if (horizontal == 0f)
             {
@@ -74,7 +74,7 @@ namespace Assets.Scripts
             Vector2 selfPos = rigidbody2.position;
             Transform targetPos = target.GetComponent<Transform>();
             Vector2 difPos = (Vector2)targetPos.position - selfPos;
-            if (difPos.magnitude > atkRange)
+            if (difPos.magnitude > AtkRange)
             {
                 return;
             }
@@ -89,7 +89,7 @@ namespace Assets.Scripts
             }
             // 执行攻击动画
             animator.SetTrigger("attack");
-            actionCbList.Add(Timer.Register(preAttackTime, () => OnPreAtkEnd(target)));
+            actionCbList.Add(Timer.Register(PreAttackTime, () => OnPreAtkEnd(target)));
             Timer.Register(0.2f, () => DoStun(2f));
             Timer.Register(1.2f, () => DoStun(2f));
         }
@@ -120,13 +120,13 @@ namespace Assets.Scripts
         {
             Debug.Log("OnPreAtkEnd");
             // 远程不会有攻击飞弹特效
-            if (target != null && atkProjectile != null)
+            if (target != null && AtkProjectile != null)
             {
                 Vector2 selfPos = rigidbody2.position;
                 // 攻击对象起始位置
-                selfPos.x += atkProjectileStartX * (spriteRenderer.flipX ? -1 : 1);
-                selfPos.y += atkProjectileStartY;
-                GameObject projectileObject = Instantiate(atkProjectile, selfPos, Quaternion.identity);
+                selfPos.x += AtkProjectileStartX * (spriteRenderer.flipX ? -1 : 1);
+                selfPos.y += AtkProjectileStartY;
+                GameObject projectileObject = Instantiate(AtkProjectile, selfPos, Quaternion.identity);
                 RangeAttack atkEntity = projectileObject.GetComponent<RangeAttack>();
                 atkEntity.Launch(this, target);
             }

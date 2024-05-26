@@ -19,13 +19,18 @@ public class Simulator
     // 帧数据
     readonly Dictionary<int, Frame> frameDic;
 
-    public Simulator(int randomSeed, List<Entity> entityList, Dictionary<int, Frame> frameDic)
+    public Simulator(int randomSeed, List<Role> roleList, Dictionary<int, Frame> frameDic)
     {
         this.randomSeed = randomSeed;
-        this.entityList = entityList;
-        this.frameDic = frameDic;
         random = new Random(randomSeed);
-        entityList.ForEach(e => e.Simulator = this);
+        this.frameDic = frameDic;
+
+        entityList = new();
+        roleList.ForEach((role) => {
+            var roleEntity = new RoleEntity(role.RoleId, role.UserId);
+            roleEntity.Simulator = this;
+            entityList.Add(roleEntity);
+        });
     }
 
     public void FixedUpdate()
@@ -46,7 +51,7 @@ public class Simulator
             frame = new Frame(f);
             frameDic.TryAdd(f, frame);
         }
-        frame.userInput.Add(key);
+        frame.UserInput.Add(key);
 
     }
 
@@ -55,7 +60,7 @@ public class Simulator
         // 处理用户输入
         if (frameDic.TryGetValue(CurFrame, out Frame frame))
         {
-            frame.userInput.ForEach(key =>
+            frame.UserInput.ForEach(key =>
             {
                 // do something
             });
