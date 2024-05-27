@@ -1,11 +1,11 @@
 using Assets.Scripts;
 using UnityEngine;
 
-public class RangeAttack : MonoBehaviour
+public class RangeAttack1 : MonoBehaviour
 {
     Transform ts;
     GameObject target;
-    EntityController sourceController;
+    EntityController1 sourceController;
     //float speed;
 
     void Awake()
@@ -30,7 +30,7 @@ public class RangeAttack : MonoBehaviour
     }
 
 
-    public void Launch(EntityController sourceController ,GameObject target)
+    public void Launch(EntityController1 sourceController ,GameObject target)
     {
         this.sourceController = sourceController;
         this.target = target;

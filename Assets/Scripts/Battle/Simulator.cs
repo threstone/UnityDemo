@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Simulator
 {
 
-    public static float FrameInterval = 0.12f;
+    public static float FrameInterval = 0.02f;
 
     // 随机数种子
     int randomSeed;
@@ -12,9 +12,12 @@ public class Simulator
 
     // 当前帧数
     public int CurFrame { get; set; }
+    public int IncrId { get => incrId++; }
+
+    private int incrId = 0;
 
     // 场景实体
-    readonly List<Entity> entityList;
+    public readonly List<Entity> EntityList;
 
     // 帧数据
     readonly Dictionary<int, Frame> frameDic;
@@ -25,12 +28,38 @@ public class Simulator
         random = new Random(randomSeed);
         this.frameDic = frameDic;
 
-        entityList = new();
-        roleList.ForEach((role) => {
-            var roleEntity = new RoleEntity(role.RoleId, role.UserId);
-            roleEntity.Simulator = this;
-            entityList.Add(roleEntity);
-        });
+        EntityList = new();
+        InitEntity(roleList);
+    }
+
+    // 初始化位置
+    private void InitEntity(List<Role> roleList)
+    {
+        float[] postion = { 0, 1.96f, -1.96f, 3.7f, -3.7f };
+        int leftUserId = roleList[0].PlayerId;
+        byte leftIndex = 0;
+        byte rightIndex = 0;
+        for (int i = 0; i < roleList.Count; i++)
+        {
+            var role = roleList[i];
+            bool isLeft = leftUserId == role.PlayerId;
+            byte index = isLeft ? leftIndex : rightIndex;
+            var roleEntity = new RoleEntity(role.RoleId, role.PlayerId, IncrId)
+            {
+                Simulator = this,
+                Position = { X = isLeft ? -7 : 7, Y = postion[index] },
+                Face = !isLeft
+            };
+            EntityList.Add(roleEntity);
+            if (isLeft)
+            {
+                leftIndex++;
+            }
+            else
+            {
+                rightIndex++;
+            }
+        }
     }
 
     public void FixedUpdate()
@@ -39,7 +68,7 @@ public class Simulator
 
         HandleUserInput();
 
-        entityList?.ForEach(e => e.FixedUpdate(CurFrame));
+        EntityList?.ForEach(e => e.FixedUpdate(CurFrame));
     }
 
     public void OnUserInput(string key)

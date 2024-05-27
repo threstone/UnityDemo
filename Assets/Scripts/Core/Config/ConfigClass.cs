@@ -9,6 +9,7 @@ public class ConfigClass
 public class RoleConfig : System.Object
 {
     public int Id;
+    public string PrefabName;
     public string HeroName;
     /* 初始力量 */
     public float BaseStrength;

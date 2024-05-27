@@ -13,7 +13,12 @@
         idleFrame--;
         if (idleFrame < 0)
         {
-            entity.Status = new AttackStatus(entity);
+            entity.Status = new MoveStatus(entity);
         }
+    }
+
+    public override string GetName()
+    {
+        return "idle";
     }
 }

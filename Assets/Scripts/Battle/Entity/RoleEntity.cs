@@ -14,20 +14,19 @@ public class RoleEntity : SceneEntity
     Dictionary<int, Buff> buffMap;
     public Status Status { get; set; }
 
-    public RoleEntity(int roleId, int userId) : base(userId)
+    public RoleEntity(int roleId, int playerId, int id) : base(playerId, id)
+    {
+        Init(roleId);
+    }
+
+    public RoleEntity(Role role, int id) : base(role.PlayerId, id)
+    {
+        Init(role.RoleId);
+    }
+
+    private void Init(int roleId)
     {
         RoleId = roleId;
-        Init();
-    }
-
-    public RoleEntity(Role role) : base(role.UserId)
-    {
-        RoleId = role.RoleId;
-        Init();
-    }
-
-    private void Init()
-    {
         RoleInfo = ConfigMgr.GetRoleInfoById(RoleId);
         equipmentArray = new Equipment[6];
         buffMap = new();

@@ -1,13 +1,13 @@
 using Assets.Scripts;
 using UnityEngine;
 
-public class RoleController : MonoBehaviour
+public class RoleController1 : MonoBehaviour
 {
-    EntityController entityController;
+    EntityController1 entityController;
     public GameObject Enemy;
     private void Awake()
     {
-        entityController = GetComponent<EntityController>();
+        entityController = GetComponent<EntityController1>();
     }
 
     // Update is called once per frame
@@ -43,7 +43,6 @@ public class RoleController : MonoBehaviour
     {
         entityController.DoAttack(Enemy);
     }
-
 
     private void Spell()
     {

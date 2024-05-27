@@ -9,9 +9,11 @@ public class SceneEntity : Entity
     // 碰撞体
     public CollisionBox CollisionBox;
 
-    public int UserId;
+    public int PlayerId { get; set; }
 
-    public SceneEntity(int userId) {
-        UserId = userId;
+
+    public SceneEntity(int playerId, int id) : base(id)
+    {
+        PlayerId = playerId;
     }
 }
