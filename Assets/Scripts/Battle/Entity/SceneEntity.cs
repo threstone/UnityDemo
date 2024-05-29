@@ -11,9 +11,13 @@ public class SceneEntity : Entity
 
     public int PlayerId { get; set; }
 
-
     public SceneEntity(int playerId, int id) : base(id)
     {
         PlayerId = playerId;
     }
+
+    public override void FixedUpdate(int curFrame)
+    {
+    }
+
 }

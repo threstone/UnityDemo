@@ -33,6 +33,7 @@
     void TryGetEnemy()
     {
         // todo
+        TryClosedEnemy();
     }
 
 

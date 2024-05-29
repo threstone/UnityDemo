@@ -1,7 +1,7 @@
 /*
  * 实体基类
  */
-public class Entity
+public abstract class Entity
 {
     public Simulator Simulator { get; set; }
 
@@ -12,7 +12,5 @@ public class Entity
         Id = id;
     }
 
-    public void FixedUpdate(int curFrame)
-    {
-    }
+    public abstract void FixedUpdate(int curFrame);
 }

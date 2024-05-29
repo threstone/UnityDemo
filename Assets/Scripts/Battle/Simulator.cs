@@ -68,7 +68,10 @@ public class Simulator
 
         HandleUserInput();
 
-        EntityList?.ForEach(e => e.FixedUpdate(CurFrame));
+        for (int i = EntityList.Count-1; i >=0; i--)
+        {
+            EntityList[i].FixedUpdate(CurFrame);
+        }
     }
 
     public void OnUserInput(string key)

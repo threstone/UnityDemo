@@ -33,7 +33,7 @@ public class RoleEntity : SceneEntity
         Status = new IdleStatus(this);
     }
 
-    public new void FixedUpdate(int curFrame)
+    public override void FixedUpdate(int curFrame)
     {
         base.FixedUpdate(curFrame);
         Status.FixedUpdate(curFrame);

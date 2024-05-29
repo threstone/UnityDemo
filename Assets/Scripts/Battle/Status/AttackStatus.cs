@@ -2,8 +2,6 @@
 {
     RoleEntity lockEnemy;
 
-    float duration = 1.0f;
-    bool isUp = true;
     public AttackStatus(RoleEntity entity,RoleEntity lockEnemy) : base(entity)
     {
         Type = StatusEnum.Attack;
