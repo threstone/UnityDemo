@@ -2,6 +2,7 @@
 {
     public StatusEnum Type;
     protected RoleEntity entity;
+    protected Simulator simulator { get { return entity.Simulator; } }
 
     public Status(RoleEntity entity)
     {
