@@ -7,7 +7,7 @@ public class SceneEntity : Entity
     public Vector2 Position;
 
     // 碰撞体
-    public CollisionBox CollisionBox;
+    public BaseCollider Collider;
 
     public int PlayerId { get; set; }
 

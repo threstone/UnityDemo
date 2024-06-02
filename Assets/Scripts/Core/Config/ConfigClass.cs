@@ -51,6 +51,8 @@ public class RoleConfig : System.Object
     public float AtkProjectileSpeed;
     /* 攻击弹道初始位置 */
     public float[] AtkProjectilePos;
+    /* 碰撞体积半径 */
+    public float ColliderRadius;
 
     public RoleConfig Clone() {
 

@@ -9,6 +9,7 @@ public class RoleEntity : SceneEntity
     public RoleConfig RoleInfo { get; set; }
     public bool Face { get; set; }
 
+    public bool IsDead { get; set; }
 
     Equipment[] equipmentArray;
     Dictionary<int, Buff> buffMap;
@@ -26,11 +27,13 @@ public class RoleEntity : SceneEntity
 
     private void Init(int roleId)
     {
+        IsDead = false;
         RoleId = roleId;
         RoleInfo = ConfigMgr.GetRoleInfoById(RoleId);
         equipmentArray = new Equipment[6];
         buffMap = new();
-        Status = new IdleStatus(this);
+        Status = new IdleStatus(this, 0.5f);
+        Collider = new CircleCollider(this, RoleInfo.ColliderRadius);
     }
 
     public override void FixedUpdate(int curFrame)
@@ -54,7 +57,6 @@ public class RoleEntity : SceneEntity
         buffMap.Remove(buffType);
     }
 
-
     public void AddBuff(int buffType, int duration)
     {
         if (buffMap.TryGetValue(buffType, out var buff))
@@ -65,5 +67,11 @@ public class RoleEntity : SceneEntity
         {
             buffMap.Add(buffType, new Buff(this, buffType, duration));
         }
+    }
+
+    public void Dead()
+    {
+        IsDead = true;
+        Collider = null;
     }
 }

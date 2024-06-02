@@ -1,8 +1,10 @@
-﻿public class AttackStatus : Status
+﻿using System.Numerics;
+
+public class AttackStatus : Status
 {
     RoleEntity lockEnemy;
 
-    public AttackStatus(RoleEntity entity,RoleEntity lockEnemy) : base(entity)
+    public AttackStatus(RoleEntity entity, RoleEntity lockEnemy) : base(entity)
     {
         Type = StatusEnum.Attack;
         this.lockEnemy = lockEnemy;
@@ -15,8 +17,12 @@
 
     void TryAttack()
     {
-        // todo是否死亡
-
+        // 是否死亡
+        if (lockEnemy.IsDead)
+        {
+            entity.Status = new IdleStatus(entity);
+            return;
+        }
 
         // 攻击距离检测
         if (AttackRangeCheck() == false)
@@ -31,19 +37,30 @@
         DoAttack();
     }
 
-    void DoAttack() { 
+    void DoAttack()
+    {
+        // 记录当时的攻速与攻击时间
+        // 如果攻速没变，那么下一次攻击的时间是固定的，不需要重复算
+        // 如果攻速变了，那么下一次攻击的时间就变了，重新计算下一次攻击的时间
+        // 到达下次攻击时间，执行攻击
+        // 攻击的时候是不可移动的
         // todo
+        //Utils.Log("atk");
     }
-
 
     bool AttackRangeCheck()
     {
-        return false;// todo
+        if (lockEnemy.IsDead)
+        {
+            return false;
+        }
+
+        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.RoleInfo.AtkRange;
     }
 
     void TryClosedEnemy()
     {
-        entity.Status = new MoveStatus(entity,lockEnemy);
+        entity.Status = new MoveStatus(entity, lockEnemy);
     }
 
     public override string GetName()

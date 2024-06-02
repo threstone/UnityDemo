@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-
 public class MoveStatus : Status
 {
     RoleEntity lockEnemy;
@@ -18,7 +17,7 @@ public class MoveStatus : Status
 
     public override void FixedUpdate(int curFrame)
     {
-        if (lockEnemy == null)
+        if (lockEnemy == null || lockEnemy.IsDead)
         {
             TryGetEnemy();
             return;
@@ -37,7 +36,7 @@ public class MoveStatus : Status
         var playerId = entity.PlayerId;
         var enemyList = simulator.EntityList.FindAll((entity) =>
         {
-            return entity is RoleEntity roleEntity && roleEntity.PlayerId != playerId;
+            return entity is RoleEntity roleEntity && roleEntity.IsDead != true && roleEntity.PlayerId != playerId;
         });
         if (enemyList.Count == 0)
         {
@@ -45,16 +44,22 @@ public class MoveStatus : Status
         }
         RoleEntity closedEntity = null;
         float minDistance = float.MaxValue;
-        enemyList.ForEach((entity) =>
+        for (int i = 0; i < enemyList.Count; i++)
         {
-            var roleEntity = entity as RoleEntity;
+            var roleEntity = enemyList[i] as RoleEntity;
             var distance = Vector2.Distance(roleEntity.Position, this.entity.Position);
-            if (distance < minDistance)
+            if (distance < entity.RoleInfo.AtkRange)
+            {
+                closedEntity = roleEntity;
+                break;
+            }
+            else if (distance < minDistance)
             {
                 minDistance = distance;
                 closedEntity = roleEntity;
             }
-        });
+        }
+
         if (closedEntity == null)
         {
             // 找不到敌人就idel一会儿
@@ -65,11 +70,9 @@ public class MoveStatus : Status
             lockEnemy = closedEntity;
         }
     }
-
-
     bool AttackRangeCheck()
     {
-        if (lockEnemy == null)
+        if (lockEnemy == null || lockEnemy.IsDead)
         {
             return false;
         }
@@ -79,18 +82,35 @@ public class MoveStatus : Status
 
     void TryClosedEnemy()
     {
-        // todo
-        // test code 
-        float len = Simulator.FrameInterval * entity.RoleInfo.MoveSpeed;
-        duration -= Simulator.FrameInterval;
-        var pos = entity.Position;
-        pos.Y += isUp ? len : -len;
-        entity.Position = pos;
-        if (duration < 0)
+        if (lockEnemy == null || lockEnemy.IsDead)
         {
-            isUp = !isUp;
-            duration = 1.0f;
+            return;
         }
+
+        var dir = lockEnemy.Position - entity.Position;
+        var moveLen = Simulator.FrameInterval * entity.RoleInfo.MoveSpeed;
+        var move = dir * (moveLen / dir.Length());
+        entity.Position += move;
+        if (MoveCheck() == false)
+        {
+            entity.Position -= move;
+        }
+    }
+
+    // 检查移动是否允许
+    bool MoveCheck()
+    {
+        // 碰撞检测
+        for (int i = 0; i < simulator.EntityList.Count; i++)
+        {
+            var entity = simulator.EntityList[i];
+            if (entity is SceneEntity sceneEntity && entity.Id != this.entity.Id && this.entity.Collider.CheckCollision(sceneEntity))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public override string GetName()

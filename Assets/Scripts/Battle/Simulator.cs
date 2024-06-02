@@ -68,7 +68,7 @@ public class Simulator
 
         HandleUserInput();
 
-        for (int i = EntityList.Count-1; i >=0; i--)
+        for (int i = EntityList.Count - 1; i >= 0; i--)
         {
             EntityList[i].FixedUpdate(CurFrame);
         }
