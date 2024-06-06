@@ -2,38 +2,40 @@
  * 角色实体
  */
 using System.Collections.Generic;
+using System.Data;
 
 public class RoleEntity : SceneEntity
 {
-    public int RoleId { get; set; }
-    public RoleConfig RoleInfo { get; set; }
+    public Role Role;
+    public AttrComponent AttrComponent { get; set; }
+    public Equipment[] Equipments;
+
     public bool Face { get; set; }
 
     public bool IsDead { get; set; }
 
-    Equipment[] equipmentArray;
     Dictionary<int, Buff> buffMap;
     public Status Status { get; set; }
 
-    public RoleEntity(int roleId, int playerId, int id) : base(playerId, id)
-    {
-        Init(roleId);
-    }
-
     public RoleEntity(Role role, int id) : base(role.PlayerId, id)
     {
-        Init(role.RoleId);
+        Init(role);
     }
 
-    private void Init(int roleId)
+    private void Init(Role role)
     {
         IsDead = false;
-        RoleId = roleId;
-        RoleInfo = ConfigMgr.GetRoleInfoById(RoleId);
-        equipmentArray = new Equipment[6];
+        Role = role;
+        Equipments = new Equipment[6];
+        for (int i = 0; i < role.equipmentIdList?.Count; i++)
+        {
+            Equipments[i] = new Equipment(role.equipmentIdList[i]);
+        }
+        AttrComponent = new AttrComponent(this);
+
         buffMap = new();
         Status = new IdleStatus(this, 0.5f);
-        Collider = new CircleCollider(this, RoleInfo.ColliderRadius);
+        Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
     public override void FixedUpdate(int curFrame)
@@ -41,9 +43,9 @@ public class RoleEntity : SceneEntity
         base.FixedUpdate(curFrame);
         Status.FixedUpdate(curFrame);
         // 装备逻辑
-        foreach (var item in equipmentArray)
+        for (int i = 0; i < Equipments.Length; i++)
         {
-            item?.FixedUpdate(curFrame);
+            Equipments[i]?.FixedUpdate(curFrame);
         }
         // 状态更新
         foreach (var statusType in buffMap.Keys)

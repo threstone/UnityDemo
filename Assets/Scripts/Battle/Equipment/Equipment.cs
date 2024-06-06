@@ -1,5 +1,5 @@
 ﻿public class Equipment {
-    int equipmentId;
+    readonly int equipmentId;
     public Equipment(int equipmentId)
     {
         this.equipmentId = equipmentId;

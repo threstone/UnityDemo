@@ -18,10 +18,16 @@ public static class ConfigMgr
         InitRoleMap();
     }
 
-    public static RoleConfig GetRoleInfoById(int id)
+    public static RoleConfig CloneRoleInfoById(int id)
     {
         return roleMap[id].Clone();
     }
+
+    public static RoleConfig GetRoleInfoById(int id)
+    {
+        return roleMap[id];
+    }
+
     static void InitRoleMap()
     {
         roleMap = new();

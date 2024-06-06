@@ -37,7 +37,7 @@ public class BattleRender
     {
         if (entity is RoleEntity roleEntity)
         {
-            GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + roleEntity.RoleInfo.PrefabName + "/" + roleEntity.RoleInfo.PrefabName);
+            GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + roleEntity.AttrComponent.BaseInfo.PrefabName + "/" + roleEntity.AttrComponent.BaseInfo.PrefabName);
             GameObject entityObject = Object.Instantiate(prefab, new Vector2(roleEntity.Position.X, roleEntity.Position.Y), Quaternion.identity);
             var entityController = entityObject.GetComponent<RoleEntityController>();
             entityController.EntityInfo = roleEntity;

@@ -2,7 +2,7 @@
 
 public class AttackStatus : Status
 {
-    RoleEntity lockEnemy;
+    readonly RoleEntity lockEnemy;
 
     public AttackStatus(RoleEntity entity, RoleEntity lockEnemy) : base(entity)
     {
@@ -55,7 +55,7 @@ public class AttackStatus : Status
             return false;
         }
 
-        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.RoleInfo.AtkRange;
+        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.AttrComponent.AtkRange;
     }
 
     void TryClosedEnemy()

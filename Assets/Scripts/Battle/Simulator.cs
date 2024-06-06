@@ -44,7 +44,7 @@ public class Simulator
             var role = roleList[i];
             bool isLeft = leftUserId == role.PlayerId;
             byte index = isLeft ? leftIndex : rightIndex;
-            var roleEntity = new RoleEntity(role.RoleId, role.PlayerId, IncrId)
+            var roleEntity = new RoleEntity(role, IncrId)
             {
                 Simulator = this,
                 Position = { X = isLeft ? -7 : 7, Y = postion[index] },

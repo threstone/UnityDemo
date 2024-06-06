@@ -3,8 +3,6 @@ public class MoveStatus : Status
 {
     RoleEntity lockEnemy;
 
-    float duration = 1.0f;
-    bool isUp = true;
     public MoveStatus(RoleEntity entity) : base(entity)
     {
         Type = StatusEnum.Move;
@@ -48,7 +46,7 @@ public class MoveStatus : Status
         {
             var roleEntity = enemyList[i] as RoleEntity;
             var distance = Vector2.Distance(roleEntity.Position, this.entity.Position);
-            if (distance < entity.RoleInfo.AtkRange)
+            if (distance < entity.AttrComponent.AtkRange)
             {
                 closedEntity = roleEntity;
                 break;
@@ -77,7 +75,7 @@ public class MoveStatus : Status
             return false;
         }
 
-        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.RoleInfo.AtkRange;
+        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.AttrComponent.AtkRange;
     }
 
     void TryClosedEnemy()
@@ -88,7 +86,7 @@ public class MoveStatus : Status
         }
 
         var dir = lockEnemy.Position - entity.Position;
-        var moveLen = Simulator.FrameInterval * entity.RoleInfo.MoveSpeed;
+        var moveLen = Simulator.FrameInterval * entity.AttrComponent.MoveSpeed;
         var move = dir * (moveLen / dir.Length());
         entity.Position += move;
         if (MoveCheck() == false)

@@ -6,7 +6,7 @@ public class InputController : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<RoleEntityController>();
-        controller.EntityInfo = new RoleEntity(1001, PlayerController.PlayerId, 1);
+        controller.EntityInfo = new RoleEntity(new Role(1001, 1, PlayerController.PlayerId), int.MaxValue);
     }
 
     private void Update()
@@ -29,8 +29,8 @@ public class InputController : MonoBehaviour
             return;
         }
         pos.Normalize();
-        controller.EntityInfo.Position.X += pos.x * controller.EntityInfo.RoleInfo.MoveSpeed * Time.fixedDeltaTime;
-        controller.EntityInfo.Position.Y += pos.y * controller.EntityInfo.RoleInfo.MoveSpeed * Time.fixedDeltaTime;
+        controller.EntityInfo.Position.X += pos.x * controller.EntityInfo.AttrComponent.MoveSpeed * Time.fixedDeltaTime;
+        controller.EntityInfo.Position.Y += pos.y * controller.EntityInfo.AttrComponent.MoveSpeed * Time.fixedDeltaTime;
     }
 
     private void InputBehavior()
