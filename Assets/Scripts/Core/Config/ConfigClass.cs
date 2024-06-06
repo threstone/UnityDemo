@@ -5,7 +5,6 @@ public class ConfigClass
     public EquipmentConfig[] equipments;
 }
 
-
 [System.Serializable]
 public class RoleConfig : AttrObject
 {

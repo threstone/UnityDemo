@@ -20,7 +20,7 @@ public class AttackStatus : Status
         // 是否死亡
         if (lockEnemy.IsDead)
         {
-            entity.Status = new IdleStatus(entity);
+            entity.StatusComponent.Status = new IdleStatus(entity);
             return;
         }
 
@@ -60,7 +60,7 @@ public class AttackStatus : Status
 
     void TryClosedEnemy()
     {
-        entity.Status = new MoveStatus(entity, lockEnemy);
+        entity.StatusComponent.Status = new MoveStatus(entity, lockEnemy);
     }
 
     public override string GetName()

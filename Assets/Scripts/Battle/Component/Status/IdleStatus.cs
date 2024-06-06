@@ -13,7 +13,7 @@
         idleFrame--;
         if (idleFrame < 0)
         {
-            entity.Status = new MoveStatus(entity);
+            entity.StatusComponent.Status = new MoveStatus(entity);
         }
     }
 

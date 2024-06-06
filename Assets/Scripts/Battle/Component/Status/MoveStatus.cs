@@ -26,7 +26,7 @@ public class MoveStatus : Status
             TryClosedEnemy();
             return;
         }
-        entity.Status = new AttackStatus(entity, lockEnemy);
+        entity.StatusComponent.Status = new AttackStatus(entity, lockEnemy);
     }
 
     void TryGetEnemy()
@@ -61,7 +61,7 @@ public class MoveStatus : Status
         if (closedEntity == null)
         {
             // 找不到敌人就idel一会儿
-            entity.Status = new IdleStatus(entity);
+            entity.StatusComponent.Status = new IdleStatus(entity);
         }
         else
         {

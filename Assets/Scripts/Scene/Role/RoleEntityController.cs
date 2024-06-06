@@ -37,7 +37,7 @@ public class RoleEntityController : EntityController
 
     private void UpdateAnimation()
     {
-        Animator.SetTrigger(EntityInfo.Status.GetName());
+        Animator.SetTrigger(EntityInfo.StatusComponent.Status.GetName());
     }
 
     public void UpdateGray()

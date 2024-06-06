@@ -33,6 +33,6 @@ public class Buff
 
     void Stop()
     {
-        entity.RemoveBuff(BuffType);
+        entity.BuffComponent.RemoveBuff(BuffType);
     }
 }
