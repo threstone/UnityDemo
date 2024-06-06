@@ -2,7 +2,6 @@
  * 角色实体
  */
 using System.Collections.Generic;
-using System.Data;
 
 public class RoleEntity : SceneEntity
 {
