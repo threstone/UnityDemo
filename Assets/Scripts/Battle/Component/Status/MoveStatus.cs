@@ -115,4 +115,8 @@ public class MoveStatus : Status
     {
         return "walk";
     }
+
+    public override float GetAnimatorSpeed (){
+        return 1f;
+    }
 }

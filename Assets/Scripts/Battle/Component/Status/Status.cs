@@ -10,6 +10,7 @@
     }
     public abstract void FixedUpdate(int curFrame);
     public abstract string GetName();
+    public abstract float GetAnimatorSpeed ();
 }
 
 public enum StatusEnum

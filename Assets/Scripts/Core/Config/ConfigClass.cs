@@ -68,7 +68,6 @@ public class AttrObject : object
     /* 碰撞体积半径 */
     public float ColliderRadius;
 
-
     public void AddAttrFromTarget(AttrObject target)
     {
         if (target == null)

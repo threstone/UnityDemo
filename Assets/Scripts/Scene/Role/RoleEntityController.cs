@@ -37,6 +37,7 @@ public class RoleEntityController : EntityController
 
     private void UpdateAnimation()
     {
+        Animator.speed = EntityInfo.StatusComponent.Status.GetAnimatorSpeed();
         Animator.SetTrigger(EntityInfo.StatusComponent.Status.GetName());
     }
 

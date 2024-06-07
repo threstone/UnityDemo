@@ -1,5 +1,5 @@
 ﻿public class StatusComponent {
-    RoleEntity entity;
+    readonly RoleEntity entity;
     public Status Status { get; set; }
     public StatusComponent(RoleEntity entity)
     {

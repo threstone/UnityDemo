@@ -21,4 +21,8 @@
     {
         return "idle";
     }
+
+    public override float GetAnimatorSpeed (){
+        return 1f;
+    }
 }

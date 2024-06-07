@@ -8,14 +8,15 @@ public class AttackStatus : Status
     {
         Type = StatusEnum.Attack;
         this.lockEnemy = lockEnemy;
+        entity.AttackComponent.Reset();
     }
 
     public override void FixedUpdate(int curFrame)
     {
-        TryAttack();
+        TryAttack(curFrame);
     }
 
-    void TryAttack()
+    void TryAttack(int curFrame)
     {
         // 是否死亡
         if (lockEnemy.IsDead)
@@ -31,21 +32,7 @@ public class AttackStatus : Status
             return;
         }
 
-        // todo攻击间隔
-
-
-        DoAttack();
-    }
-
-    void DoAttack()
-    {
-        // 记录当时的攻速与攻击时间
-        // 如果攻速没变，那么下一次攻击的时间是固定的，不需要重复算
-        // 如果攻速变了，那么下一次攻击的时间就变了，重新计算下一次攻击的时间
-        // 到达下次攻击时间，执行攻击
-        // 攻击的时候是不可移动的
-        // todo
-        //Utils.Log("atk");
+        entity.AttackComponent.FixedUpdate(curFrame);
     }
 
     bool AttackRangeCheck()
@@ -65,6 +52,10 @@ public class AttackStatus : Status
 
     public override string GetName()
     {
-        return "attack";
+        return entity.AttackComponent.IsAttacking() ? "attack" : "idle";
+    }
+
+    public override float GetAnimatorSpeed (){
+        return entity.AttackComponent.SpeedUpRate;
     }
 }
