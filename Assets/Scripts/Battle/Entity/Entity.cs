@@ -1,11 +1,11 @@
 /*
- * 实体基类
+ * 瀹炰綋鍩虹被
  */
 public abstract class Entity
 {
     public Simulator Simulator { get; set; }
 
-    // 唯一id
+    // 鍞竴id
     public int Id { get; set; }
 
     public Entity(int id) {
