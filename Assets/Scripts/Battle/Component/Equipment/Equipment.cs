@@ -1,11 +1,15 @@
-﻿public class Equipment {
+﻿public class Equipment
+{
     readonly int equipmentId;
-    AttrObject attr;
+    public AttrObject Attr { get; set; }
+
     public Equipment(int equipmentId)
     {
         this.equipmentId = equipmentId;
+        Attr = ConfigMgr.GetEquipmentAttr(equipmentId);
     }
 
-    public void FixedUpdate(int curFrame) { 
+    public void FixedUpdate(int curFrame)
+    {
     }
 }
