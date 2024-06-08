@@ -2,15 +2,15 @@
 
 public class AttackComponent
 {
-    readonly RoleEntity roleEntity;
+    readonly RoleEntity entity;
     int lastAtkFrame = -int.MaxValue;
     int atkFrame = -1;
     bool isAtk = false;
     // 当攻击间隔低于1时需要加速攻击,否则无法成功实现高攻速
     public int SpeedUpRate { get; set; } = 10000;
-    public AttackComponent(RoleEntity roleEntity)
+    public AttackComponent(RoleEntity entity)
     {
-        this.roleEntity = roleEntity;
+        this.entity = entity;
     }
 
     public void FixedUpdate(int curFrame)
@@ -54,7 +54,7 @@ public class AttackComponent
     // 是否允许攻击,攻击间隔检测
     public bool AllowAtk(int curFrame)
     {
-        return (curFrame - lastAtkFrame) * Simulator.FrameInterval >= roleEntity.AttrComponent.AttackInterval;
+        return (curFrame - lastAtkFrame) * Simulator.FrameInterval >= entity.AttrComponent.AttackInterval;
     }
 
     // 开始攻击
@@ -62,13 +62,13 @@ public class AttackComponent
     {
         atkFrame = 0;
         // 计算加速
-        SpeedUpRate = Math.Max(10000, roleEntity.AttrComponent.AttackTimesPer10000Sec);
+        SpeedUpRate = Math.Max(10000, entity.AttrComponent.AttackTimesPer10000Sec);
     }
 
     // 前摇是否执行完毕
     public bool IsPreAtkEnd()
     {
-        return atkFrame * Simulator.FrameInterval >= roleEntity.AttrComponent.BaseAttr.PreAtkTime * 10000 / SpeedUpRate;
+        return atkFrame * Simulator.FrameInterval >= entity.AttrComponent.BaseAttr.PreAtkTime * 10000 / SpeedUpRate;
     }
 
     public bool IsAtkEnd()
@@ -80,6 +80,16 @@ public class AttackComponent
     void DoAttack()
     {
         isAtk = true;
+        // 近战直接执行攻击
+        if (entity.AttrComponent.BaseAttr.AtkType == AtkTypeEnum.MeleeHero)
+        {
+
+        }
+        // 远程生成攻击弹道
+        else
+        {
+
+        }
         // todo   
     }
 }
