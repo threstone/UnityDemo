@@ -55,7 +55,7 @@ public class AttackStatus : Status
         return entity.AttackComponent.IsAttacking() ? "attack" : "idle";
     }
 
-    public override float GetAnimatorSpeed (){
+    public override int GetAnimatorSpeed (){
         return entity.AttackComponent.SpeedUpRate;
     }
 }

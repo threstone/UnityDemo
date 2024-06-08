@@ -4,7 +4,7 @@
     public StatusComponent(RoleEntity entity)
     {
         this.entity = entity;
-        Status = new IdleStatus(entity, 0.5f);
+        Status = new IdleStatus(entity, 5000);
     }
 
     public void FixedUpdate(int curFrame)

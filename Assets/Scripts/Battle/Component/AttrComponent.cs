@@ -9,25 +9,25 @@ public class AttrComponent
     public Role Role;
 
     // 移动速度
-    public float MoveSpeed { get { return BaseAttr.MoveSpeed + AttrAdd.MoveSpeed; } }
+    public int MoveSpeed { get { return BaseAttr.MoveSpeed + AttrAdd.MoveSpeed; } }
     // 碰撞半径
-    public float ColliderRadius { get { return BaseAttr.ColliderRadius + AttrAdd.ColliderRadius; } }
+    public int ColliderRadius { get { return BaseAttr.ColliderRadius + AttrAdd.ColliderRadius; } }
     // 攻击距离
-    public float AtkRange { get { return BaseAttr.AtkRange + AttrAdd.AtkRange; } }
+    public int AtkRange { get { return BaseAttr.AtkRange + AttrAdd.AtkRange; } }
 
     // 攻击力
-    public float Attack { get { return BaseAttr.Attack + AttrAdd.Attack + RoleMajorAttr; } }
+    public int Attack { get { return BaseAttr.Attack + AttrAdd.Attack + RoleMajorAttr; } }
 
     // 主属性
-    public float RoleMajorAttr { get { return GetAttrByType(BaseAttr.MajorAttr); } }
+    public int RoleMajorAttr { get { return GetAttrByType(BaseAttr.MajorAttr); } }
 
     // 总攻速 todo 高攻速效果有点差
-    public float AtkSpeed { get { return BaseAttr.AtkSpeed + AttrAdd.AtkSpeed + GetAttrByType(MajorAttrEnum.Agility); } }
+    public int AtkSpeed { get { return BaseAttr.AtkSpeed + AttrAdd.AtkSpeed + GetAttrByType(MajorAttrEnum.Agility); } }
 
-    // 攻击间隔  限制最低攻击间隔0.17
-    public float AttackInterval { get { return MathF.Max(1 / AttackPerSecond, 0.17f); } }
-    // 每秒攻击次数 (基础攻速+额外攻速)/(基础攻击间隔*100)
-    public float AttackPerSecond { get { return AtkSpeed / ((BaseAttr.AtkInterval + AttrAdd.AtkInterval) * 100); } }
+    // 攻击间隔  限制最低攻击间隔 万分之1700秒
+    public int AttackInterval { get { return Math.Max(10000 * 10000 / AttackTimesPer10000Sec, 1700); } }
+    // 每一万秒攻击次数 (基础攻速+额外攻速)/(基础攻击间隔)
+    public int AttackTimesPer10000Sec { get { return AtkSpeed * 100 / (BaseAttr.AtkInterval + AttrAdd.AtkInterval); } }
 
     public AttrComponent(Role role, EquipmentComponent equipmentComponent, BuffComponent buffComponent)
     {
@@ -75,7 +75,7 @@ public class AttrComponent
     }
 
     // 根据类型获取指定属性的值
-    public float GetAttrByType(MajorAttrEnum type)
+    public int GetAttrByType(MajorAttrEnum type)
     {
         return type switch
         {

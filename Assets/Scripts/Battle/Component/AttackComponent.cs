@@ -3,11 +3,11 @@
 public class AttackComponent
 {
     readonly RoleEntity roleEntity;
-    int lastAtkFrame = -1000;
+    int lastAtkFrame = -int.MaxValue;
     int atkFrame = -1;
     bool isAtk = false;
     // 当攻击间隔低于1时需要加速攻击,否则无法成功实现高攻速
-    public float SpeedUpRate { get; set; } = 1f;
+    public int SpeedUpRate { get; set; } = 10000;
     public AttackComponent(RoleEntity roleEntity)
     {
         this.roleEntity = roleEntity;
@@ -15,12 +15,14 @@ public class AttackComponent
 
     public void FixedUpdate(int curFrame)
     {
-        if (roleEntity.PlayerId != PlayerController.PlayerId)
+        // 未在攻击状态下 检查是否可以攻击
+        if (atkFrame == -1 && AllowAtk(curFrame))
         {
-            return;
+            StartAtk();
         }
+
         // 攻击状态下
-        if (atkFrame != -1f)
+        if (atkFrame != -1)
         {
             atkFrame++;
             if (!isAtk && IsPreAtkEnd())
@@ -34,12 +36,6 @@ public class AttackComponent
                 FixedUpdate(curFrame);
             }
             return;
-        }
-
-        // 未在攻击状态下 检查是否可以攻击
-        if (AllowAtk(curFrame))
-        {
-            StartAtk();
         }
     }
 
@@ -58,27 +54,26 @@ public class AttackComponent
     // 是否允许攻击,攻击间隔检测
     public bool AllowAtk(int curFrame)
     {
-        return curFrame >= MathF.Floor(lastAtkFrame + roleEntity.AttrComponent.AttackInterval / Simulator.FrameInterval);
+        return (curFrame - lastAtkFrame) * Simulator.FrameInterval >= roleEntity.AttrComponent.AttackInterval;
     }
 
     // 开始攻击
     public void StartAtk()
     {
-        atkFrame = 1;
-        float AttackPerSecond = roleEntity.AttrComponent.AttackPerSecond;
+        atkFrame = 0;
         // 计算加速
-        SpeedUpRate = MathF.Max(1f, AttackPerSecond);
+        SpeedUpRate = Math.Max(10000, roleEntity.AttrComponent.AttackTimesPer10000Sec);
     }
 
     // 前摇是否执行完毕
     public bool IsPreAtkEnd()
     {
-        return atkFrame >= MathF.Floor(roleEntity.AttrComponent.BaseAttr.PreAtkTime / Simulator.FrameInterval / SpeedUpRate);//
+        return atkFrame * Simulator.FrameInterval >= roleEntity.AttrComponent.BaseAttr.PreAtkTime * 10000 / SpeedUpRate;
     }
 
     public bool IsAtkEnd()
     {
-        return atkFrame >= MathF.Floor(1f / Simulator.FrameInterval / SpeedUpRate);// 
+        return atkFrame * Simulator.FrameInterval >= 10000 * 10000 / SpeedUpRate;
     }
 
     // 执行攻击,远程生成攻击弹道   近战直接执行攻击

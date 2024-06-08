@@ -1,10 +1,10 @@
 ﻿public class IdleStatus : Status
 {
     int idleFrame;
-    public IdleStatus(RoleEntity entity, float idleSecond = 1.0f) : base(entity)
+    public IdleStatus(RoleEntity entity, int idleTime = 10000) : base(entity)
     {
         Type = StatusEnum.Idle;
-        idleFrame = (int)(idleSecond / Simulator.FrameInterval);
+        idleFrame = idleTime / Simulator.FrameInterval;
     }
 
 
@@ -22,7 +22,7 @@
         return "idle";
     }
 
-    public override float GetAnimatorSpeed (){
-        return 1f;
+    public override int GetAnimatorSpeed (){
+        return 10000;
     }
 }

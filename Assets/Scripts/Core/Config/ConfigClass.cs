@@ -14,17 +14,17 @@ public class RoleConfig : AttrObject
     // 主属性
     public MajorAttrEnum MajorAttr;
     /* 力量成长 */
-    public float StrengthGain;
+    public int StrengthGain;
     /* 智力成长 */
-    public float IntelligenceGain;
+    public int IntelligenceGain;
     /* 敏捷成长 */
-    public float AgilityGain;
+    public int AgilityGain;
     /* 攻击类型 */
     public AtkTypeEnum AtkType;
     /* 攻击前摇时间 */
-    public float PreAtkTime;
+    public int PreAtkTime;
     /* 攻击弹道初始位置 */
-    public float[] AtkProjectilePos;
+    public int[] AtkProjectilePos;
 
     public RoleConfig Clone()
     {
@@ -36,37 +36,37 @@ public class RoleConfig : AttrObject
 public class AttrObject : object
 {
     /* 力量 */
-    public float Strength;
+    public int Strength;
     /* 智力 */
-    public float Intelligence;
+    public int Intelligence;
     /* 敏捷 */
-    public float Agility;
+    public int Agility;
     /* 攻击 */
-    public float Attack;
+    public int Attack;
     /* 攻击速度 */
-    public float AtkSpeed;
+    public int AtkSpeed;
     /* 攻击间隔 */
-    public float AtkInterval;
+    public int AtkInterval;
     /* 护甲 */
-    public float Armor;
+    public int Armor;
     /* 魔法抗性 */
-    public float MagicResistance;
+    public int MagicResistance;
     /* 血量 */
-    public float Hp;
+    public int Hp;
     /* 魔法 */
-    public float Mana;
+    public int Mana;
     /* 血量恢复速率 */
-    public float HpRecoverySpeed;
+    public int HpRecoverySpeed;
     /* 魔法恢复速率 */
-    public float ManaRecoverySpeed;
+    public int ManaRecoverySpeed;
     /* 攻击距离 */
-    public float AtkRange;
+    public int AtkRange;
     /* 移动速度 */
-    public float MoveSpeed;
+    public int MoveSpeed;
     /* 攻击弹道速度 */
-    public float AtkProjectileSpeed;
+    public int AtkProjectileSpeed;
     /* 碰撞体积半径 */
-    public float ColliderRadius;
+    public int ColliderRadius;
 
     public void AddAttrFromTarget(AttrObject target)
     {
@@ -94,22 +94,22 @@ public class AttrObject : object
 
     public void Reset()
     {
-        Strength = 0.0f;
-        Intelligence = 0.0f;
-        Agility = 0.0f;
-        Attack = 0.0f;
-        AtkSpeed = 0.0f;
-        AtkInterval = 0.0f;
-        Armor = 0.0f;
-        MagicResistance = 0.0f;
-        Hp = 0.0f;
-        Mana = 0.0f;
-        HpRecoverySpeed = 0.0f;
-        ManaRecoverySpeed = 0.0f;
-        AtkRange = 0.0f;
-        MoveSpeed = 0.0f;
-        AtkProjectileSpeed = 0.0f;
-        ColliderRadius = 0.0f;
+        Strength = 0;
+        Intelligence = 0;
+        Agility = 0;
+        Attack = 0;
+        AtkSpeed = 0;
+        AtkInterval = 0;
+        Armor = 0;
+        MagicResistance = 0;
+        Hp = 0;
+        Mana = 0;
+        HpRecoverySpeed = 0;
+        ManaRecoverySpeed = 0;
+        AtkRange = 0;
+        MoveSpeed = 0;
+        AtkProjectileSpeed = 0;
+        ColliderRadius = 0;
     }
 }
 

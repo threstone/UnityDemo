@@ -4,14 +4,17 @@ using System.Collections.Generic;
 public class Simulator
 {
 
-    public static float FrameInterval = 0.02f;
+    // 每帧间隔多久(单位万分之一秒)
+    public static int FrameInterval = 200;
+    // 一秒有多少个时间单位,因为时间单位用的是万分比,所以一秒有10000个时间单位
+    public static int TimeUnitRatioBySecond = 10000;
 
     // 随机数种子
-    int randomSeed;
-    Random random;
+    readonly int randomSeed;
+    readonly Random random;
 
-    // 当前帧数
-    public int CurFrame { get; set; }
+    // 当前帧
+    public int CurFrame { get; set; } = 0;
     public int IncrId { get => incrId++; }
 
     private int incrId = 0;
@@ -35,7 +38,7 @@ public class Simulator
     // 初始化位置
     private void InitEntity(List<Role> roleList)
     {
-        float[] postion = { 0, 1.96f, -1.96f, 3.7f, -3.7f };
+        float[] postion = { 0, 19600f, -19600f, 37000f, -37000f };
         int leftUserId = roleList[0].PlayerId;
         byte leftIndex = 0;
         byte rightIndex = 0;
@@ -47,7 +50,7 @@ public class Simulator
             var roleEntity = new RoleEntity(role, IncrId)
             {
                 Simulator = this,
-                Position = { X = isLeft ? -7 : 7, Y = postion[index] },
+                Position = { X = isLeft ? -70000 : 70000, Y = postion[index] },
                 Face = !isLeft
             };
             EntityList.Add(roleEntity);
@@ -77,11 +80,11 @@ public class Simulator
     public void OnUserInput(string key)
     {
 
-        int f = CurFrame + 1;
-        if (!frameDic.TryGetValue(f, out Frame frame))
+        int handleTime = CurFrame + 1;
+        if (!frameDic.TryGetValue(handleTime, out Frame frame))
         {
-            frame = new Frame(f);
-            frameDic.TryAdd(f, frame);
+            frame = new Frame(handleTime);
+            frameDic.TryAdd(handleTime, frame);
         }
         frame.UserInput.Add(key);
 

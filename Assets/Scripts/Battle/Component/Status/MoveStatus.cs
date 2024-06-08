@@ -86,7 +86,7 @@ public class MoveStatus : Status
         }
 
         var dir = lockEnemy.Position - entity.Position;
-        var moveLen = Simulator.FrameInterval * entity.AttrComponent.MoveSpeed;
+        var moveLen = Simulator.FrameInterval * entity.AttrComponent.MoveSpeed / Simulator.TimeUnitRatioBySecond;
         var move = dir * (moveLen / dir.Length());
         entity.Position += move;
         if (MoveCheck() == false)
@@ -116,7 +116,8 @@ public class MoveStatus : Status
         return "walk";
     }
 
-    public override float GetAnimatorSpeed (){
-        return 1f;
+    public override int GetAnimatorSpeed()
+    {
+        return 10000;
     }
 }

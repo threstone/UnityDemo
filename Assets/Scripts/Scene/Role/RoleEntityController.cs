@@ -25,8 +25,8 @@ public class RoleEntityController : EntityController
     private void UpdatePostion()
     {
         var pos = transform.position;
-        pos.x = EntityInfo.Position.X;
-        pos.y = EntityInfo.Position.Y;
+        pos.x = EntityInfo.Position.X / 10000;
+        pos.y = EntityInfo.Position.Y / 10000;
         transform.position = pos;
     }
 
@@ -37,7 +37,7 @@ public class RoleEntityController : EntityController
 
     private void UpdateAnimation()
     {
-        Animator.speed = EntityInfo.StatusComponent.Status.GetAnimatorSpeed();
+        Animator.speed = (float)EntityInfo.StatusComponent.Status.GetAnimatorSpeed() / 10000;
         Animator.SetTrigger(EntityInfo.StatusComponent.Status.GetName());
     }
 
