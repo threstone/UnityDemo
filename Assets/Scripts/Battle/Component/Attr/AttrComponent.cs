@@ -34,14 +34,14 @@ public class AttrComponent
     // 魔法、生命恢复
     void UpdateHPAndMana()
     {
-        Hp.Add(HpRecoverySpeed);
-        Mana.Add(ManaRecoverySpeed);
+        Hp.Add(HpRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
+        Mana.Add(ManaRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
     }
 
     void InitHPAndMana()
     {
-        Mana = new(MaxHp);
-        Hp = new(MaxMana);
+        Hp = new(MaxHp);
+        Mana = new(MaxMana);
     }
 
     // 更新属性
@@ -114,7 +114,7 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.Hp + AttrAdd.Hp + GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHp;
+            return (int)(BaseAttr.Hp + AttrAdd.Hp + (long)GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHp / 10000);
         }
     }
     // 魔法上限上限
@@ -122,7 +122,7 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.Mana + AttrAdd.Mana + GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddMana;
+            return (int)(BaseAttr.Mana + AttrAdd.Mana + (long)GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddMana / 10000);
         }
     }
 
@@ -131,7 +131,8 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.HpRecoverySpeed + AttrAdd.HpRecoverySpeed + GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHpRecover;
+            return BaseAttr.HpRecoverySpeed + AttrAdd.HpRecoverySpeed
+            + GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHpRecover / 10000;
         }
     }
 
@@ -140,7 +141,8 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.ManaRecoverySpeed + AttrAdd.ManaRecoverySpeed + GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddManaRecovery;
+            return BaseAttr.ManaRecoverySpeed + AttrAdd.ManaRecoverySpeed
+            + GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddManaRecovery / 10000;
         }
     }
 

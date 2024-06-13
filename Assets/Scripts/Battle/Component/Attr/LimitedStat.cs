@@ -7,19 +7,19 @@ public class LimitedStat
 
     public LimitedStat(int max)
     {
-        Utils.Log("max" + max);
         Maximum = max;
         Current = max; // 通常初始化时属性是满的
     }
 
     public void Add(int amount)
     {
+        if (amount >= 0 && Current == Maximum) return;
         Set(Current + amount);
     }
 
     public void Set(int value)
     {
-        Utils.Log("value" + value + "    Maximum" + Maximum);
+        if (Current == value) return;
         Current = Math.Clamp(value, 0, Maximum);
     }
 
