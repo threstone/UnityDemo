@@ -2,12 +2,12 @@
 
 public class AttackStatus : Status
 {
-    readonly RoleEntity lockEnemy;
+    public readonly RoleEntity LockEnemy;
 
     public AttackStatus(RoleEntity entity, RoleEntity lockEnemy) : base(entity)
     {
         Type = StatusEnum.Attack;
-        this.lockEnemy = lockEnemy;
+        LockEnemy = lockEnemy;
         entity.AttackComponent.Reset();
     }
 
@@ -19,7 +19,7 @@ public class AttackStatus : Status
     void TryAttack(int curFrame)
     {
         // 是否死亡
-        if (lockEnemy.IsDead)
+        if (LockEnemy.IsDestroy)
         {
             entity.StatusComponent.Status = new IdleStatus(entity);
             return;
@@ -32,22 +32,24 @@ public class AttackStatus : Status
             return;
         }
 
+        // 始终朝向敌方
+        entity.Face = entity.Position.X < LockEnemy.Position.X;
         entity.AttackComponent.FixedUpdate(curFrame);
     }
 
     bool AttackRangeCheck()
     {
-        if (lockEnemy.IsDead)
+        if (LockEnemy.IsDestroy)
         {
             return false;
         }
 
-        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.AttrComponent.AtkRange;
+        return Vector2.Distance(LockEnemy.Position, entity.Position) <= entity.AttrComponent.AtkRange;
     }
 
     void TryClosedEnemy()
     {
-        entity.StatusComponent.Status = new MoveStatus(entity, lockEnemy);
+        entity.StatusComponent.Status = new MoveStatus(entity, LockEnemy);
     }
 
     public override string GetName()
@@ -55,7 +57,8 @@ public class AttackStatus : Status
         return entity.AttackComponent.IsAttacking() ? "attack" : "idle";
     }
 
-    public override int GetAnimatorSpeed (){
+    public override int GetAnimatorSpeed()
+    {
         return entity.AttackComponent.SpeedUpRate;
     }
 }

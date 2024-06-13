@@ -8,6 +8,7 @@ public class RoleEntity : SceneEntity
     public AttrComponent AttrComponent { get; set; }
     // 装备组件
     public EquipmentComponent EquipmentComponent { get; set; }
+    // Buff组件
     public BuffComponent BuffComponent { get; set; }
     // 状态组件
     public StatusComponent StatusComponent { get; set; }
@@ -16,12 +17,8 @@ public class RoleEntity : SceneEntity
 
     public bool Face { get; set; }
 
-    public bool IsDead { get; set; }
-
-
-    public RoleEntity(Role role, int id) : base(role.PlayerId, id)
+    public RoleEntity(Role role) : base(role.PlayerId)
     {
-        IsDead = false;
         EquipmentComponent = new EquipmentComponent(role);
         BuffComponent = new BuffComponent(this);
         AttrComponent = new AttrComponent(role, EquipmentComponent, BuffComponent);
@@ -32,15 +29,9 @@ public class RoleEntity : SceneEntity
 
     public override void FixedUpdate(int curFrame)
     {
-        base.FixedUpdate(curFrame);
         EquipmentComponent.FixedUpdate(curFrame);
         BuffComponent.FixedUpdate(curFrame);
+        AttrComponent.FixedUpdate();
         StatusComponent.FixedUpdate(curFrame);
-    }
-
-    public void Dead()
-    {
-        IsDead = true;
-        Collider = null;
     }
 }

@@ -32,7 +32,7 @@ public class RoleEntityController : EntityController
 
     private void UpdateFace()
     {
-        spriteRenderer.flipX = EntityInfo.Face;
+        spriteRenderer.flipX = !EntityInfo.Face;
     }
 
     private void UpdateAnimation()

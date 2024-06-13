@@ -28,7 +28,7 @@ public class AttackComponent
             if (!isAtk && IsPreAtkEnd())
             {
                 lastAtkFrame = curFrame - atkFrame + 1;
-                DoAttack();
+                StartAttack();
             }
             else if (IsAtkEnd())
             {
@@ -76,20 +76,33 @@ public class AttackComponent
         return atkFrame * Simulator.FrameInterval >= 10000 * 10000 / SpeedUpRate;
     }
 
-    // 执行攻击,远程生成攻击弹道   近战直接执行攻击
-    void DoAttack()
+    // 开始攻击,远程生成攻击弹道   近战直接执行攻击
+    void StartAttack()
     {
         isAtk = true;
         // 近战直接执行攻击
         if (entity.AttrComponent.BaseAttr.AtkType == AtkTypeEnum.MeleeHero)
         {
-
+            var enemy = (entity.StatusComponent.Status as AttackStatus).LockEnemy;
+            enemy.AttackComponent.BeAttack(entity);
         }
         // 远程生成攻击弹道
         else
         {
-
+            new AttackProjectile(entity);
         }
-        // todo   
     }
+
+    // 被攻击
+    public void BeAttack(RoleEntity attacker)
+    {
+        var selfAttr = entity.AttrComponent;
+        // 是否miss
+        if (selfAttr.IsMiss()) return;
+
+        var targetAttr = attacker.AttrComponent;
+        var damage = targetAttr.GetAttack();
+        // todo 
+    }
+
 }

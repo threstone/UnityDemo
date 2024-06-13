@@ -47,13 +47,13 @@ public class Simulator
             var role = roleList[i];
             bool isLeft = leftUserId == role.PlayerId;
             byte index = isLeft ? leftIndex : rightIndex;
-            var roleEntity = new RoleEntity(role, IncrId)
+            var roleEntity = new RoleEntity(role)
             {
                 Simulator = this,
                 Position = { X = isLeft ? -70000 : 70000, Y = postion[index] },
-                Face = !isLeft
+                Face = isLeft
             };
-            EntityList.Add(roleEntity);
+            AddEntity(roleEntity);
             if (isLeft)
             {
                 leftIndex++;
@@ -65,6 +65,12 @@ public class Simulator
         }
     }
 
+    public void AddEntity(Entity entity)
+    {
+        entity.Id = IncrId;
+        EntityList.Add(entity);
+    }
+
     public void FixedUpdate()
     {
         CurFrame++;
@@ -73,7 +79,13 @@ public class Simulator
 
         for (int i = EntityList.Count - 1; i >= 0; i--)
         {
-            EntityList[i].FixedUpdate(CurFrame);
+            var entity = EntityList[i];
+            if (entity.IsDestroy)
+            {
+                EntityList.Remove(entity);
+                continue;
+            }
+            entity.FixedUpdate(CurFrame);
         }
     }
 

@@ -15,7 +15,7 @@ public class MoveStatus : Status
 
     public override void FixedUpdate(int curFrame)
     {
-        if (lockEnemy == null || lockEnemy.IsDead)
+        if (lockEnemy == null || lockEnemy.IsDestroy)
         {
             TryGetEnemy();
             return;
@@ -34,7 +34,7 @@ public class MoveStatus : Status
         var playerId = entity.PlayerId;
         var enemyList = simulator.EntityList.FindAll((entity) =>
         {
-            return entity is RoleEntity roleEntity && roleEntity.IsDead != true && roleEntity.PlayerId != playerId;
+            return entity is RoleEntity roleEntity && roleEntity.IsDestroy != true && roleEntity.PlayerId != playerId;
         });
         if (enemyList.Count == 0)
         {
@@ -70,7 +70,7 @@ public class MoveStatus : Status
     }
     bool AttackRangeCheck()
     {
-        if (lockEnemy == null || lockEnemy.IsDead)
+        if (lockEnemy == null || lockEnemy.IsDestroy)
         {
             return false;
         }
@@ -80,14 +80,11 @@ public class MoveStatus : Status
 
     void TryClosedEnemy()
     {
-        if (lockEnemy == null || lockEnemy.IsDead)
+        if (lockEnemy == null || lockEnemy.IsDestroy)
         {
             return;
         }
-
-        var dir = lockEnemy.Position - entity.Position;
-        var moveLen = Simulator.FrameInterval * entity.AttrComponent.MoveSpeed / Simulator.TimeUnitRatioBySecond;
-        var move = dir * (moveLen / dir.Length());
+        var move = entity.GetMovePos(lockEnemy.Position, entity.AttrComponent.MoveSpeed);
         entity.Position += move;
         if (MoveCheck() == false)
         {

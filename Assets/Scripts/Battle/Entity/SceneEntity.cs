@@ -1,7 +1,7 @@
 ﻿
 using System.Numerics;
 
-public class SceneEntity : Entity
+public abstract class SceneEntity : Entity
 {
     // 位置
     public Vector2 Position;
@@ -11,13 +11,15 @@ public class SceneEntity : Entity
 
     public int PlayerId { get; set; }
 
-    public SceneEntity(int playerId, int id) : base(id)
+    public SceneEntity(int playerId)
     {
         PlayerId = playerId;
     }
 
-    public override void FixedUpdate(int curFrame)
+    public Vector2 GetMovePos(Vector2 target, int speed)
     {
+        var dir = target - Position;
+        var moveLen = Simulator.FrameInterval * speed / Simulator.TimeUnitRatioBySecond;
+        return dir * (moveLen / dir.Length());
     }
-
 }

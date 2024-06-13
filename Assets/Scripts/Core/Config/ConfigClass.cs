@@ -3,6 +3,24 @@ public class ConfigClass
 {
     public RoleConfig[] roles;
     public EquipmentConfig[] equipments;
+    public CommonConfig common;
+}
+
+[System.Serializable]
+public class CommonConfig
+{
+    // 每点力量增加的生命值
+    public int StrengthAddHp;
+    // 每点力量增加的生命恢复速度
+    public int StrengthAddHpRecover;
+    // 每点智力增加的魔法值
+    public int IntelligenceAddMana;
+    // 每点智力增加的魔法恢复速度
+    public int IntelligenceAddManaRecovery;
+    // 每点敏捷增加的护甲值
+    public int AgilityAddArmor;
+    // 每点敏捷增加的攻击速度
+    public int AgilityAddAtkSpeed;
 }
 
 [System.Serializable]
@@ -128,7 +146,10 @@ public enum AtkTypeEnum
 
 public enum MajorAttrEnum
 {
+    // 力量
     Strength,
+    // 智力
     Intelligence,
+    // 敏捷
     Agility
 }

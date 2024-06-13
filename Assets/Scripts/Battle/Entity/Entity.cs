@@ -8,9 +8,7 @@ public abstract class Entity
     // 唯一id
     public int Id { get; set; }
 
-    public Entity(int id) {
-        Id = id;
-    }
+    public bool IsDestroy{ get; set; } = false;
 
     public abstract void FixedUpdate(int curFrame);
 }
