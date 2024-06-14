@@ -1,7 +1,6 @@
 ﻿/*
  * 角色实体
  */
-
 public class RoleEntity : SceneEntity
 {
     // 属性组件
@@ -14,17 +13,30 @@ public class RoleEntity : SceneEntity
     public StatusComponent StatusComponent { get; set; }
     // 攻击组件
     public AttackComponent AttackComponent { get; set; }
+    // 技能组件
+    public SkillComponent SkillComponent { get; set; }
 
     public bool Face { get; set; }
 
+    public Role Role { get; set; }
+
     public RoleEntity(Role role) : base(role.PlayerId)
     {
-        EquipmentComponent = new EquipmentComponent(role);
+        Role = role;
+        InitComponent();
+    }
+
+    void InitComponent()
+    {
+        EquipmentComponent = new EquipmentComponent(Role);
         BuffComponent = new BuffComponent(this);
-        AttrComponent = new AttrComponent(role, EquipmentComponent, BuffComponent);
         StatusComponent = new StatusComponent(this);
-        Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
         AttackComponent = new AttackComponent(this);
+
+        SkillComponent = new SkillComponent(this);// 依赖装备组件,装备拥有技能
+        AttrComponent = new AttrComponent(this);  // 最后初始化，依赖其他组件
+
+        Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
     public override void FixedUpdate(int curFrame)
@@ -33,5 +45,19 @@ public class RoleEntity : SceneEntity
         BuffComponent.FixedUpdate(curFrame);
         AttrComponent.FixedUpdate();
         StatusComponent.FixedUpdate(curFrame);
+        SkillComponent.FixedUpdate();
+    }
+
+    // 消费伤害
+    public void HandleDamage(Damage damage)
+    {
+        // 伤害
+        // todo
+
+        damage.ExtraDamage?.ForEach((d) =>
+        {
+            HandleDamage(d);
+        });
+        Damage.DestroyDamage(damage);
     }
 }

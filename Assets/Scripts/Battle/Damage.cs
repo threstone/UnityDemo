@@ -9,7 +9,10 @@ public class Damage
     // 是否暴击
     public bool IsCriticalHit;
 
-    public List<Buff> DebuffList;
+    public List<Buff> BuffList;
+
+    // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
+    public List<Damage> ExtraDamage;
 
     public Damage(DamageTypeEnum type, int damageValue, bool isCriticalHit)
     {
@@ -23,6 +26,16 @@ public class Damage
         return new Damage(type, damageValue, isCriticalHit);
     }
 
+    public static void DestroyDamage(Damage damage)
+    {
+
+    }
+
+    public bool IgnoreAttackMiss()
+    {
+        // todo 遍历Buff list查看是否拥有无视闪避的buff
+        return false;
+    }
 }
 public enum DamageTypeEnum
 {

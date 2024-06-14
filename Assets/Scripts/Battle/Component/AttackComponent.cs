@@ -97,12 +97,12 @@ public class AttackComponent
     public void BeAttack(RoleEntity attacker)
     {
         var selfAttr = entity.AttrComponent;
-        // 是否miss
-        if (selfAttr.IsMiss()) return;
-
         var targetAttr = attacker.AttrComponent;
         var damage = targetAttr.GetAttack();
-        // todo 
+        // 是否miss
+        if (!damage.IgnoreAttackMiss() && selfAttr.IsMiss()) return;
+        // 消费伤害
+        entity.HandleDamage(damage);
     }
 
 }

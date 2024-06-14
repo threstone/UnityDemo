@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 
-public class BuffComponent {
+public class BuffComponent
+{
     Dictionary<int, Buff> buffMap;
-    RoleEntity entity;
-    public BuffComponent(RoleEntity entity) {
+    readonly RoleEntity entity;
+    public BuffComponent(RoleEntity entity)
+    {
         this.entity = entity;
         buffMap = new Dictionary<int, Buff>();
     }
 
-    public void FixedUpdate(int curFrame) {
+    public void FixedUpdate(int curFrame)
+    {
         // 状态更新
         foreach (var statusType in buffMap.Keys)
         {

@@ -7,8 +7,9 @@ public static class ConfigMgr
     public static ConfigClass AllConfig { get; set; }
     static Dictionary<int, RoleConfig> roleMap;
     static Dictionary<int, EquipmentConfig> equipmentMap;
+    static Dictionary<int, SkillConfig> skillMap;
 
-    public static CommonConfig Common { get { return AllConfig.common; } }
+    public static CommonConfig Common { get { return AllConfig.Common; } }
 
     public static void Init()
     {
@@ -19,6 +20,7 @@ public static class ConfigMgr
         Debug.Log("配置初始化" + JsonUtility.ToJson(AllConfig));
         InitRoleMap();
         InitEquipmentMap();
+        InitSkill();
     }
 
     public static RoleConfig CloneRoleInfoById(int id)
@@ -31,15 +33,25 @@ public static class ConfigMgr
         return roleMap[id];
     }
 
-    public static AttrObject GetEquipmentAttr(int id)
+    public static EquipmentConfig GetEquipmentAttr(int id)
     {
         return equipmentMap[id];
+    }
+
+    public static SkillConfig GetSkillConfig(int id)
+    {
+        return skillMap[id];
+    }
+
+    public static T GetSkillConfig<T>(int id)
+    {
+        return (T)(object)skillMap[id];
     }
 
     static void InitRoleMap()
     {
         roleMap = new();
-        foreach (var role in AllConfig.roles)
+        foreach (var role in AllConfig.Roles)
         {
             roleMap.TryAdd(role.Id, role);
         }
@@ -48,9 +60,22 @@ public static class ConfigMgr
     static void InitEquipmentMap()
     {
         equipmentMap = new();
-        foreach (var equipment in AllConfig.equipments)
+        foreach (var equipment in AllConfig.Equipments)
         {
             equipmentMap.TryAdd(equipment.Id, equipment);
+        }
+    }
+
+    static void InitSkill()
+    {
+        skillMap = new();
+        foreach (var skill in AllConfig.ActiveSkills)
+        {
+            skillMap.TryAdd(skill.Id, skill);
+        }
+        foreach (var skill in AllConfig.PassiveSkills)
+        {
+            skillMap.TryAdd(skill.Id, skill);
         }
     }
 }

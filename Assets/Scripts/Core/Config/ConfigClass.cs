@@ -1,9 +1,11 @@
 ﻿[System.Serializable]
 public class ConfigClass
 {
-    public RoleConfig[] roles;
-    public EquipmentConfig[] equipments;
-    public CommonConfig common;
+    public RoleConfig[] Roles;
+    public EquipmentConfig[] Equipments;
+    public CommonConfig Common;
+    public ActiveSkillConfig[] ActiveSkills;
+    public PassiveSkillConfig[] PassiveSkills;
 }
 
 [System.Serializable]
@@ -43,6 +45,8 @@ public class RoleConfig : AttrObject
     public int PreAtkTime;
     /* 攻击弹道初始位置 */
     public int[] AtkProjectilePos;
+    // 技能数组
+    public int[] Skills;
 
     public RoleConfig Clone()
     {
@@ -135,7 +139,46 @@ public class AttrObject : object
 public class EquipmentConfig : AttrObject
 {
     public int Id;
-    public string name;
+    public string Name;
+    // 技能数组
+    public int[] Skills;
+}
+
+[System.Serializable]
+public class ActiveSkillConfig : SkillConfig// 主动技能
+{
+    // 生命消耗
+    public int[] Hp;
+    // 魔法消耗
+    public int[] Mana;
+    // 携带的被动技能ID,有些主动同时也会携带被动技能
+    public int[] PassiveSkills;
+}
+
+[System.Serializable]
+public class PassiveSkillConfig : SkillConfig// 被动技能
+{
+    // 被动技能类型
+    public PassiveSkillTypeEnum PassiveSkillType;
+    public int Sort;
+    // 决定同类型被动技能的执行顺寻,  普通被动技能不关注
+    public bool CanDestroy;
+}
+
+public abstract class SkillConfig
+{
+    public int Id;
+    public string SkillName;
+    public int[] CD;
+    public int[] Param1;
+    public int[] Param2;
+    public int[] Param3;
+}
+
+public enum SkillTypeEnum
+{
+    ActiveSkill,
+    PassiveSkill
 }
 
 public enum AtkTypeEnum

@@ -3,24 +3,19 @@
 
 public class AttrComponent
 {
+    readonly RoleEntity entity;
     public RoleConfig BaseAttr;
     public AttrObject AttrAdd;
-    readonly EquipmentComponent equipmentComponent;
-    readonly BuffComponent buffComponent;
-    public Role Role;
-
     // 生命属性
     public LimitedStat Hp;
     // 魔法属性
     public LimitedStat Mana;
 
-    public AttrComponent(Role role, EquipmentComponent equipmentComponent, BuffComponent buffComponent)
+    public AttrComponent(RoleEntity entity)
     {
-        Role = role;
-        BaseAttr = ConfigMgr.CloneRoleInfoById(Role.RoleId);
+        this.entity = entity;
+        BaseAttr = ConfigMgr.CloneRoleInfoById(entity.Role.RoleId);
         AttrAdd = new AttrObject();
-        this.equipmentComponent = equipmentComponent;
-        this.buffComponent = buffComponent;
 
         UpdateAttr();
         InitHPAndMana();
@@ -38,6 +33,7 @@ public class AttrComponent
         Mana.Add(ManaRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
     }
 
+    // 初始化生命、魔法属性 
     void InitHPAndMana()
     {
         Hp = new(MaxHp);
@@ -55,9 +51,9 @@ public class AttrComponent
     void UpdateBaseAttr()
     {
         // 基础属性计算
-        BaseAttr.Strength += (Role.Level - 1) * BaseAttr.StrengthGain;
-        BaseAttr.Intelligence += (Role.Level - 1) * BaseAttr.IntelligenceGain;
-        BaseAttr.Agility += (Role.Level - 1) * BaseAttr.AgilityGain;
+        BaseAttr.Strength += (entity.Role.Level - 1) * BaseAttr.StrengthGain;
+        BaseAttr.Intelligence += (entity.Role.Level - 1) * BaseAttr.IntelligenceGain;
+        BaseAttr.Agility += (entity.Role.Level - 1) * BaseAttr.AgilityGain;
     }
 
     // 更新额外属性,来自装备或buff
@@ -65,18 +61,15 @@ public class AttrComponent
     {
         AttrAdd.Reset();
         // 装备属性增加
-        for (int i = 0; i < equipmentComponent.Equipments.Length; i++)
+        for (int i = 0; i < entity.EquipmentComponent.Equipments.Length; i++)
         {
-            var equipment = equipmentComponent.Equipments[i];
-            AttrAdd.AddAttrFromTarget(equipment?.Attr);
+            var equipment = entity.EquipmentComponent.Equipments[i];
+            AttrAdd.AddAttrFromTarget(equipment?.Config);
         }
 
-        // buff属性计算 
-        if (buffComponent == null)
-        {
-            return;
-        }
         // todo buff属性计算 
+
+        // todo 来自技能的属性计算
     }
 
     // 根据类型获取指定属性的值
@@ -94,8 +87,16 @@ public class AttrComponent
     // 获取普通攻击伤害对象
     public Damage GetAttack()
     {
-        var attack = Attack;// todo
-        return Damage.GetDamage(DamageTypeEnum.PhysicalDamage, 111);
+        var attack = Attack;
+        // 百分之5波动,未来角色可能引入波动值
+        var limit = attack * 5 / 100;
+        attack += entity.Simulator.RandomNext(-limit, limit);
+        var damage = Damage.GetDamage(DamageTypeEnum.PhysicalDamage, attack);
+        // OnPreAttack()
+        // todo 被动技能影响的暴击等特效   冰眼、暴击等
+        // todo 主动技能影响的攻击特效     小黑冰箭等
+        // todo buff 蓝猫超负荷
+        return damage;
     }
 
     //是否闪避

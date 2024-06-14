@@ -7,7 +7,8 @@ public class Role
 
     public int Level { get; set; }
 
-    public List<int> equipmentIdList;
+    public List<int> EquipmentIdList;
+    public List<SkillData> SkillList;
 
     public Role(int roleId, int level, int userId)
     {
@@ -15,4 +16,9 @@ public class Role
         Level = level;
         PlayerId = userId;
     }
+}
+
+public class SkillData{
+    public int Id;
+    public int level;
 }
