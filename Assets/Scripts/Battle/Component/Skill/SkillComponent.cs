@@ -21,13 +21,16 @@ public class SkillComponent
             s.ReduceCD(interval);
         });
 
-        // 被动技能CD
-        foreach (var pair in PassiveSkillMap)
+        if (PassiveSkillMap != null)
         {
-            pair.Value.ForEach((s) =>
+            // 被动技能CD
+            foreach (var pair in PassiveSkillMap)
             {
-                s.ReduceCD(interval);
-            });
+                pair.Value.ForEach((s) =>
+                {
+                    s.ReduceCD(interval);
+                });
+            }
         }
     }
 

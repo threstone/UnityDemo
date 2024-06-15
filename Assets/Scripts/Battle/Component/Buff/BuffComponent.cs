@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class BuffComponent
 {
@@ -34,5 +35,11 @@ public class BuffComponent
         {
             buffMap.Add(buffType, new Buff(entity, buffType, duration));
         }
+    }
+
+    // 消费伤害中的buff
+    public void HandleDamage(Damage damage)
+    {
+        // todo
     }
 }

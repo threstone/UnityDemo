@@ -91,10 +91,10 @@ public class Simulator
         HandleUserInput();
 
         // 执行帧逻辑
-        EntityList.ForEach((e) => e.FixedUpdate(CurFrame));
-       
+        for (int i = EntityList.Count - 1; i >= 0; i--) EntityList[i].FixedUpdate(CurFrame);
+
         // 逻辑帧执行后的逻辑
-        EntityList.ForEach((e) => e.AfterUpdate(CurFrame));
+        for (int i = EntityList.Count - 1; i >= 0; i--) EntityList[i].AfterUpdate(CurFrame);
     }
 
     public void OnUserInput(string key)

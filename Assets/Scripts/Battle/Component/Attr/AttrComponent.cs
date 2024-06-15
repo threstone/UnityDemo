@@ -5,8 +5,6 @@ public class AttrComponent
 {
     readonly RoleEntity entity;
 
-    public List<Damage> CurFranmeDamages;
-
     public RoleConfig BaseAttr;
     public AttrObject AttrAdd;
     // 生命属性
@@ -23,28 +21,17 @@ public class AttrComponent
         this.entity = entity;
         BaseAttr = ConfigMgr.CloneRoleInfoById(entity.Role.RoleId);
         AttrAdd = new AttrObject();
-        CurFranmeDamages = new();
 
         UpdateAttr();
         InitHPAndMana();
     }
 
-    // 消费伤害，消费后存入已处理伤害List中
+    // 消费伤害
     public void HandleDamage(Damage damage)
     {
         // 伤害
         // todo
 
-        damage.ExtraDamage?.ForEach((d) =>
-        {
-            HandleDamage(d);
-        });
-        CurFranmeDamages.Add(damage);
-    }
-
-    public void BeforeUpdate()
-    {
-        ClearDamageList();
     }
 
     public void FixedUpdate()
@@ -56,16 +43,6 @@ public class AttrComponent
     public void AfterUpdate()
     {
         if (Hp.Current <= 0) entity.IsDestroy = true;
-    }
-
-    // 清除已处理伤害列表
-    public void ClearDamageList()
-    {
-        CurFranmeDamages.ForEach((damage) =>
-        {
-            Damage.DestroyDamage(damage);
-        });
-        CurFranmeDamages.Clear();
     }
 
     // 魔法、生命恢复

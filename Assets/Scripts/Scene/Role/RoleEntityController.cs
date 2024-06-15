@@ -26,7 +26,7 @@ public class RoleEntityController : EntityController
     // 在元素上弹出伤害提示
     private void ShowDamages()
     {
-        EntityInfo.AttrComponent.CurFranmeDamages.ForEach((damage) =>
+        EntityInfo.CurFranmeDamages.ForEach((damage) =>
         {
             // todo
         });

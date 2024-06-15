@@ -1,6 +1,8 @@
 ﻿/*
  * 角色实体
  */
+using System.Collections.Generic;
+
 public class RoleEntity : SceneEntity
 {
     // 属性组件
@@ -19,6 +21,8 @@ public class RoleEntity : SceneEntity
     public bool Face { get; set; }
 
     public Role Role { get; set; }
+
+    public List<Damage> CurFranmeDamages = new();
 
     public RoleEntity(Role role) : base(role.PlayerId)
     {
@@ -39,9 +43,9 @@ public class RoleEntity : SceneEntity
         Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
-    public override void BeforeUpdate(int curFrame)
+    public new void BeforeUpdate(int curFrame)
     {
-        AttrComponent.BeforeUpdate();
+        ClearDamageList();
     }
 
     public override void FixedUpdate(int curFrame)
@@ -53,9 +57,34 @@ public class RoleEntity : SceneEntity
         SkillComponent.FixedUpdate();
     }
 
-    public override void AfterUpdate(int curFrame)
+    public new void AfterUpdate(int curFrame)
     {
         AttrComponent.AfterUpdate();
+    }
+
+    // 消费伤害
+    public void HandleDamage(Damage damage)
+    {
+        // todo 伤害消费
+        AttrComponent.HandleDamage(damage);
+        // todo 消费伤害中的buff
+        BuffComponent.HandleDamage(damage);
+
+        damage.ExtraDamage?.ForEach((d) =>
+        {
+            HandleDamage(d);
+        });
+        CurFranmeDamages.Add(damage);
+    }
+
+    // 清除已处理伤害列表
+    public void ClearDamageList()
+    {
+        CurFranmeDamages.ForEach((damage) =>
+        {
+            Damage.DestroyDamage(damage);
+        });
+        CurFranmeDamages.Clear();
     }
 
 }

@@ -38,5 +38,6 @@ public class AttackProjectile : Projectile
     public override void OnTrigger()
     {
         target.AttackComponent.BeAttack(Source);
+        IsDestroy = true;
     }
 }

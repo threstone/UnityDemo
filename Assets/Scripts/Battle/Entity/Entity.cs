@@ -10,7 +10,7 @@ public abstract class Entity
 
     public bool IsDestroy { get; set; } = false;
 
-    public abstract void BeforeUpdate(int curFrame);
+    public void BeforeUpdate(int curFrame) { }
     public abstract void FixedUpdate(int curFrame);
-    public abstract void AfterUpdate(int curFrame);
+    public void AfterUpdate(int curFrame) { }
 }
