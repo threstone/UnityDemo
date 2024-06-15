@@ -20,7 +20,7 @@ public class LimitedStat
     public void Set(int value)
     {
         if (Current == value) return;
-        Current = Math.Clamp(value, 0, Maximum);
+        Current = Math.Min(value, Maximum);
     }
 
     /*

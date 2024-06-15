@@ -1,9 +1,12 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 public class AttrComponent
 {
     readonly RoleEntity entity;
+
+    public List<Damage> CurFranmeDamages;
+
     public RoleConfig BaseAttr;
     public AttrObject AttrAdd;
     // 生命属性
@@ -11,26 +14,71 @@ public class AttrComponent
     // 魔法属性
     public LimitedStat Mana;
 
+    int recoverProgress = 0;
+    // 恢复间隔
+    static readonly int recoverInterval = 10;
+
     public AttrComponent(RoleEntity entity)
     {
         this.entity = entity;
         BaseAttr = ConfigMgr.CloneRoleInfoById(entity.Role.RoleId);
         AttrAdd = new AttrObject();
+        CurFranmeDamages = new();
 
         UpdateAttr();
         InitHPAndMana();
     }
 
+    // 消费伤害，消费后存入已处理伤害List中
+    public void HandleDamage(Damage damage)
+    {
+        // 伤害
+        // todo
+
+        damage.ExtraDamage?.ForEach((d) =>
+        {
+            HandleDamage(d);
+        });
+        CurFranmeDamages.Add(damage);
+    }
+
+    public void BeforeUpdate()
+    {
+        ClearDamageList();
+    }
+
     public void FixedUpdate()
     {
-        UpdateHPAndMana();
+        Recover();
+    }
+
+    // 检查是否死亡
+    public void AfterUpdate()
+    {
+        if (Hp.Current <= 0) entity.IsDestroy = true;
+    }
+
+    // 清除已处理伤害列表
+    public void ClearDamageList()
+    {
+        CurFranmeDamages.ForEach((damage) =>
+        {
+            Damage.DestroyDamage(damage);
+        });
+        CurFranmeDamages.Clear();
     }
 
     // 魔法、生命恢复
-    void UpdateHPAndMana()
+    void Recover()
     {
-        Hp.Add(HpRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
-        Mana.Add(ManaRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
+        if (recoverProgress >= recoverInterval)
+        {
+            // 每N帧恢复一次生命和血量,减少计算量
+            Hp.Add(recoverInterval * HpRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
+            Mana.Add(recoverInterval * ManaRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
+            recoverProgress = -1;
+        }
+        recoverProgress++;
     }
 
     // 初始化生命、魔法属性 

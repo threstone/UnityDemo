@@ -39,6 +39,11 @@ public class RoleEntity : SceneEntity
         Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
+    public override void BeforeUpdate(int curFrame)
+    {
+        AttrComponent.BeforeUpdate();
+    }
+
     public override void FixedUpdate(int curFrame)
     {
         EquipmentComponent.FixedUpdate(curFrame);
@@ -48,16 +53,9 @@ public class RoleEntity : SceneEntity
         SkillComponent.FixedUpdate();
     }
 
-    // 消费伤害
-    public void HandleDamage(Damage damage)
+    public override void AfterUpdate(int curFrame)
     {
-        // 伤害
-        // todo
-
-        damage.ExtraDamage?.ForEach((d) =>
-        {
-            HandleDamage(d);
-        });
-        Damage.DestroyDamage(damage);
+        AttrComponent.AfterUpdate();
     }
+
 }

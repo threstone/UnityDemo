@@ -102,7 +102,7 @@ public class AttackComponent
         // 是否miss
         if (!damage.IgnoreAttackMiss() && selfAttr.IsMiss()) return;
         // 消费伤害
-        entity.HandleDamage(damage);
+        entity.AttrComponent.HandleDamage(damage);
     }
 
 }

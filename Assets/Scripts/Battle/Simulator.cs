@@ -75,8 +75,7 @@ public class Simulator
     {
         CurFrame++;
 
-        HandleUserInput();
-
+        // 逻辑帧执行前的逻辑
         for (int i = EntityList.Count - 1; i >= 0; i--)
         {
             var entity = EntityList[i];
@@ -85,8 +84,17 @@ public class Simulator
                 EntityList.Remove(entity);
                 continue;
             }
-            entity.FixedUpdate(CurFrame);
+            entity.BeforeUpdate(CurFrame);
         }
+
+        // 处理用户输入
+        HandleUserInput();
+
+        // 执行帧逻辑
+        EntityList.ForEach((e) => e.FixedUpdate(CurFrame));
+       
+        // 逻辑帧执行后的逻辑
+        EntityList.ForEach((e) => e.AfterUpdate(CurFrame));
     }
 
     public void OnUserInput(string key)

@@ -20,6 +20,16 @@ public class RoleEntityController : EntityController
         UpdatePostion();
         UpdateFace();
         UpdateAnimation();
+        ShowDamages();
+    }
+
+    // 在元素上弹出伤害提示
+    private void ShowDamages()
+    {
+        EntityInfo.AttrComponent.CurFranmeDamages.ForEach((damage) =>
+        {
+            // todo
+        });
     }
 
     private void UpdatePostion()
