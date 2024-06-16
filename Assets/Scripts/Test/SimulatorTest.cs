@@ -14,5 +14,4 @@ public class SimulatorTest : MonoBehaviour
     {
         simulator.FixedUpdate();
     }
-    
 }

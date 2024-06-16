@@ -2,6 +2,8 @@ using System;
 
 public abstract class Skill
 {
+
+    public int Id { get; set; }
     public int Level { get; set; }
 
     public SkillConfig Config { get; set; }

@@ -9,7 +9,7 @@ public class Damage
     // 是否暴击
     public bool IsCriticalHit;
 
-    public List<Buff> BuffList;
+    public List<BuffData> BuffList;
 
     // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
     public List<Damage> ExtraDamage;

@@ -1,25 +1,25 @@
 ﻿using System;
 
-public class Buff
+public abstract class Buff : GameNode
 {
+    protected readonly RoleEntity entity;
+
     public int BuffType { get; set; }
+    public int Duration { get; set; }
 
-    int duration;
-
-    RoleEntity entity;
-    public Buff(RoleEntity entity, int statusType, int duration)
+    public Buff(RoleEntity entity, int duration)
     {
         this.entity = entity;
-        BuffType = statusType;
-        this.duration = duration;
+        Duration = duration;
     }
 
     public void FixedUpdate(int curFrame)
     {
-        duration--;
-        if (duration < 0)
+        Duration--;
+        if (Duration < 0)
         {
-            Stop();
+            entity.BuffComponent.RemoveBuff(BuffType);
+            OnBuffEnd();
             return;
         }
 
@@ -28,11 +28,6 @@ public class Buff
 
     public void UpdateDuration(int duration)
     {
-        this.duration = Math.Max(duration, this.duration);
-    }
-
-    void Stop()
-    {
-        entity.BuffComponent.RemoveBuff(BuffType);
+        Duration = Math.Max(duration, Duration);
     }
 }

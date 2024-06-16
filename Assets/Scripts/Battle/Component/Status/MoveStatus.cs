@@ -108,7 +108,7 @@ public class MoveStatus : Status
         return true;
     }
 
-    public override string GetName()
+    public override string GetAnimationName()
     {
         return "walk";
     }

@@ -18,7 +18,19 @@ public class Role
     }
 }
 
-public class SkillData{
+public class SkillData
+{
     public int Id;
     public int level;
+}
+
+public enum EventEnum
+{
+    BeControlled//被控制
+}
+
+public class BuffData
+{
+    public int BuffType { get; set; }
+    public int Duration { get; set; }
 }

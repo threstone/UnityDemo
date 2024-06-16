@@ -9,7 +9,7 @@
         this.entity = entity;
     }
     public abstract void FixedUpdate(int curFrame);
-    public abstract string GetName();
+    public abstract string GetAnimationName();
     public abstract int GetAnimatorSpeed ();
 }
 

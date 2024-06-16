@@ -6,9 +6,9 @@ public class EventManager
 
     public static EventManager instance = new EventManager();
 
-    private Dictionary<string, List<Action<Object>>> eventDictionary = new Dictionary<string, List<Action<Object>>>();
+    private Dictionary<EventEnum, List<Action<Object>>> eventDictionary = new();
 
-    public void On(string eventName, Action<Object> cb)
+    public void On(EventEnum eventName, Action<Object> cb)
     {
         if (!eventDictionary.ContainsKey(eventName))
         {
@@ -17,7 +17,7 @@ public class EventManager
         eventDictionary[eventName].Add(cb);
     }
 
-    public void Off(string eventName, Action<Object> cb)
+    public void Off(EventEnum eventName, Action<Object> cb)
     {
         if (eventDictionary.ContainsKey(eventName))
         {
@@ -25,7 +25,7 @@ public class EventManager
         }
     }
 
-    public void Emit(string eventName, Object p = null)
+    public void Emit(EventEnum eventName, Object p = null)
     {
         if (eventDictionary.ContainsKey(eventName))
         {
@@ -36,7 +36,7 @@ public class EventManager
         }
     }
 
-    public void Once(string eventName, Action<Object> cb)
+    public void Once(EventEnum eventName, Action<Object> cb)
     {
         Action<Object> fun = null;
         fun = (data) =>

@@ -52,7 +52,7 @@ public class AttackStatus : Status
         entity.StatusComponent.Status = new MoveStatus(entity, LockEnemy);
     }
 
-    public override string GetName()
+    public override string GetAnimationName()
     {
         return entity.AttackComponent.IsAttacking() ? "attack" : "idle";
     }

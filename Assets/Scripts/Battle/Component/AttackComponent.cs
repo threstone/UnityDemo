@@ -11,6 +11,11 @@ public class AttackComponent
     public AttackComponent(RoleEntity entity)
     {
         this.entity = entity;
+        // 当被控制，需要打断进度
+        entity.Event.On(EventEnum.BeControlled, (obj) =>
+        {
+            Reset();
+        });
     }
 
     public void FixedUpdate(int curFrame)

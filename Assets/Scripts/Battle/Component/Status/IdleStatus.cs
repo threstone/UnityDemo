@@ -17,7 +17,7 @@
         }
     }
 
-    public override string GetName()
+    public override string GetAnimationName()
     {
         return "idle";
     }

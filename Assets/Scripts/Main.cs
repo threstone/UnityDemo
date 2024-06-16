@@ -7,5 +7,9 @@ public class Main : MonoBehaviour
         DontDestroyOnLoad(this);
 
         ConfigMgr.Init();
+
+        BuffMgr.Init();
+
+        SkillMgr.Init();
     }
 }

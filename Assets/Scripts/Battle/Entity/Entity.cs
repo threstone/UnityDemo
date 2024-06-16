@@ -5,6 +5,8 @@ public abstract class Entity
 {
     public Simulator Simulator { get; set; }
 
+    public EventManager Event = new();
+
     // 唯一id
     public int Id { get; set; }
 
