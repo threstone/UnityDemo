@@ -65,6 +65,11 @@ public class RoleEntity : SceneEntity
     // 消费伤害
     public void HandleDamage(Damage damage)
     {
+
+        CurFranmeDamages.Add(damage);
+
+        if (damage.IsMiss) return;
+
         // todo 伤害消费
         AttrComponent.HandleDamage(damage);
         // todo 消费伤害中的buff
@@ -74,7 +79,6 @@ public class RoleEntity : SceneEntity
         {
             HandleDamage(d);
         });
-        CurFranmeDamages.Add(damage);
     }
 
     // 清除已处理伤害列表
@@ -86,5 +90,4 @@ public class RoleEntity : SceneEntity
         });
         CurFranmeDamages.Clear();
     }
-
 }

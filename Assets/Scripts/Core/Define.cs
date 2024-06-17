@@ -31,6 +31,6 @@ public enum EventEnum
 
 public class BuffData
 {
-    public int BuffType { get; set; }
+    public BuffEnum BuffType { get; set; }
     public int Duration { get; set; }
 }

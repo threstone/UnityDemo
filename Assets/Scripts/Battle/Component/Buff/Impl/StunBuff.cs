@@ -2,7 +2,7 @@ public class StunBuff : Buff
 {
     public StunBuff(RoleEntity entity, int duration) : base(entity, duration)
     {
-        BuffType = 1;
+        BuffType = BuffEnum.Stun;
     }
 
     public new void OnBuffAdd()

@@ -122,6 +122,7 @@ public class Simulator
         }
     }
 
+    // 不包含maxValue
     public int RandomNext(int minValue = 0, int maxValue = int.MaxValue)
     {
         return random.Next(minValue, maxValue);

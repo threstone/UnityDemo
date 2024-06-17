@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Reflection;
 public class BuffComponent
 {
-    readonly Dictionary<int, Buff> buffMap;
+    readonly Dictionary<BuffEnum, Buff> buffMap;
     readonly RoleEntity entity;
     public BuffComponent(RoleEntity entity)
     {
         this.entity = entity;
-        buffMap = new Dictionary<int, Buff>();
+        buffMap = new();
+    }
+
+    public void OnPreAttack(Damage damage)
+    {
+        foreach (var statusType in buffMap.Keys)
+        {
+            buffMap[statusType].OnPreAttack(damage);
+        }
     }
 
     public void FixedUpdate(int curFrame)
@@ -20,12 +28,12 @@ public class BuffComponent
         };
     }
 
-    public void RemoveBuff(int buffType)
+    public void RemoveBuff(BuffEnum buffType)
     {
         buffMap.Remove(buffType);
     }
 
-    public void AddBuff(int buffType, int duration)
+    public void AddBuff(BuffEnum buffType, int duration)
     {
         if (buffMap.TryGetValue(buffType, out var buff))
         {

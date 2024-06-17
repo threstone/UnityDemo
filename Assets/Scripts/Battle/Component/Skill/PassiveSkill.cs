@@ -3,8 +3,7 @@ public class PassiveSkill : Skill
 {
     public new PassiveSkillConfig Config { get; }
 
-
-    public PassiveSkill(PassiveSkillConfig config, int lv) : base(config, lv)
+    public PassiveSkill(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
     {
     }
 }

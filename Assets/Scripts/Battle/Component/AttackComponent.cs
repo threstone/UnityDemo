@@ -101,13 +101,20 @@ public class AttackComponent
     // 被攻击
     public void BeAttack(RoleEntity attacker)
     {
-        var selfAttr = entity.AttrComponent;
+        // var selfAttr = entity.AttrComponent;
         var targetAttr = attacker.AttrComponent;
         var damage = targetAttr.GetAttack();
-        // 是否miss
-        if (!damage.IgnoreAttackMiss() && selfAttr.IsMiss()) return;
+        // // 是否miss
+        // if (!damage.IgnoreAttackMiss() && selfAttr.IsMiss())
+        // {
+        //     damage.IsMiss = true;
+        // }
+
+        entity.SkillComponent.OnPreAttack(damage);
+        entity.BuffComponent.OnPreAttack(damage);
+
         // 消费伤害
-        entity.AttrComponent.HandleDamage(damage);
+        entity.HandleDamage(damage);
     }
 
 }

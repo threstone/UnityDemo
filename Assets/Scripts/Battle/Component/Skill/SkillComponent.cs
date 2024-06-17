@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 public class SkillComponent
 {
+    readonly RoleEntity entity;
     // 主动技能
     public List<ActiveSkill> ActiveSkillList;
     // 被动技能
@@ -10,54 +10,66 @@ public class SkillComponent
 
     public SkillComponent(RoleEntity entity)
     {
+        this.entity = entity;
         InitSkill(entity);
     }
 
     public void FixedUpdate()
     {
         var interval = Simulator.FrameInterval;
+        ForEachAllSkill((Skill s) => s.ReduceCD(interval));
+    }
+
+    public void OnPreAttack(Damage damage)
+    {
+        ForEachAllSkill((Skill s) => s.OnPreAttack(damage));
+    }
+
+    public void ForEachAllSkill(Action<Skill> action)
+    {
         // 主动技能CD
-        ActiveSkillList?.ForEach((s) =>
-        {
-            s.ReduceCD(interval);
-        });
+        ActiveSkillList?.ForEach((s) => action(s));
 
         if (PassiveSkillMap != null)
         {
             // 被动技能CD
             foreach (var pair in PassiveSkillMap)
             {
-                pair.Value.ForEach((s) =>
-                {
-                    s.ReduceCD(interval);
-                });
+                pair.Value.ForEach((s) => action(s));
             }
         }
     }
 
-    public void AddSkill(SkillData skill)
+    public void AddSkill(SkillData data)
     {
-        var skillConfig = ConfigMgr.GetSkillConfig(skill.Id);
-        if (skillConfig is PassiveSkillConfig pSkill)
+        AddSkill(data.Id, data.level);
+    }
+
+    public void AddSkill(int skillId, int level)
+    {
+        var skillConfig = ConfigMgr.GetSkillConfig(skillId);
+        var skill = SkillMgr.GetSkillById(skillConfig, level, entity);
+        if (skill is PassiveSkill pSkill)
         {
-            AddSkill(new PassiveSkill(pSkill, skill.level));
+            AddSkill(pSkill);
         }
-        else if (skillConfig is ActiveSkillConfig aSkill)
+        else if (skill is ActiveSkill aSkill)
         {
-            AddSkill(new ActiveSkill(aSkill, skill.level));
-            // 增加主动技能附带的被动技能
-            foreach (var pSkillId in aSkill.PassiveSkills)
-            {
-                var config = ConfigMgr.GetSkillConfig<PassiveSkillConfig>(pSkillId);
-                AddSkill(new PassiveSkill(config, skill.level));
-            }
+            AddSkill(aSkill, skillConfig as ActiveSkillConfig);
         }
     }
 
-    public void AddSkill(ActiveSkill skill)
+    public void AddSkill(ActiveSkill skill, ActiveSkillConfig skillConfig)
     {
         ActiveSkillList ??= new();
         ActiveSkillList.Add(skill);
+        // 增加主动技能附带的被动技能
+        foreach (var pSkillId in skillConfig.PassiveSkills)
+        {
+            var passiveSkillConfig = ConfigMgr.GetSkillConfig<PassiveSkillConfig>(pSkillId);
+            var passiveSkill = SkillMgr.GetSkillById(passiveSkillConfig, skill.Level, entity) as PassiveSkill;
+            AddSkill(passiveSkill);
+        }
     }
 
     public void AddSkill(PassiveSkill skill)
@@ -100,23 +112,14 @@ public class SkillComponent
             for (int z = 0; z < equipment.Config.Skills?.Length; z++)
             {
                 var skillId = equipment.Config.Skills[z];
-                AddSkill(new SkillData
-                {
-                    Id = skillId,
-                    level = 1
-                });
+                AddSkill(skillId, 1);
             }
         }
 
         // 近战增加模型格挡
         if (ConfigMgr.GetRoleInfoById(entity.Role.RoleId).AtkType == AtkTypeEnum.MeleeHero)
         {
-            AddSkill(new SkillData
-            {
-                Id = 20000001,
-                level = 1
-            });
+            AddSkill(20000001, 1);
         }
-
     }
 }

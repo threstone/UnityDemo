@@ -4,7 +4,7 @@ public abstract class Buff : GameNode
 {
     protected readonly RoleEntity entity;
 
-    public int BuffType { get; set; }
+    public BuffEnum BuffType { get; set; }
     public int Duration { get; set; }
 
     public Buff(RoleEntity entity, int duration)
@@ -22,8 +22,6 @@ public abstract class Buff : GameNode
             OnBuffEnd();
             return;
         }
-
-        // do something
     }
 
     public void UpdateDuration(int duration)

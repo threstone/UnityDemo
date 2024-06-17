@@ -7,4 +7,7 @@ public class GameNode
 
     // 当Buff被驱散
     public void OnBuffClear() { }
+
+    // 当被攻击前
+    public void OnPreAttack(Damage damage) { }
 }

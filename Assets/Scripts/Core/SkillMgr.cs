@@ -18,21 +18,22 @@ public static class SkillMgr
 
         foreach (Type type in types)
         {
-            if (type.FullName != "Skill" && type.FullName.StartsWith("SkillImpl"))
+            var className = type.FullName;
+            if (className != "Skill" && className.StartsWith("SkillImpl"))
             {
-                Utils.Log("add skill :" + type.FullName);
-                Skill instance = Activator.CreateInstance(type, null, 0) as Skill; // todo
-                skillTypeMap.Add(instance.Id, type);
+                var id = Convert.ToInt32(className[9..]);
+                Utils.Log("add skill :" + className + "   " + id);
+                skillTypeMap.Add(id, type);
             }
         }
         Utils.Log("skill init end use ms: " + (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() - now));
     }
 
-    public static Skill GetSkillById(int type, RoleEntity entity, int duration)
+    public static Skill GetSkillById(SkillConfig skillConfig, int level, RoleEntity entity)
     {
-        if (skillTypeMap.TryGetValue(type, out var t))
+        if (skillTypeMap.TryGetValue(skillConfig.Id, out var t))
         {
-            return Activator.CreateInstance(t, entity, duration) as Skill;
+            return Activator.CreateInstance(t, skillConfig, level, entity) as Skill;
         }
         return null;
     }

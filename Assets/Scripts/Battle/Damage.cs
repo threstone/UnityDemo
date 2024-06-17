@@ -3,16 +3,21 @@ using System.Collections.Generic;
 public class Damage
 {
     // 伤害类型
-    public DamageTypeEnum Type;
+    public DamageTypeEnum Type { get; set; }
     // 伤害值
-    public int DamageValue;
+    public int DamageValue { get; set; }
     // 是否暴击
-    public bool IsCriticalHit;
+    public bool IsCriticalHit { get; set; }
+    // 格挡伤害
+    public int BlockDamage { get; set; } = 0;
 
-    public List<BuffData> BuffList;
+    // 是否闪避
+    public bool IsMiss { get; set; }
+
+    public List<BuffData> BuffList { get; set; }
 
     // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
-    public List<Damage> ExtraDamage;
+    public List<Damage> ExtraDamage { get; set; }
 
     public Damage(DamageTypeEnum type, int damageValue, bool isCriticalHit)
     {
@@ -28,7 +33,7 @@ public class Damage
 
     public static void DestroyDamage(Damage damage)
     {
-
+        // todo
     }
 
     public bool IgnoreAttackMiss()

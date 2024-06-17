@@ -4,7 +4,7 @@ using System.Reflection;
 
 public static class BuffMgr
 {
-    static Dictionary<int, Type> buffTypeMap;
+    static Dictionary<BuffEnum, Type> buffTypeMap;
 
     public static void Init()
     {
@@ -29,9 +29,9 @@ public static class BuffMgr
         Utils.Log("buff init end use ms: " + (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() - now));
     }
 
-    public static Buff GetBuffByType(int type, RoleEntity entity, int duration)
+    public static Buff GetBuffByType(BuffEnum buffType, RoleEntity entity, int duration)
     {
-        if (buffTypeMap.TryGetValue(type, out var t))
+        if (buffTypeMap.TryGetValue(buffType, out var t))
         {
             return Activator.CreateInstance(t, entity, duration) as Buff;
         }
