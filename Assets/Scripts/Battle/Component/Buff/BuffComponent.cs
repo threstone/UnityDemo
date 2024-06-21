@@ -11,11 +11,11 @@ public class BuffComponent
         buffMap = new();
     }
 
-    public void OnPreAttack(Damage damage)
+    public void OnPreBeAttack(Damage damage)
     {
         foreach (var statusType in buffMap.Keys)
         {
-            buffMap[statusType].OnPreAttack(damage);
+            buffMap[statusType].OnPreBeAttack(damage);
         }
     }
 

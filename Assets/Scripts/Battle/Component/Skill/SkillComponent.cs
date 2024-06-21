@@ -20,9 +20,9 @@ public class SkillComponent
         ForEachAllSkill((Skill s) => s.ReduceCD(interval));
     }
 
-    public void OnPreAttack(Damage damage)
+    public void OnPreBeAttack(Damage damage)
     {
-        ForEachAllSkill((Skill s) => s.OnPreAttack(damage));
+        ForEachAllSkill((Skill s) => s.OnPreBeAttack(damage));
     }
 
     public void ForEachAllSkill(Action<Skill> action)

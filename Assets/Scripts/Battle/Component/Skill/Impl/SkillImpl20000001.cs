@@ -5,7 +5,7 @@ public class SkillImpl20000001 : PassiveSkill
     {
     }
 
-    public new void OnPreAttack(Damage damage)
+    public new void OnPreBeAttack(Damage damage)
     {
         if (damage.BlockDamage != 0)
         {

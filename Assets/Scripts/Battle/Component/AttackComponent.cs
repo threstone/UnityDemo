@@ -110,8 +110,8 @@ public class AttackComponent
         //     damage.IsMiss = true;
         // }
 
-        entity.SkillComponent.OnPreAttack(damage);
-        entity.BuffComponent.OnPreAttack(damage);
+        entity.SkillComponent.OnPreBeAttack(damage);
+        entity.BuffComponent.OnPreBeAttack(damage);
 
         // 消费伤害
         entity.HandleDamage(damage);

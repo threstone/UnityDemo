@@ -25,14 +25,6 @@ public class AttrComponent
         InitHPAndMana();
     }
 
-    // 消费伤害
-    public void HandleDamage(Damage damage)
-    {
-        // 伤害
-        // todo
-
-    }
-
     public void FixedUpdate()
     {
         Recover();
@@ -42,6 +34,52 @@ public class AttrComponent
     public void AfterUpdate()
     {
         if (Hp.Current <= 0) entity.IsDestroy = true;
+    }
+
+    // 消费伤害
+    public void HandleDamage(Damage damage)
+    {
+        // 消费伤害前
+        // entity.SkillComponent.OnPreHandleDamage(damage);
+        // entity.StatusComponent.OnPreHandleDamage(damage);
+
+        // 伤害
+        switch (damage.DamageType)
+        {   // 物理伤害
+            case DamageTypeEnum.PhysicalDamage:
+                HandlePhysicalDamage(damage);
+                break;
+            // 魔法伤害
+            case DamageTypeEnum.MagicalDamage:
+                HandleMagicalDamage(damage);
+                break;
+            // 纯粹伤害
+            case DamageTypeEnum.PureDamage:
+                HandlePureDamage(damage);
+                break;
+        }
+
+        // 消费伤害后
+        // entity.SkillComponent.OnAfterHandleDamage(damage);
+        // entity.StatusComponent.OnAfterHandleDamage(damage);
+    }
+
+    // 消费物理伤害
+    void HandlePhysicalDamage(Damage damage)
+    {
+
+    }
+
+    // 消费魔法伤害
+    void HandleMagicalDamage(Damage damage)
+    {
+
+    }
+
+    // 消费纯粹伤害
+    void HandlePureDamage(Damage damage)
+    {
+
     }
 
     // 魔法、生命恢复
@@ -115,7 +153,7 @@ public class AttrComponent
         // 百分之5波动,未来角色可能引入波动值
         var limit = attack * 5 / 100;
         attack += entity.Simulator.RandomNext(-limit, limit);
-        var damage = Damage.GetDamage(DamageTypeEnum.PhysicalDamage, attack);
+        var damage = Damage.GetDamage(DamageTypeEnum.PhysicalDamage, attack, false);
         // OnPreAttack()
         // todo 被动技能影响的暴击等特效   冰眼、暴击等
         // todo 主动技能影响的攻击特效     小黑冰箭等

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 public class Damage
 {
     // 伤害类型
-    public DamageTypeEnum Type { get; set; }
+    public DamageTypeEnum DamageType { get; set; }
+    // 是否是技能伤害
+    public bool IsSkill { get; set; }
     // 伤害值
     public int DamageValue { get; set; }
+    // 真实造成的伤害
+    public int RealValue { get; set; }
     // 是否暴击
     public bool IsCriticalHit { get; set; }
     // 格挡伤害
@@ -19,16 +23,18 @@ public class Damage
     // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
     public List<Damage> ExtraDamage { get; set; }
 
-    public Damage(DamageTypeEnum type, int damageValue, bool isCriticalHit)
+    public Damage(DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
-        Type = type;
+        DamageType = type;
         DamageValue = damageValue;
+        RealValue = damageValue;
+        IsSkill = isSkill;
         IsCriticalHit = isCriticalHit;
     }
 
-    public static Damage GetDamage(DamageTypeEnum type, int damageValue, bool isCriticalHit = false)
+    public static Damage GetDamage(DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
-        return new Damage(type, damageValue, isCriticalHit);
+        return new Damage(type, damageValue, isSkill, isCriticalHit);
     }
 
     public static void DestroyDamage(Damage damage)

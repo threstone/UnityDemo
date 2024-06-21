@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Diagnostics;
 
 public class Simulator
 {
@@ -81,7 +82,7 @@ public class Simulator
             var entity = EntityList[i];
             if (entity.IsDestroy)
             {
-                EntityList.Remove(entity);
+                EntityList.RemoveAt(i);
                 continue;
             }
             entity.BeforeUpdate(CurFrame);

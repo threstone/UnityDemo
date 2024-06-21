@@ -68,11 +68,11 @@ public class RoleEntity : SceneEntity
 
         CurFranmeDamages.Add(damage);
 
-        if (damage.IsMiss) return;
+        if (damage.IsMiss && !damage.IgnoreAttackMiss()) return;
 
-        // todo 伤害消费
+        // 伤害消费
         AttrComponent.HandleDamage(damage);
-        // todo 消费伤害中的buff
+        // 消费伤害中的buff
         BuffComponent.HandleDamage(damage);
 
         damage.ExtraDamage?.ForEach((d) =>
