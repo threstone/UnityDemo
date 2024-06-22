@@ -20,18 +20,10 @@ public abstract class Projectile : SceneEntity
         source.Simulator.AddEntity(this);
     }
 
-    public override void FixedUpdate(int curFrame)
+    // 接近目标
+    public void CloseTarget()
     {
-        // 接近目标
         var move = GetMovePos(TargetPosition, Speed);
         Position += move;
-        if (Vector2.Distance(Position, TargetPosition) <= TriggerDistance)
-        {
-            OnTrigger();
-            IsDestroy = true;
-        }
     }
-
-    // 当弹道到达目标
-    public abstract void OnTrigger();
 }

@@ -32,10 +32,16 @@ public class AttackProjectile : Projectile
         {
             TriggerDistance = 500;
         }
-        base.FixedUpdate(curFrame);
+        CloseTarget();
+        if (Vector2.Distance(Position, TargetPosition) <= TriggerDistance)
+        {
+            OnTrigger();
+            IsDestroy = true;
+        }
     }
 
-    public override void OnTrigger()
+    // 当弹道到达目标
+    public void OnTrigger()
     {
         target.AttackComponent.BeAttack(Source);
         IsDestroy = true;
