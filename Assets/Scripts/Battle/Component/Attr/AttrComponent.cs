@@ -37,12 +37,8 @@ public class AttrComponent
     }
 
     // 消费伤害
-    public void HandleDamage(Damage damage)
+    public void OnHandleDamage(Damage damage)
     {
-        // 消费伤害前
-        // entity.SkillComponent.OnPreHandleDamage(damage);
-        // entity.StatusComponent.OnPreHandleDamage(damage);
-
         // 伤害
         switch (damage.DamageType)
         {   // 物理伤害
@@ -58,10 +54,6 @@ public class AttrComponent
                 HandlePureDamage(damage);
                 break;
         }
-
-        // 消费伤害后
-        // entity.SkillComponent.OnAfterHandleDamage(damage);
-        // entity.StatusComponent.OnAfterHandleDamage(damage);
     }
 
     // 消费物理伤害
@@ -153,7 +145,7 @@ public class AttrComponent
         // 百分之5波动,未来角色可能引入波动值
         var limit = attack * 5 / 100;
         attack += entity.Simulator.RandomNext(-limit, limit);
-        var damage = Damage.GetDamage(DamageTypeEnum.PhysicalDamage, attack, false);
+        var damage = Damage.GetDamage(entity, DamageTypeEnum.PhysicalDamage, attack, false);
         // OnPreAttack()
         // todo 被动技能影响的暴击等特效   冰眼、暴击等
         // todo 主动技能影响的攻击特效     小黑冰箭等

@@ -20,11 +20,6 @@ public class SkillComponent
         ForEachAllSkill((Skill s) => s.ReduceCD(interval));
     }
 
-    public void OnPreBeAttack(Damage damage)
-    {
-        ForEachAllSkill((Skill s) => s.OnPreBeAttack(damage));
-    }
-
     public void ForEachAllSkill(Action<Skill> action)
     {
         // 主动技能CD
@@ -121,5 +116,25 @@ public class SkillComponent
         {
             AddSkill(20000001, 1);
         }
+    }
+
+    public void OnPreBeAttack(Damage damage)
+    {
+        ForEachAllSkill((Skill s) => s.OnPreBeAttack(damage));
+    }
+
+    public void OnAfterBeAttack(Damage damage)
+    {
+        ForEachAllSkill((Skill s) => s.OnAfterBeAttack(damage));
+    }
+
+    public void OnPreHandleDamage(Damage damage)
+    {
+        ForEachAllSkill((Skill s) => s.OnPreHandleDamage(damage));
+    }
+
+    public void OnAfterHandleDamage(Damage damage)
+    {
+        ForEachAllSkill((Skill s) => s.OnAfterHandleDamage(damage));
     }
 }

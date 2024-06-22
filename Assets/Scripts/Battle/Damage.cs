@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public class Damage
 {
+    public RoleEntity Entity;
     // 伤害类型
     public DamageTypeEnum DamageType { get; set; }
     // 是否是技能伤害
@@ -23,8 +24,9 @@ public class Damage
     // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
     public List<Damage> ExtraDamage { get; set; }
 
-    public Damage(DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
+    public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
+        Entity = entity;
         DamageType = type;
         DamageValue = damageValue;
         RealValue = damageValue;
@@ -32,9 +34,9 @@ public class Damage
         IsCriticalHit = isCriticalHit;
     }
 
-    public static Damage GetDamage(DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
+    public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
-        return new Damage(type, damageValue, isSkill, isCriticalHit);
+        return new Damage(entity, type, damageValue, isSkill, isCriticalHit);
     }
 
     public static void DestroyDamage(Damage damage)

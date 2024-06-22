@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 public class BuffComponent
 {
     readonly Dictionary<BuffEnum, Buff> buffMap;
@@ -11,21 +9,12 @@ public class BuffComponent
         buffMap = new();
     }
 
-    public void OnPreBeAttack(Damage damage)
-    {
-        foreach (var statusType in buffMap.Keys)
-        {
-            buffMap[statusType].OnPreBeAttack(damage);
-        }
-    }
 
     public void FixedUpdate(int curFrame)
     {
+
         // 状态更新
-        foreach (var statusType in buffMap.Keys)
-        {
-            buffMap[statusType].FixedUpdate(curFrame);
-        };
+        foreach (var buff in buffMap.Values) buff.FixedUpdate(curFrame);
     }
 
     public void RemoveBuff(BuffEnum buffType)
@@ -33,7 +22,7 @@ public class BuffComponent
         buffMap.Remove(buffType);
     }
 
-    public void AddBuff(BuffEnum buffType, int duration)
+    public void AddBuff(BuffEnum buffType, int duration, RoleEntity sourceEntity)
     {
         if (buffMap.TryGetValue(buffType, out var buff))
         {
@@ -41,16 +30,10 @@ public class BuffComponent
         }
         else
         {
-            var newBuff = BuffMgr.GetBuffByType(buffType, entity, duration);
+            var newBuff = BuffMgr.GetBuffByType(buffType, duration, entity, sourceEntity);
             newBuff.OnBuffAdd();
             buffMap.Add(buffType, newBuff);
         }
-    }
-
-    // 消费伤害中的buff
-    public void HandleDamage(Damage damage)
-    {
-        damage.BuffList?.ForEach((b) => AddBuff(b.BuffType, b.Duration));
     }
 
     // 获取当前是否被控制,如果有飓风、眩晕、恐惧等状态时,则表示被控制
@@ -69,10 +52,8 @@ public class BuffComponent
     //  驱散  DispelType=>驱散类型 强驱散,弱驱散
     public void Dispel(RoleEntity from, int DispelType)
     {
-        // 状态更新
-        foreach (var statusType in buffMap.Keys)
+        foreach (var buff in buffMap.Values)
         {
-            var buff = buffMap[statusType];
             // todo 是否可以被驱散
             // 来自敌人的话 驱散有益buff 
             // 来自友方的话 驱散debuff
@@ -82,5 +63,35 @@ public class BuffComponent
                 RemoveBuff(buff.BuffType);
             }
         };
+
+    }
+
+    public void OnPreBeAttack(Damage damage)
+    {
+        foreach (var buff in buffMap.Values) buff.OnPreBeAttack(damage);
+    }
+
+    public void OnAfterBeAttack(Damage damage)
+    {
+        foreach (var buff in buffMap.Values) buff.OnAfterBeAttack(damage);
+    }
+
+
+    public void OnHandleDamage(Damage damage)
+    {
+
+        foreach (var buff in buffMap.Values) buff.OnHandleDamage(damage);
+        // 消费伤害中的buff
+        damage.BuffList?.ForEach((b) => AddBuff(b.BuffType, b.Duration, damage.Entity));
+    }
+
+    public void OnPreHandleDamage(Damage damage)
+    {
+        foreach (var buff in buffMap.Values) buff.OnPreHandleDamage(damage);
+    }
+
+    public void OnAfterHandleDamage(Damage damage)
+    {
+        foreach (var buff in buffMap.Values) buff.OnAfterHandleDamage(damage);
     }
 }

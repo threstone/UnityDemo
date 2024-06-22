@@ -24,6 +24,8 @@ public class RoleEntity : SceneEntity
 
     public List<Damage> CurFranmeDamages = new();
 
+    public EventManager Event = new();
+
     public RoleEntity(Role role) : base(role.PlayerId)
     {
         Role = role;
@@ -65,20 +67,21 @@ public class RoleEntity : SceneEntity
     // 消费伤害
     public void HandleDamage(Damage damage)
     {
-
         CurFranmeDamages.Add(damage);
-
-        if (damage.IsMiss && !damage.IgnoreAttackMiss()) return;
+        // 消费伤害前
+        SkillComponent.OnPreHandleDamage(damage);
+        BuffComponent.OnPreHandleDamage(damage);
 
         // 伤害消费
-        AttrComponent.HandleDamage(damage);
-        // 消费伤害中的buff
-        BuffComponent.HandleDamage(damage);
+        AttrComponent.OnHandleDamage(damage);
+        BuffComponent.OnHandleDamage(damage);
 
-        damage.ExtraDamage?.ForEach((d) =>
-        {
-            HandleDamage(d);
-        });
+        // 消费伤害后
+        SkillComponent.OnAfterHandleDamage(damage);
+        BuffComponent.OnAfterHandleDamage(damage);
+
+        // 消费伤害中的额外伤害
+        damage.ExtraDamage?.ForEach((d) => HandleDamage(d));
     }
 
     // 清除已处理伤害列表
