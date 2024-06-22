@@ -35,15 +35,32 @@ public class BattleRender
 
     private void AddEntity(Entity entity)
     {
-        if (entity is RoleEntity roleEntity)
-        {
-            GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + roleEntity.AttrComponent.BaseAttr.PrefabName + "/" + roleEntity.AttrComponent.BaseAttr.PrefabName);
-            GameObject entityObject = Object.Instantiate(prefab, new Vector2(roleEntity.Position.X, roleEntity.Position.Y), Quaternion.identity);
-            var entityController = entityObject.GetComponent<RoleEntityController>();
-            entityController.EntityInfo = roleEntity;
-            entityController.UpdateGray();
-            entityMap.Add(entity.Id, entityObject);
-        }
+
+        if (entity is RoleEntity roleEntity) AddEntity(roleEntity);
+        else if (entity is AttackProjectile atkProjectile) AddEntity(atkProjectile);
+    }
+
+    private void AddEntity(RoleEntity roleEntity)
+    {
+        var prefabName = roleEntity.AttrComponent.BaseAttr.PrefabName;
+        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/" + prefabName);
+        GameObject entityObject = Object.Instantiate(prefab, new Vector2(roleEntity.Position.X, roleEntity.Position.Y), Quaternion.identity);
+        var controller = entityObject.GetComponent<RoleEntityController>();
+        controller.EntityInfo = roleEntity;
+        controller.UpdateGray();
+        entityMap.Add(roleEntity.Id, entityObject);
+    }
+
+    private void AddEntity(AttackProjectile atkProjectile)
+    {
+        var prefabName = atkProjectile.Source.AttrComponent.BaseAttr.PrefabName;
+        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/attack");
+        GameObject atkProjectileObject = Object.Instantiate(prefab, new Vector2(atkProjectile.Position.X, atkProjectile.Position.Y), Quaternion.identity);
+        var controller = atkProjectileObject.GetComponent<AtkProjectileController>();
+        controller.EntityInfo = atkProjectile;
+        controller.UpdateGray();
+        entityMap.Add(atkProjectile.Id, atkProjectileObject);
+
     }
 
     private void DelEntity(GameObject gameObject)

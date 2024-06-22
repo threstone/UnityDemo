@@ -21,7 +21,7 @@ public static class BuffMgr
             if (type.FullName != "Buff" && type.FullName.EndsWith("Buff"))
             {
                 Utils.Log("add buff :" + type.FullName);
-                Buff instance = Activator.CreateInstance(type, null, 0) as Buff;
+                Buff instance = Activator.CreateInstance(type, 0, null, null) as Buff;
                 buffTypeMap.Add(instance.BuffType, type);
             }
         }

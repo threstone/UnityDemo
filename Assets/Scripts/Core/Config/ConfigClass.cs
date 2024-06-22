@@ -45,6 +45,8 @@ public class RoleConfig : AttrObject
     public int PreAtkTime;
     /* 攻击弹道初始位置 */
     public int[] AtkProjectilePos;
+    // 弹道击中偏移
+    public int ProjectileOffset;
     // 技能数组
     public int[] Skills;
 

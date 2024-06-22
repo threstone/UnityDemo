@@ -104,6 +104,7 @@ public class AttackComponent
         var targetAttr = attacker.AttrComponent;
         var damage = targetAttr.GetAttack();
 
+        // 消费伤害前
         entity.SkillComponent.OnPreBeAttack(damage);
         entity.BuffComponent.OnPreBeAttack(damage);
         // 被闪避也需要增加到伤害列表,但不需要被消费
@@ -115,6 +116,8 @@ public class AttackComponent
 
         // 消费伤害
         entity.HandleDamage(damage);
+
+        // 消费伤害后
         entity.SkillComponent.OnAfterBeAttack(damage);
         entity.BuffComponent.OnAfterBeAttack(damage);
     }

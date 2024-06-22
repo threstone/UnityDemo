@@ -5,7 +5,7 @@ using System.Numerics;
  */
 public abstract class Projectile : SceneEntity
 {
-    protected RoleEntity Source;
+    public RoleEntity Source;
     // 目标位置
     protected Vector2 TargetPosition;
     // 完成击中的最大距离

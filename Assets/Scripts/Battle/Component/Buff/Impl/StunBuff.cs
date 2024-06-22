@@ -1,6 +1,6 @@
 public class StunBuff : Buff
 {
-    public StunBuff(RoleEntity entity, int duration) : base(entity, duration)
+    public StunBuff(int duration, RoleEntity entity, RoleEntity sourceEntity) : base(duration, entity, sourceEntity)
     {
         BuffType = BuffEnum.Stun;
     }

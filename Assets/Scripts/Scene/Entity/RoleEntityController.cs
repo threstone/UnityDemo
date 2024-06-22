@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 
-
 public class RoleEntityController : EntityController
 {
     public new RoleEntity EntityInfo { get; set; }
 
     public Animator Animator;
-    protected SpriteRenderer spriteRenderer;
 
-    protected void Awake()
+    protected new void Awake()
     {
+        base.Awake();
         Animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Update()
@@ -53,10 +51,7 @@ public class RoleEntityController : EntityController
 
     public void UpdateGray()
     {
-        if (PlayerController.PlayerId != EntityInfo.PlayerId)
-        {
-            spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
-        }
+        if (PlayerController.PlayerId != EntityInfo.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
     }
 
     public override void Destroy()

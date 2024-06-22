@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8540527024473016642}
   - component: {fileID: 1686207350992251140}
-  - component: {fileID: 9116594637451571598}
-  m_Layer: 0
+  - component: {fileID: 1384222643037660114}
+  m_Layer: 3
   m_Name: attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1126628833
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 02e83e81c2e417d45931469755b077a7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9116594637451571598
+--- !u!114 &1384222643037660114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,6 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7869857916958929102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 915014de3aa6ea245ac57389ef004218, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b8b3049d5a56064d9482dc2f7009af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

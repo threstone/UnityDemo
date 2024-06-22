@@ -65,13 +65,13 @@ public class AttrComponent
     // 消费魔法伤害
     void HandleMagicalDamage(Damage damage)
     {
-
+        // todo 
     }
 
     // 消费纯粹伤害
     void HandlePureDamage(Damage damage)
     {
-
+        // todo 
     }
 
     // 魔法、生命恢复

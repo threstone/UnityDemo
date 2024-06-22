@@ -26,7 +26,8 @@ public class AttackProjectile : Projectile
         if (target != null && target.IsDestroy == false)
         {
             TargetPosition = target.Position;
-            TriggerDistance = 5000;
+            TargetPosition.Y -= target.AttrComponent.BaseAttr.ProjectileOffset;
+            TriggerDistance = 3000;
         }
         else
         {
