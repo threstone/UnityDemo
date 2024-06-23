@@ -1,21 +1,28 @@
+using System;
+using System.Collections.Generic;
+
 public class GameNode
 {
+    protected EventManager e;
 
-    public void OnPreBeAttack(Damage damage) { }  // 当被攻击前
+    public Dictionary<EventEnum, EventObject> listenerMap;
 
-    public void OnAfterBeAttack(Damage damage) { }// 当被攻击后
+    public GameNode(EventManager e)
+    {
+        this.e = e;
+    }
+    public void On(EventEnum eventTag, Delegate f)
+    {
+        listenerMap ??= new();
+        EventObject result = e.On(eventTag, f);
+        listenerMap.Add(eventTag, result);
+    }
 
-    public void OnPreHandleDamage(Damage damage) { }// 消费伤害前
-    public void OnHandleDamage(Damage damage){} // 当消费伤害
-    public void OnAfterHandleDamage(Damage damage) { }// 消费伤害后
-
-
-}
-
-public enum GameNodeEvent
-{
-    // 当被攻击前
-    OnPreBeAttack,
-    // 当被攻击后
-    OnAfterBeAttack
+    public void Off(EventEnum eventTag)
+    {
+        if (listenerMap.TryGetValue(eventTag, out var result))
+        {
+            e.Off(eventTag, result);
+        }
+    }
 }

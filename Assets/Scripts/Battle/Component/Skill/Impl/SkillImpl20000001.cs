@@ -1,13 +1,17 @@
 // 近战模型格挡
+using System;
+
 public class SkillImpl20000001 : PassiveSkill
 {
     public SkillImpl20000001(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
     {
+        On(EventEnum.OnPreBeAttack, new Action<Damage>(OnPreBeAttack));
     }
 
-    public new void OnPreBeAttack(Damage damage)
+
+    public void OnPreBeAttack(Damage damage)
     {
-        if (damage.BlockDamage != 0)
+        if (damage.BlockDamage >= Config.Param1[1])
         {
             return;
         }

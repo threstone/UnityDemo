@@ -10,7 +10,7 @@ public abstract class Buff : GameNode
     public BuffEnum BuffType { get; set; }
     public int Duration { get; set; }
 
-    public Buff(int duration, RoleEntity entity, RoleEntity sourceEntity)
+    public Buff(int duration, RoleEntity entity, RoleEntity sourceEntity) : base(entity?.Event)
     {
         this.entity = entity;
         this.sourceEntity = sourceEntity;

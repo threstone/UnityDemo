@@ -12,10 +12,7 @@ public class AttackComponent
     {
         this.entity = entity;
         // 当被控制，需要打断进度
-        entity.Event.On(EventEnum.BeControlled, (obj) =>
-        {
-            Reset();
-        });
+        entity.Event.On(EventEnum.OnBeControll, new Action(Reset));
     }
 
     public void FixedUpdate(int curFrame)
@@ -104,9 +101,9 @@ public class AttackComponent
         var targetAttr = attacker.AttrComponent;
         var damage = targetAttr.GetAttack();
 
-        // 消费伤害前
-        entity.SkillComponent.OnPreBeAttack(damage);
-        entity.BuffComponent.OnPreBeAttack(damage);
+        // 被攻击前
+        entity.Event.Emit(EventEnum.OnPreBeAttack, damage);
+
         // 被闪避也需要增加到伤害列表,但不需要被消费
         if (damage.IsMiss && !damage.IgnoreAttackMiss())
         {
@@ -117,8 +114,7 @@ public class AttackComponent
         // 消费伤害
         entity.HandleDamage(damage);
 
-        // 消费伤害后
-        entity.SkillComponent.OnAfterBeAttack(damage);
-        entity.BuffComponent.OnAfterBeAttack(damage);
+        // 被攻击后
+        entity.Event.Emit(EventEnum.OnAfterBeAttack, damage);
     }
 }

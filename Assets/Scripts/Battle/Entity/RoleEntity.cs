@@ -69,16 +69,13 @@ public class RoleEntity : SceneEntity
     {
         CurFranmeDamages.Add(damage);
         // 消费伤害前
-        SkillComponent.OnPreHandleDamage(damage);
-        BuffComponent.OnPreHandleDamage(damage);
+        Event.Emit(EventEnum.OnPreHandleDamage, damage);
 
         // 伤害消费
-        AttrComponent.OnHandleDamage(damage);
-        BuffComponent.OnHandleDamage(damage);
+        Event.Emit(EventEnum.OnHandleDamage, damage);
 
         // 消费伤害后
-        SkillComponent.OnAfterHandleDamage(damage);
-        BuffComponent.OnAfterHandleDamage(damage);
+        Event.Emit(EventEnum.OnAfterHandleDamage, damage);
 
         // 消费伤害中的额外伤害
         damage.ExtraDamage?.ForEach((d) => HandleDamage(d));

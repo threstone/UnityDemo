@@ -43,7 +43,7 @@ public class BattleRender
     private void AddEntity(RoleEntity roleEntity)
     {
         var prefabName = roleEntity.AttrComponent.BaseAttr.PrefabName;
-        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/" + prefabName);
+        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/" + prefabName);// todo优化点 池化
         GameObject entityObject = Object.Instantiate(prefab, new Vector2(roleEntity.Position.X, roleEntity.Position.Y), Quaternion.identity);
         var controller = entityObject.GetComponent<RoleEntityController>();
         controller.EntityInfo = roleEntity;
@@ -54,7 +54,7 @@ public class BattleRender
     private void AddEntity(AttackProjectile atkProjectile)
     {
         var prefabName = atkProjectile.Source.AttrComponent.BaseAttr.PrefabName;
-        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/attack");
+        GameObject prefab = Resources.Load<GameObject>("Role/Hero/" + prefabName + "/attack");// todo优化点 池化
         GameObject atkProjectileObject = Object.Instantiate(prefab, new Vector2(atkProjectile.Position.X, atkProjectile.Position.Y), Quaternion.identity);
         var controller = atkProjectileObject.GetComponent<AtkProjectileController>();
         controller.EntityInfo = atkProjectile;

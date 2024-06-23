@@ -26,7 +26,12 @@ public class SkillData
 
 public enum EventEnum
 {
-    BeControlled//被控制
+    OnBeControll,//被控制
+    OnPreBeAttack,// 当被攻击前
+    OnAfterBeAttack,// 当被攻击后
+    OnPreHandleDamage,// 消费伤害前
+    OnHandleDamage,// 当消费伤害
+    OnAfterHandleDamage,// 消费伤害后
 }
 
 public class BuffData

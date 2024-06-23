@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 public class BuffComponent
 {
     readonly Dictionary<BuffEnum, Buff> buffMap;
@@ -7,12 +8,12 @@ public class BuffComponent
     {
         this.entity = entity;
         buffMap = new();
+        entity.Event.On(EventEnum.OnHandleDamage, new Action<Damage>(OnHandleDamage));
     }
 
 
     public void FixedUpdate(int curFrame)
     {
-
         // 状态更新
         foreach (var buff in buffMap.Values) buff.FixedUpdate(curFrame);
     }
@@ -66,32 +67,10 @@ public class BuffComponent
 
     }
 
-    public void OnPreBeAttack(Damage damage)
+
+    private void OnHandleDamage(Damage damage)
     {
-        foreach (var buff in buffMap.Values) buff.OnPreBeAttack(damage);
-    }
-
-    public void OnAfterBeAttack(Damage damage)
-    {
-        foreach (var buff in buffMap.Values) buff.OnAfterBeAttack(damage);
-    }
-
-
-    public void OnHandleDamage(Damage damage)
-    {
-
-        foreach (var buff in buffMap.Values) buff.OnHandleDamage(damage);
         // 消费伤害中的buff
         damage.BuffList?.ForEach((b) => AddBuff(b.BuffType, b.Duration, damage.Entity));
-    }
-
-    public void OnPreHandleDamage(Damage damage)
-    {
-        foreach (var buff in buffMap.Values) buff.OnPreHandleDamage(damage);
-    }
-
-    public void OnAfterHandleDamage(Damage damage)
-    {
-        foreach (var buff in buffMap.Values) buff.OnAfterHandleDamage(damage);
     }
 }

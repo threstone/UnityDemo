@@ -11,7 +11,7 @@ public abstract class Skill : GameNode
 
     public int CD { get; set; } = 0;
 
-    public Skill(SkillConfig config, int lv, RoleEntity entity)
+    public Skill(SkillConfig config, int lv, RoleEntity entity) : base(entity.Event)
     {
         Level = lv;
         Config = config;

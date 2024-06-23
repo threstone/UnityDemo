@@ -21,6 +21,8 @@ public class AttrComponent
         BaseAttr = ConfigMgr.CloneRoleInfoById(entity.Role.RoleId);
         AttrAdd = new AttrObject();
 
+        entity.Event.On(EventEnum.OnHandleDamage, new Action<Damage>(OnHandleDamage));
+
         UpdateAttr();
         InitHPAndMana();
     }

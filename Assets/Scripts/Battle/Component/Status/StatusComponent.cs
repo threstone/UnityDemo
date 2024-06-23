@@ -10,7 +10,7 @@
         {
             if (beControlled == false && value == true)
             {
-                entity.Event.Emit(EventEnum.BeControlled);
+                entity.Event.Emit(EventEnum.OnBeControll);
             }
             beControlled = value;
         }

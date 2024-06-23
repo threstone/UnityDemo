@@ -36,12 +36,12 @@ public class Damage
 
     public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
-        return new Damage(entity, type, damageValue, isSkill, isCriticalHit);
+        return new Damage(entity, type, damageValue, isSkill, isCriticalHit);// todo优化点 池化
     }
 
     public static void DestroyDamage(Damage damage)
     {
-        // todo
+        // todo优化点 池化
     }
 
     public bool IgnoreAttackMiss()
