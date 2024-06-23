@@ -1,6 +1,7 @@
 ﻿/*
  * 角色实体
  */
+using System;
 using System.Collections.Generic;
 
 public class RoleEntity : SceneEntity
@@ -29,6 +30,7 @@ public class RoleEntity : SceneEntity
     public RoleEntity(Role role) : base(role.PlayerId)
     {
         Role = role;
+        InitEvent();
         InitComponent();
     }
 
@@ -45,6 +47,12 @@ public class RoleEntity : SceneEntity
         Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
+    void InitEvent()
+    {
+        // 死亡事件
+        Event.On(EventEnum.OnRoleDead, new Action(() => IsDestroy = true));
+    }
+
     public new void BeforeUpdate(int curFrame)
     {
         ClearDamageList();
@@ -57,11 +65,6 @@ public class RoleEntity : SceneEntity
         AttrComponent.FixedUpdate();
         StatusComponent.FixedUpdate(curFrame);
         SkillComponent.FixedUpdate();
-    }
-
-    public new void AfterUpdate(int curFrame)
-    {
-        AttrComponent.AfterUpdate();
     }
 
     // 消费伤害

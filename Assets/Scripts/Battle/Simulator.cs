@@ -39,7 +39,7 @@ public class Simulator
     // 初始化位置
     private void InitEntity(List<Role> roleList)
     {
-        float[] postion = { 0, 19600f, -19600f, 37000f, -37000f };
+        float[] postion = { 0, 17600f, -21600f, 35000f, -39000f };
         int leftUserId = roleList[0].PlayerId;
         byte leftIndex = 0;
         byte rightIndex = 0;
@@ -55,14 +55,9 @@ public class Simulator
                 Face = isLeft
             };
             AddEntity(roleEntity);
-            if (isLeft)
-            {
-                leftIndex++;
-            }
-            else
-            {
-                rightIndex++;
-            }
+
+            if (isLeft) leftIndex++; else rightIndex++;
+
         }
     }
 

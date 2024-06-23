@@ -32,12 +32,6 @@ public class AttrComponent
         Recover();
     }
 
-    // 检查是否死亡
-    public void AfterUpdate()
-    {
-        if (Hp.Current <= 0) entity.IsDestroy = true;
-    }
-
     // 消费伤害
     public void OnHandleDamage(Damage damage)
     {
@@ -56,24 +50,34 @@ public class AttrComponent
                 HandlePureDamage(damage);
                 break;
         }
+        // 派发伤害成功被消费,多用于造成伤害者的吸血
+        damage.Entity.Event.Emit(EventEnum.OnDamageBeHandled, damage);
+        // 死亡检查
+        if (Hp.Current <= 0) entity.Event.Emit(EventEnum.OnRoleDead);
     }
 
     // 消费物理伤害
     void HandlePhysicalDamage(Damage damage)
     {
-
+        var realValue = damage.RealValue;
+        realValue -= damage.BlockDamage;
+        // todo 
     }
 
     // 消费魔法伤害
     void HandleMagicalDamage(Damage damage)
     {
+        var realValue = damage.RealValue;
+        realValue -= damage.BlockDamage;
         // todo 
     }
 
     // 消费纯粹伤害
     void HandlePureDamage(Damage damage)
     {
-        // todo 
+        var realValue = damage.RealValue;
+        realValue -= damage.BlockDamage;
+        Hp.Add(-realValue);
     }
 
     // 魔法、生命恢复

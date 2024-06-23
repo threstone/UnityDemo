@@ -67,7 +67,6 @@ public class BuffComponent
 
     }
 
-
     private void OnHandleDamage(Damage damage)
     {
         // 消费伤害中的buff

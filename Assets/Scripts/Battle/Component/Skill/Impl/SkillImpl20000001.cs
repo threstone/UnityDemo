@@ -5,7 +5,7 @@ public class SkillImpl20000001 : PassiveSkill
 {
     public SkillImpl20000001(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
     {
-        On(EventEnum.OnPreBeAttack, new Action<Damage>(OnPreBeAttack));
+        On(EventEnum.OnPreBeAttacked, new Action<Damage>(OnPreBeAttack));
     }
 
 
