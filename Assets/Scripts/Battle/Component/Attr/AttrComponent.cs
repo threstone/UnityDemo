@@ -59,36 +59,33 @@ public class AttrComponent
     // 消费物理伤害
     void HandlePhysicalDamage(Damage damage)
     {
-        var realValue = damage.RealValue;
-        realValue -= damage.BlockDamage;
+        damage.RealValue -= damage.BlockDamage;
         // 物理伤害计算护甲
         var armor = Armor;
-        var reduceRadio = 130000 * armor / (225 + 12 * armor); // 伤害变化万分比
-        realValue = (int)((long)realValue * (reduceRadio + 10000) / 10000);
-        Hp.Add(-realValue);
+        var reduceRadio = (long)130000 * armor / (2250000 + 12 * armor); // 伤害变化万分比
+        damage.RealValue = (int)(damage.RealValue * (10000 - reduceRadio) / 10000);
+        Hp.Add(-damage.RealValue);
     }
 
     // 消费魔法伤害
     void HandleMagicalDamage(Damage damage)
     {
-        var realValue = damage.RealValue;
-        realValue -= damage.BlockDamage;
+        damage.RealValue -= damage.BlockDamage;
         // 实际伤害 = 预期伤害*(1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性)
-        realValue = Convert.ToInt32(
-           realValue
+        damage.RealValue = Convert.ToInt32(
+           damage.RealValue
            * (1 - (double)BaseAttr.RoleMagicResistance / 10000)
            * (1 - (double)AddAttr.ItemMagicResistance / 10000)
            * (1 - (double)SkillMagicResistance / 10000)
         );
-        Hp.Add(-realValue);
+        Hp.Add(-damage.RealValue);
     }
 
     // 消费纯粹伤害
     void HandlePureDamage(Damage damage)
     {
-        var realValue = damage.RealValue;
-        realValue -= damage.BlockDamage;
-        Hp.Add(-realValue);
+        damage.RealValue -= damage.BlockDamage;
+        Hp.Add(-damage.RealValue);
     }
 
     // 魔法、生命恢复
@@ -127,20 +124,15 @@ public class AttrComponent
         BaseAttr.Agility += (entity.Role.Level - 1) * BaseAttr.AgilityGain;
     }
 
-    // 更新额外属性,来自装备或buff
+    // 更新额外属性,来自装备或buff或技能
     void UpdateAddAttr()
     {
-        AddAttr.Reset();
         // 装备属性增加
         for (int i = 0; i < entity.EquipmentComponent.Equipments.Length; i++)
         {
             var equipment = entity.EquipmentComponent.Equipments[i];
             AddAttr.AddAttrFromTarget(equipment?.Config);
         }
-
-        // todo buff属性计算 
-
-        // todo 来自技能的属性计算
     }
 
     // 根据类型获取指定属性的值

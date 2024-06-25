@@ -122,27 +122,27 @@ public class AttrObject : object
         ColliderRadius += target.ColliderRadius;
     }
 
-    public void Reset()
-    {
-        Strength = 0;
-        Intelligence = 0;
-        Agility = 0;
-        Attack = 0;
-        AtkSpeed = 0;
-        AtkInterval = 0;
-        Armor = 0;
-        RoleMagicResistance = 0;
-        ItemMagicResistance = 0;
-        SkillMagicResistance = 0;
-        Hp = 0;
-        Mana = 0;
-        HpRecoverySpeed = 0;
-        ManaRecoverySpeed = 0;
-        AtkRange = 0;
-        MoveSpeed = 0;
-        AtkProjectileSpeed = 0;
-        ColliderRadius = 0;
-    }
+    // public void Reset()
+    // {
+    //     Strength = 0;
+    //     Intelligence = 0;
+    //     Agility = 0;
+    //     Attack = 0;
+    //     AtkSpeed = 0;
+    //     AtkInterval = 0;
+    //     Armor = 0;
+    //     RoleMagicResistance = 0;
+    //     ItemMagicResistance = 0;
+    //     SkillMagicResistance = 0;
+    //     Hp = 0;
+    //     Mana = 0;
+    //     HpRecoverySpeed = 0;
+    //     ManaRecoverySpeed = 0;
+    //     AtkRange = 0;
+    //     MoveSpeed = 0;
+    //     AtkProjectileSpeed = 0;
+    //     ColliderRadius = 0;
+    // }
 }
 
 [System.Serializable]

@@ -27,6 +27,18 @@ public class RoleEntityController : EntityController
         EntityInfo.CurFranmeDamages.ForEach((damage) =>
         {
             // todo
+            if (damage.IsShow) return;
+
+            damage.IsShow = true;
+
+            if (damage.IsMiss)
+            {
+                Utils.Log("Miss!");
+                return;
+            }
+
+            Utils.Log("[" + EntityInfo.Id + "]受到了来自[" + damage.Entity.Id + "]的" + damage.RealValue + "(" + damage.DamageValue + ")点伤害,当前生命值:"
+            + EntityInfo.AttrComponent.Hp.Current);
         });
     }
 

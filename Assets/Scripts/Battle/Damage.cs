@@ -2,7 +2,27 @@ using System.Collections.Generic;
 
 public class Damage
 {
+    static readonly Stack<Damage> damagePool = new();
+
+    public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
+    {
+        if (damagePool.Count == 0)
+        {
+            return new Damage(entity, type, damageValue, isSkill, isCriticalHit);
+        }
+        var result = damagePool.Pop();
+        result.InitData(entity, type, damageValue, isSkill, isCriticalHit);
+        return result;
+    }
+
+    public static void DestroyDamage(Damage damage)
+    {
+        damage.Reset();
+        damagePool.Push(damage);
+    }
+
     public RoleEntity Entity;
+    public bool IsShow ;
     // 伤害类型
     public DamageTypeEnum DamageType { get; set; }
     // 是否是技能伤害
@@ -15,7 +35,6 @@ public class Damage
     public bool IsCriticalHit { get; set; }
     // 格挡伤害
     public int BlockDamage { get; set; } = 0;
-
     // 是否闪避
     public bool IsMiss { get; set; }
 
@@ -26,22 +45,25 @@ public class Damage
 
     public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
+        InitData(entity, type, damageValue, isSkill, isCriticalHit);
+    }
+
+    private void InitData(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
+    {
         Entity = entity;
         DamageType = type;
         DamageValue = damageValue;
         RealValue = damageValue;
         IsSkill = isSkill;
         IsCriticalHit = isCriticalHit;
+        IsShow = false;
     }
 
-    public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
+    private void Reset()
     {
-        return new Damage(entity, type, damageValue, isSkill, isCriticalHit);// todo优化点 池化
-    }
-
-    public static void DestroyDamage(Damage damage)
-    {
-        // todo优化点 池化
+        Entity = null;
+        BuffList?.Clear();
+        ExtraDamage?.Clear();
     }
 
     public bool IgnoreAttackMiss()
