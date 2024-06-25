@@ -73,8 +73,12 @@ public class AttrObject : object
     public int AtkInterval;
     /* 护甲 */
     public int Armor;
-    /* 魔法抗性 */
-    public int MagicResistance;
+    /* 角色基础魔法抗性 */
+    public int RoleMagicResistance;
+    /* 物品魔法抗性 */
+    public int ItemMagicResistance;
+    /* 技能魔法抗性 */
+    public int SkillMagicResistance;
     /* 血量 */
     public int Hp;
     /* 魔法 */
@@ -105,7 +109,9 @@ public class AttrObject : object
         AtkSpeed += target.AtkSpeed;
         AtkInterval += target.AtkInterval;
         Armor += target.Armor;
-        MagicResistance += target.MagicResistance;
+        RoleMagicResistance += target.RoleMagicResistance;
+        ItemMagicResistance += target.ItemMagicResistance;
+        SkillMagicResistance += target.SkillMagicResistance;
         Hp += target.Hp;
         Mana += target.Mana;
         HpRecoverySpeed += target.HpRecoverySpeed;
@@ -125,7 +131,9 @@ public class AttrObject : object
         AtkSpeed = 0;
         AtkInterval = 0;
         Armor = 0;
-        MagicResistance = 0;
+        RoleMagicResistance = 0;
+        ItemMagicResistance = 0;
+        SkillMagicResistance = 0;
         Hp = 0;
         Mana = 0;
         HpRecoverySpeed = 0;

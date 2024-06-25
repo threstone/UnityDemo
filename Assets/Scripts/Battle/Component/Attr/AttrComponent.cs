@@ -5,7 +5,7 @@ public class AttrComponent
     readonly RoleEntity entity;
 
     public RoleConfig BaseAttr;
-    public AttrObject AttrAdd;
+    public AttrObject AddAttr;
     // 生命属性
     public LimitedStat Hp;
     // 魔法属性
@@ -19,7 +19,7 @@ public class AttrComponent
     {
         this.entity = entity;
         BaseAttr = ConfigMgr.CloneRoleInfoById(entity.Role.RoleId);
-        AttrAdd = new AttrObject();
+        AddAttr = new AttrObject();
 
         entity.Event.On(EventEnum.OnHandleDamage, new Action<Damage>(OnHandleDamage));
 
@@ -61,7 +61,11 @@ public class AttrComponent
     {
         var realValue = damage.RealValue;
         realValue -= damage.BlockDamage;
-        // todo 
+        // 物理伤害计算护甲
+        var armor = Armor;
+        var reduceRadio = 130000 * armor / (225 + 12 * armor); // 伤害变化万分比
+        realValue = (int)((long)realValue * (reduceRadio + 10000) / 10000);
+        Hp.Add(-realValue);
     }
 
     // 消费魔法伤害
@@ -69,7 +73,14 @@ public class AttrComponent
     {
         var realValue = damage.RealValue;
         realValue -= damage.BlockDamage;
-        // todo 
+        // 实际伤害 = 预期伤害*(1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性)
+        realValue = Convert.ToInt32(
+           realValue
+           * (1 - (double)BaseAttr.RoleMagicResistance / 10000)
+           * (1 - (double)AddAttr.ItemMagicResistance / 10000)
+           * (1 - (double)SkillMagicResistance / 10000)
+        );
+        Hp.Add(-realValue);
     }
 
     // 消费纯粹伤害
@@ -119,12 +130,12 @@ public class AttrComponent
     // 更新额外属性,来自装备或buff
     void UpdateAddAttr()
     {
-        AttrAdd.Reset();
+        AddAttr.Reset();
         // 装备属性增加
         for (int i = 0; i < entity.EquipmentComponent.Equipments.Length; i++)
         {
             var equipment = entity.EquipmentComponent.Equipments[i];
-            AttrAdd.AddAttrFromTarget(equipment?.Config);
+            AddAttr.AddAttrFromTarget(equipment?.Config);
         }
 
         // todo buff属性计算 
@@ -137,9 +148,9 @@ public class AttrComponent
     {
         return type switch
         {
-            MajorAttrEnum.Strength => BaseAttr.Strength + AttrAdd.Strength,
-            MajorAttrEnum.Intelligence => BaseAttr.Intelligence + AttrAdd.Intelligence,
-            MajorAttrEnum.Agility => BaseAttr.Agility + AttrAdd.Agility,
+            MajorAttrEnum.Strength => BaseAttr.Strength + AddAttr.Strength,
+            MajorAttrEnum.Intelligence => BaseAttr.Intelligence + AddAttr.Intelligence,
+            MajorAttrEnum.Agility => BaseAttr.Agility + AddAttr.Agility,
             _ => 0,
         };
     }
@@ -175,7 +186,7 @@ public class AttrComponent
     {
         get
         {
-            return (int)(BaseAttr.Hp + AttrAdd.Hp + (long)GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHp / 10000);
+            return (int)(BaseAttr.Hp + AddAttr.Hp + (long)GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHp / 10000);
         }
     }
     // 魔法上限上限
@@ -183,7 +194,7 @@ public class AttrComponent
     {
         get
         {
-            return (int)(BaseAttr.Mana + AttrAdd.Mana + (long)GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddMana / 10000);
+            return (int)(BaseAttr.Mana + AddAttr.Mana + (long)GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddMana / 10000);
         }
     }
 
@@ -192,7 +203,7 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.HpRecoverySpeed + AttrAdd.HpRecoverySpeed
+            return BaseAttr.HpRecoverySpeed + AddAttr.HpRecoverySpeed
             + GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHpRecover / 10000;
         }
     }
@@ -202,29 +213,38 @@ public class AttrComponent
     {
         get
         {
-            return BaseAttr.ManaRecoverySpeed + AttrAdd.ManaRecoverySpeed
+            return BaseAttr.ManaRecoverySpeed + AddAttr.ManaRecoverySpeed
             + GetAttrByType(MajorAttrEnum.Intelligence) * ConfigMgr.Common.IntelligenceAddManaRecovery / 10000;
         }
     }
 
     // 移动速度
-    public int MoveSpeed { get { return BaseAttr.MoveSpeed + AttrAdd.MoveSpeed; } }
+    public int MoveSpeed { get { return BaseAttr.MoveSpeed + AddAttr.MoveSpeed; } }
+
     // 碰撞半径
-    public int ColliderRadius { get { return BaseAttr.ColliderRadius + AttrAdd.ColliderRadius; } }
+    public int ColliderRadius { get { return BaseAttr.ColliderRadius + AddAttr.ColliderRadius; } }
+
     // 攻击距离
-    public int AtkRange { get { return BaseAttr.AtkRange + AttrAdd.AtkRange; } }
+    public int AtkRange { get { return BaseAttr.AtkRange + AddAttr.AtkRange; } }
 
     // 攻击力
-    public int Attack { get { return BaseAttr.Attack + AttrAdd.Attack + RoleMajorAttr; } }
+    public int Attack { get { return BaseAttr.Attack + AddAttr.Attack + RoleMajorAttr; } }
 
     // 主属性
     public int RoleMajorAttr { get { return GetAttrByType(BaseAttr.MajorAttr); } }
 
     // 总攻速 todo 高攻速效果有点差,主要是动画的问题
-    public int AtkSpeed { get { return BaseAttr.AtkSpeed + AttrAdd.AtkSpeed + GetAttrByType(MajorAttrEnum.Agility); } }
+    public int AtkSpeed { get { return BaseAttr.AtkSpeed + AddAttr.AtkSpeed + GetAttrByType(MajorAttrEnum.Agility); } }
 
     // 攻击间隔  限制最低攻击间隔 万分之1700秒
     public int AttackInterval { get { return Math.Max(10000 * 10000 / AttackTimesPer10000Sec, 1700); } }
+
     // 每一万秒攻击次数 (基础攻速+额外攻速)/(基础攻击间隔)
-    public int AttackTimesPer10000Sec { get { return AtkSpeed * 100 / (BaseAttr.AtkInterval + AttrAdd.AtkInterval); } }
+    public int AttackTimesPer10000Sec { get { return AtkSpeed * 100 / (BaseAttr.AtkInterval + AddAttr.AtkInterval); } }
+
+    // 护甲
+    public int Armor { get { return (int)((long)GetAttrByType(MajorAttrEnum.Agility) * ConfigMgr.Common.AgilityAddArmor / 10000 + BaseAttr.Armor + AddAttr.Armor); } }
+
+    // 技能魔法抗性
+    public int SkillMagicResistance { get; set; } = 0;
 }
