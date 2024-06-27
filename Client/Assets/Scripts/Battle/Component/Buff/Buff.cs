@@ -5,7 +5,7 @@ public abstract class Buff : GameNode
     // buff的所有者
     protected readonly RoleEntity entity;
     // buff的创建者
-    protected readonly RoleEntity sourceEntity;
+    public readonly RoleEntity SourceEntity;
  
     public readonly BuffConfig BuffConfig;
     public int Duration { get; set; }
@@ -15,7 +15,7 @@ public abstract class Buff : GameNode
         BuffConfig = buffConfig;
         Duration = duration;
         this.entity = entity;
-        this.sourceEntity = sourceEntity;
+        SourceEntity = sourceEntity;
     }
 
     public void FixedUpdate(int curFrame)

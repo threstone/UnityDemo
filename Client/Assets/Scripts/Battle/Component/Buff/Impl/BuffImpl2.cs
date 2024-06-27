@@ -1,8 +1,9 @@
-public class BuffImpl1 : Buff
+public class BuffImpl2 : Buff
 {
-    // 眩晕
-    public BuffImpl1(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
+    // 恐惧
+    public BuffImpl2(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
     {
+        // 恐惧只要有其他控制技能,就没办法动,属于是硬控技能里最垃圾的
     }
 
     public new void OnBuffAdd()

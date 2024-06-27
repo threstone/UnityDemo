@@ -187,14 +187,18 @@ public abstract class SkillConfig
 }
 
 [System.Serializable]
-public class BuffConfig{
+public class BuffConfig
+{
     public int Id; // 唯一Id
     public int Name; // 名称
     public DispelTypeEnum DispelType; // 驱散类型
     public bool IsControll;// 是否属于硬控技能
+    public int ControllSort;// 仅硬控技能有效,控制Buff权重,决定使用哪个动画
+    public string ControllAnimation;// 仅硬控技能有效,返回控制时的动画播放
 }
 
-public enum DispelTypeEnum{
+public enum DispelTypeEnum
+{
     No,// 不可驱散
     Strong,// 仅强驱散
     Weak // 弱驱散
