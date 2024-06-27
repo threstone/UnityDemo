@@ -63,7 +63,7 @@ public class RoleEntityController : EntityController
 
     public void UpdateGray()
     {
-        if (PlayerController.PlayerId != EntityInfo.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
+        if (PlayerModel.PlayerId != EntityInfo.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
     }
 
     public override void Destroy()

@@ -36,7 +36,7 @@ public class AtkProjectileController : EntityController
 
     public void UpdateGray()
     {
-        if (PlayerController.PlayerId != EntityInfo.Source.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
+        if (PlayerModel.PlayerId != EntityInfo.Source.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
     }
 
     public override void Destroy()

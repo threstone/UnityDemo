@@ -14,9 +14,9 @@ public class BattleSimulator
 
     public void DoTest()
     {
-        var enemyPlayerId = PlayerController.PlayerId + 1;
+        var enemyPlayerId = PlayerModel.PlayerId + 1;
         List<Role> roleList = new() {
-            new Role(1001,1,PlayerController.PlayerId),
+            new Role(1001,1,PlayerModel.PlayerId),
             // new Role(1001,1,PlayerController.PlayerId),
             // new Role(1001,1,PlayerController.PlayerId),
             // new Role(1001,1,PlayerController.PlayerId),

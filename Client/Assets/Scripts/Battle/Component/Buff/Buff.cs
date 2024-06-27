@@ -6,15 +6,16 @@ public abstract class Buff : GameNode
     protected readonly RoleEntity entity;
     // buff的创建者
     protected readonly RoleEntity sourceEntity;
-
-    public BuffEnum BuffType { get; set; }
+ 
+    public readonly BuffConfig BuffConfig;
     public int Duration { get; set; }
 
-    public Buff(int duration, RoleEntity entity, RoleEntity sourceEntity) : base(entity?.Event)
+    public Buff(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(entity?.Event)
     {
+        BuffConfig = buffConfig;
+        Duration = duration;
         this.entity = entity;
         this.sourceEntity = sourceEntity;
-        Duration = duration;
     }
 
     public void FixedUpdate(int curFrame)
@@ -22,7 +23,7 @@ public abstract class Buff : GameNode
         Duration--;
         if (Duration < 0)
         {
-            entity.BuffComponent.RemoveBuff(BuffType);
+            entity.BuffComponent.RemoveBuff(BuffConfig.Id);
             OnBuffEnd();
             return;
         }

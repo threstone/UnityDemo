@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 public class BuffComponent
 {
-    readonly Dictionary<BuffEnum, Buff> buffMap;
+    readonly Dictionary<int, Buff> buffMap;
     readonly RoleEntity entity;
     public BuffComponent(RoleEntity entity)
     {
@@ -11,36 +11,39 @@ public class BuffComponent
         entity.Event.On(EventEnum.OnHandleDamage, new Action<Damage>(OnHandleDamage));
     }
 
-
     public void FixedUpdate(int curFrame)
     {
         // 状态更新
         foreach (var buff in buffMap.Values) buff.FixedUpdate(curFrame);
     }
 
-    public void RemoveBuff(BuffEnum buffType)
+    public void RemoveBuff(int buffId)
     {
-        buffMap.Remove(buffType);
+        buffMap.Remove(buffId);
     }
 
-    public void AddBuff(BuffEnum buffType, int duration, RoleEntity sourceEntity)
+    public void AddBuff(int buffId, int duration, RoleEntity sourceEntity)
     {
-        if (buffMap.TryGetValue(buffType, out var buff))
+        if (buffMap.TryGetValue(buffId, out var buff))
         {
             buff.UpdateDuration(duration);
         }
         else
         {
-            var newBuff = BuffMgr.GetBuffByType(buffType, duration, entity, sourceEntity);
+            var newBuff = BuffMgr.GetBuffByType(buffId, duration, entity, sourceEntity);
             newBuff.OnBuffAdd();
-            buffMap.Add(buffType, newBuff);
+            buffMap.Add(buffId, newBuff);
         }
     }
 
     // 获取当前是否被控制,如果有飓风、眩晕、恐惧等状态时,则表示被控制
     public bool IsControlled()
     {
-        return false;//todo
+        foreach (var buff in buffMap.Values)
+        {
+            if (buff.BuffConfig.IsControll) return true;
+        };
+        return false;
     }
 
     // 获取当前动画，如果有飓风、眩晕、恐惧等状态时，需要返回对应的动画
@@ -61,7 +64,7 @@ public class BuffComponent
             if (true)
             {
                 buff.OnBuffClear();
-                RemoveBuff(buff.BuffType);
+                RemoveBuff(buff.BuffConfig.Id);
             }
         };
 
@@ -70,6 +73,6 @@ public class BuffComponent
     private void OnHandleDamage(Damage damage)
     {
         // 消费伤害中的buff
-        damage.BuffList?.ForEach((b) => AddBuff(b.BuffType, b.Duration, damage.Entity));
+        damage.BuffList?.ForEach((b) => AddBuff(b.BuffId, b.Duration, damage.Entity));
     }
 }

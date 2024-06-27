@@ -6,6 +6,7 @@ public class ConfigClass
     public CommonConfig Common;
     public ActiveSkillConfig[] ActiveSkills;
     public PassiveSkillConfig[] PassiveSkills;
+    public BuffConfig[] Buffs;
 }
 
 [System.Serializable]
@@ -77,8 +78,10 @@ public class AttrObject : object
     public int RoleMagicResistance;
     /* 物品魔法抗性 */
     public int ItemMagicResistance;
-    /* 技能魔法抗性 */
-    public int SkillMagicResistance;
+    /* 角色基础闪避 */
+    public int RoleMiss;
+    /* 物品提供闪避 */
+    public int ItemMiss;
     /* 血量 */
     public int Hp;
     /* 魔法 */
@@ -111,7 +114,6 @@ public class AttrObject : object
         Armor += target.Armor;
         RoleMagicResistance += target.RoleMagicResistance;
         ItemMagicResistance += target.ItemMagicResistance;
-        SkillMagicResistance += target.SkillMagicResistance;
         Hp += target.Hp;
         Mana += target.Mana;
         HpRecoverySpeed += target.HpRecoverySpeed;
@@ -133,7 +135,6 @@ public class AttrObject : object
     //     Armor = 0;
     //     RoleMagicResistance = 0;
     //     ItemMagicResistance = 0;
-    //     SkillMagicResistance = 0;
     //     Hp = 0;
     //     Mana = 0;
     //     HpRecoverySpeed = 0;
@@ -183,6 +184,20 @@ public abstract class SkillConfig
     public int[] Param1;
     public int[] Param2;
     public int[] Param3;
+}
+
+[System.Serializable]
+public class BuffConfig{
+    public int Id; // 唯一Id
+    public int Name; // 名称
+    public DispelTypeEnum DispelType; // 驱散类型
+    public bool IsControll;// 是否属于硬控技能
+}
+
+public enum DispelTypeEnum{
+    No,// 不可驱散
+    Strong,// 仅强驱散
+    Weak // 弱驱散
 }
 
 public enum SkillTypeEnum

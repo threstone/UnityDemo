@@ -8,6 +8,7 @@ public static class ConfigMgr
     static Dictionary<int, RoleConfig> roleMap;
     static Dictionary<int, EquipmentConfig> equipmentMap;
     static Dictionary<int, SkillConfig> skillMap;
+    static Dictionary<int, BuffConfig> buffMap;
 
     public static CommonConfig Common { get { return AllConfig.Common; } }
 
@@ -21,6 +22,7 @@ public static class ConfigMgr
         InitRoleMap();
         InitEquipmentMap();
         InitSkill();
+        InitBuff();
     }
 
     public static RoleConfig CloneRoleInfoById(int id)
@@ -46,6 +48,11 @@ public static class ConfigMgr
     public static T GetSkillConfig<T>(int id)
     {
         return (T)(object)skillMap[id];
+    }
+
+    public static BuffConfig GetBuffConfig(int id)
+    {
+        return buffMap[id];
     }
 
     static void InitRoleMap()
@@ -76,6 +83,15 @@ public static class ConfigMgr
         foreach (var skill in AllConfig.PassiveSkills)
         {
             skillMap.TryAdd(skill.Id, skill);
+        }
+    }
+
+    static void InitBuff()
+    {
+        buffMap = new();
+        foreach (var buff in AllConfig.Buffs)
+        {
+            buffMap.TryAdd(buff.Id, buff);
         }
     }
 }

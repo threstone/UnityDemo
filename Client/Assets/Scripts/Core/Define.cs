@@ -32,12 +32,18 @@ public enum EventEnum
     OnPreHandleDamage,// 消费伤害前
     OnHandleDamage,// 当消费伤害
     OnAfterHandleDamage,// 消费伤害后
+
+    // todo 被动技能影响的暴击等特效   冰眼、暴击等
+    // todo 主动技能影响的攻击特效     小黑冰箭等
+    // todo buff 蓝猫超负荷
+    // todo 致盲使IsMiss = true
+    OnPreAttack, // 当攻击前 
     OnDamageBeHandled,// 当创造的伤害被消费,多用于吸血
     OnRoleDead,// 角色死亡
 }
 
 public class BuffData
 {
-    public BuffEnum BuffType { get; set; }
+    public int BuffId { get; set; }
     public int Duration { get; set; }
 }

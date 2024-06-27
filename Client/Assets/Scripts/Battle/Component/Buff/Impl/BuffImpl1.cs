@@ -1,8 +1,7 @@
-public class StunBuff : Buff
+public class BuffImpl1 : Buff
 {
-    public StunBuff(int duration, RoleEntity entity, RoleEntity sourceEntity) : base(duration, entity, sourceEntity)
+    public BuffImpl1(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
     {
-        BuffType = BuffEnum.Stun;
     }
 
     public new void OnBuffAdd()

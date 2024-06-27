@@ -6,7 +6,7 @@ public class InputController : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<RoleEntityController>();
-        controller.EntityInfo = new RoleEntity(new Role(1001, 1, PlayerController.PlayerId));
+        controller.EntityInfo = new RoleEntity(new Role(1001, 1, PlayerModel.PlayerId));
     }
 
     private void Update()

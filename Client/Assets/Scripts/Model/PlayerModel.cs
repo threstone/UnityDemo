@@ -1,4 +1,4 @@
-﻿public static class PlayerController
+﻿public static class PlayerModel
 {
     public static int PlayerId;
     public static void Init() {

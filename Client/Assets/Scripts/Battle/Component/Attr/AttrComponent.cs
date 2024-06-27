@@ -61,9 +61,7 @@ public class AttrComponent
     {
         damage.RealValue -= damage.BlockDamage;
         // 物理伤害计算护甲
-        var armor = Armor;
-        var reduceRadio = (long)130000 * armor / (2250000 + 12 * armor); // 伤害变化万分比
-        damage.RealValue = (int)(damage.RealValue * (10000 - reduceRadio) / 10000);
+        damage.RealValue = damage.RealValue * (10000 - PhysicalDamageReduceRatio) / 10000;
         Hp.Add(-damage.RealValue);
     }
 
@@ -71,13 +69,7 @@ public class AttrComponent
     void HandleMagicalDamage(Damage damage)
     {
         damage.RealValue -= damage.BlockDamage;
-        // 实际伤害 = 预期伤害*(1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性)
-        damage.RealValue = Convert.ToInt32(
-           damage.RealValue
-           * (1 - (double)BaseAttr.RoleMagicResistance / 10000)
-           * (1 - (double)AddAttr.ItemMagicResistance / 10000)
-           * (1 - (double)SkillMagicResistance / 10000)
-        );
+        damage.RealValue = Convert.ToInt32(damage.RealValue * MagicalDamageReduceRatio);
         Hp.Add(-damage.RealValue);
     }
 
@@ -155,18 +147,21 @@ public class AttrComponent
         var limit = attack * 5 / 100;
         attack += entity.Simulator.RandomNext(-limit, limit);
         var damage = Damage.GetDamage(entity, DamageTypeEnum.PhysicalDamage, attack, false);
-        // OnPreAttack()
-        // todo 被动技能影响的暴击等特效   冰眼、暴击等
-        // todo 主动技能影响的攻击特效     小黑冰箭等
-        // todo buff 蓝猫超负荷
+        entity.Event.Emit(EventEnum.OnPreAttack, damage);
         return damage;
     }
 
     //是否闪避
     public bool IsMiss()
     {
-        // todo
-        return false;
+        if (BaseAttr.RoleMiss == 0 && BaseAttr.ItemMiss == 0 && SkillMiss == 0) return false;
+
+        // (1-角色基础闪避)*(1-物品提供闪避)*(1-技能提供闪避)
+        var ratio = (1 - (double)BaseAttr.RoleMiss / 10000)
+              * (1 - (double)AddAttr.ItemMiss / 10000)
+              * (1 - (double)SkillMiss / 10000);
+
+        return entity.Simulator.RandomNext(0, 10000) > Convert.ToInt32(ratio * 10000);
     }
 
     // ==================================================================
@@ -237,6 +232,31 @@ public class AttrComponent
     // 护甲
     public int Armor { get { return (int)((long)GetAttrByType(MajorAttrEnum.Agility) * ConfigMgr.Common.AgilityAddArmor / 10000 + BaseAttr.Armor + AddAttr.Armor); } }
 
+    // 护甲决定的物理伤害减免万分比
+    public int PhysicalDamageReduceRatio
+    {
+        get
+        {
+            var armor = Armor;
+            return (int)((long)130000 * armor / (2250000 + 12 * armor));// 伤害减少万分比
+        }
+    }
+
     // 技能魔法抗性
     public int SkillMagicResistance { get; set; } = 0;
+
+    // 魔抗决定的魔法伤害减免百分比 
+    public double MagicalDamageReduceRatio
+    {
+        get
+        {
+            // (1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性)
+            return (1 - (double)BaseAttr.RoleMagicResistance / 10000)
+                  * (1 - (double)AddAttr.ItemMagicResistance / 10000)
+                  * (1 - (double)SkillMagicResistance / 10000);
+        }
+    }
+
+    // 技能提供闪避率
+    public int SkillMiss { get; set; } = 0;
 }

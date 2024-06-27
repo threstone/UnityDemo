@@ -4,7 +4,7 @@ using System.Reflection;
 
 public static class BuffMgr
 {
-    static Dictionary<BuffEnum, Type> buffTypeMap;
+    static Dictionary<int, Type> buffTypeMap;
 
     public static void Init()
     {
@@ -18,22 +18,24 @@ public static class BuffMgr
 
         foreach (Type type in types)
         {
-            if (type.FullName != "Buff" && type.FullName.EndsWith("Buff"))
+            var className = type.FullName;
+            if (className != "Buff" && className.StartsWith("BuffImpl"))
             {
-                Utils.Log("add buff :" + type.FullName);
-                Buff instance = Activator.CreateInstance(type, 0, null, null) as Buff;
-                buffTypeMap.Add(instance.BuffType, type);
+                var id = Convert.ToInt32(className[8..]);
+                Utils.Log("add buff :" + className + "   " + id);
+                buffTypeMap.Add(id, type);
             }
         }
 
         Utils.Log("buff init end use ms: " + (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() - now));
     }
 
-    public static Buff GetBuffByType(BuffEnum buffType, int duration, RoleEntity entity, RoleEntity sourceEntity)
+    public static Buff GetBuffByType(int buffId, int duration, RoleEntity entity, RoleEntity sourceEntity)
     {
-        if (buffTypeMap.TryGetValue(buffType, out var t))
+        if (buffTypeMap.TryGetValue(buffId, out var t))
         {
-            return Activator.CreateInstance(t, duration, entity, sourceEntity) as Buff;
+            var config = ConfigMgr.GetBuffConfig(buffId);
+            return Activator.CreateInstance(t, config, duration, entity, sourceEntity) as Buff;
         }
         return null;
     }
