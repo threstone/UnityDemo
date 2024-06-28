@@ -36,7 +36,7 @@ public enum EventEnum
     // todo 被动技能影响的暴击等特效   冰眼、暴击等
     // todo 主动技能影响的攻击特效     小黑冰箭等
     // todo buff 蓝猫超负荷
-    // todo 致盲使IsMiss = true
+    // todo 致盲使IsMiss = true ; 克敌机先使IsMiss = false和NoMiss = true
     OnPreAttack, // 当攻击前 
     OnDamageBeHandled,// 当创造的伤害被消费,多用于吸血
     OnRoleDead,// 角色死亡

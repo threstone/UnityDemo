@@ -105,7 +105,7 @@ public class AttackComponent
         entity.Event.Emit(EventEnum.OnPreBeAttacked, damage);
 
         // 被闪避也需要增加到伤害列表,但不需要被消费
-        if (damage.IsMiss && !damage.IgnoreAttackMiss())
+        if (damage.IsMiss && !damage.NoMiss)
         {
             entity.CurFranmeDamages.Add(damage);
             return;

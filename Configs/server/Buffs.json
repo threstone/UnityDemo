@@ -1,1 +1,1 @@
-[{"Id":1,"DispelType":1,"IsControll":true,"ControllSort":1000,"ControllAnimation":"stun"},{"Id":2,"DispelType":1,"IsControll":true,"ControllSort":1,"ControllAnimation":"walk"}]
+[{"Id":1,"Define":"stun","DispelType":1,"IsControll":true,"ControllSort":1000},{"Id":2,"Define":"fear","DispelType":1,"IsControll":true,"ControllSort":1},{"Id":3,"Define":"noMiss","DispelType":0,"IsControll":false}]

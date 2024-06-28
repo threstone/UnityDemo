@@ -22,7 +22,7 @@ public class Damage
     }
 
     public RoleEntity Entity;
-    public bool IsShow ;
+    public bool IsShow;
     // 伤害类型
     public DamageTypeEnum DamageType { get; set; }
     // 是否是技能伤害
@@ -35,6 +35,9 @@ public class Damage
     public bool IsCriticalHit { get; set; }
     // 格挡伤害
     public int BlockDamage { get; set; } = 0;
+
+    // 无视闪避
+    public bool NoMiss { get; set; }
     // 是否闪避
     public bool IsMiss { get; set; }
 
@@ -57,19 +60,17 @@ public class Damage
         IsSkill = isSkill;
         IsCriticalHit = isCriticalHit;
         IsShow = false;
+        NoMiss = false;
+        IsMiss = false;
     }
 
     private void Reset()
     {
         Entity = null;
+        NoMiss = false;
+        IsMiss = false;
         BuffList?.Clear();
         ExtraDamage?.Clear();
-    }
-
-    public bool IgnoreAttackMiss()
-    {
-        // todo 遍历Buff list查看是否拥有无视闪避的buff
-        return false;
     }
 }
 public enum DamageTypeEnum

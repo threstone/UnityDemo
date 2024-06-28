@@ -5,13 +5,13 @@ public class SkillImpl20000001 : PassiveSkill
 {
     public SkillImpl20000001(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
     {
-        On(EventEnum.OnPreBeAttacked, new Action<Damage>(OnPreBeAttack));
+        On(EventEnum.OnPreBeAttacked, new Action<Damage>(OnPreBeAttacked));
     }
 
 
-    public void OnPreBeAttack(Damage damage)
+    public void OnPreBeAttacked(Damage damage)
     {
-        if (damage.BlockDamage >= Config.Param1[1])
+        if (damage.IsMiss || damage.BlockDamage >= Config.Param1[1])
         {
             return;
         }

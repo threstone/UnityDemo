@@ -190,6 +190,7 @@ public abstract class SkillConfig
 public class BuffConfig
 {
     public int Id; // 唯一Id
+    public string Define;// 定义
     public int Name; // 名称
     public DispelTypeEnum DispelType; // 驱散类型
     public bool IsControll;// 是否属于硬控技能

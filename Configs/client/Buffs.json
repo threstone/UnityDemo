@@ -1,1 +1,1 @@
-[{"Id":1,"Name":"眩晕","DispelType":1,"IsControll":true,"ControllSort":1000,"ControllAnimation":"stun"},{"Id":2,"Name":"恐惧","DispelType":1,"IsControll":true,"ControllSort":1,"ControllAnimation":"walk"}]
+[{"Id":1,"Define":"stun","Name":"眩晕","DispelType":1,"IsControll":true,"ControllSort":1000,"ControllAnimation":"stun"},{"Id":2,"Define":"fear","Name":"恐惧","DispelType":1,"IsControll":true,"ControllSort":1,"ControllAnimation":"walk"},{"Id":3,"Define":"noMiss","Name":"克敌机先","DispelType":0,"IsControll":false}]

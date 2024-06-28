@@ -1,6 +1,6 @@
 ﻿using System;
 
-public abstract class Buff : GameNode
+public abstract class Buff : GameNode // buff池化
 {
     // buff的所有者
     protected readonly RoleEntity entity;
