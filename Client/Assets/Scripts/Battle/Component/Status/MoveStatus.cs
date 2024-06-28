@@ -60,7 +60,7 @@ public class MoveStatus : Status
 
         if (closedEntity == null)
         {
-            // 找不到敌人就idel一会儿
+            /// <summary> 找不到敌人就idel一会儿 </summary>
             entity.StatusComponent.Status = new IdleStatus(entity);
         }
         else
@@ -92,10 +92,10 @@ public class MoveStatus : Status
         }
     }
 
-    // 检查移动是否允许
+    /// <summary> 检查移动是否允许 </summary>
     bool MoveCheck()
     {
-        // 碰撞检测
+        /// <summary> 碰撞检测 </summary>
         for (int i = 0; i < simulator.EntityList.Count; i++)
         {
             var entity = simulator.EntityList[i];

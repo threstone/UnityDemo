@@ -6,10 +6,13 @@ public class RoleEntityController : EntityController
 
     public Animator Animator;
 
+    StatusProgressBarController statusProgressBarController;
+
     protected new void Awake()
     {
         base.Awake();
         Animator = GetComponent<Animator>();
+        statusProgressBarController = transform.Find("StatusProgressBar").gameObject.GetComponent<StatusProgressBarController>();
     }
 
     public void Update()
@@ -19,9 +22,16 @@ public class RoleEntityController : EntityController
         UpdateFace();
         UpdateAnimation();
         ShowDamages();
+        UpdateStatusProgressBar();
     }
 
-    // 在元素上弹出伤害提示
+    /// <summary> 更新血量  </summary>
+    private void UpdateStatusProgressBar()
+    {
+        statusProgressBarController.UpdateHp(EntityInfo.AttrComponent.Hp.Current, EntityInfo.AttrComponent.Hp.Maximum);
+    }
+
+    /// <summary> 在元素上弹出伤害提示  </summary>
     private void ShowDamages()
     {
         EntityInfo.CurFranmeDamages.ForEach((damage) =>

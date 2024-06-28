@@ -1,4 +1,4 @@
-// 近战模型格挡
+/// <summary> 近战模型格挡 </summary>
 using System;
 
 public class SkillImpl20000001 : PassiveSkill
@@ -17,7 +17,7 @@ public class SkillImpl20000001 : PassiveSkill
         }
 
         var rate = Config.Param1[0];
-        // 判断概率
+        /// <summary> 判断概率 </summary>
         if (entity.Simulator.RandomNext(0, 10000) < rate)
         {
             damage.BlockDamage = Config.Param1[1];

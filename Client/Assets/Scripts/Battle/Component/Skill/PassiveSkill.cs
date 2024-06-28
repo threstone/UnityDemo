@@ -1,4 +1,4 @@
-// 被动技能
+/// <summary> 被动技能 </summary>
 public class PassiveSkill : Skill
 {
     public new PassiveSkillConfig Config { get; }
@@ -8,11 +8,15 @@ public class PassiveSkill : Skill
     }
 }
 
-// 被动技能类型
+/// <summary> 被动技能类型 </summary>
 public enum PassiveSkillTypeEnum
 {
-    Normal,// 普通被动 非默认类型即为概率型被动，概率性被动需要确定优先级
-    AttackMiss,// 物理攻击闪避
-    PhysicalAttackBlock,//物理攻击格挡
-    CriticalHit,// 暴击
+    /// <summary> 普通被动 非默认类型即为概率型被动，概率性被动需要确定优先级 </summary>
+    Normal,
+    /// <summary> 物理攻击闪避 </summary>
+    AttackMiss,
+    /// <summary> 物理攻击格挡 </summary>
+    PhysicalAttackBlock,
+    /// <summary> 暴击 </summary>
+    CriticalHit,
 }

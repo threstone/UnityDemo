@@ -12,17 +12,17 @@ public class ConfigClass
 [System.Serializable]
 public class CommonConfig
 {
-    // 每点力量增加的生命值
+    /// <summary> 每点力量增加的生命值</summary>
     public int StrengthAddHp;
-    // 每点力量增加的生命恢复速度
+    /// <summary> 每点力量增加的生命恢复速度</summary>
     public int StrengthAddHpRecover;
-    // 每点智力增加的魔法值
+    /// <summary> 每点智力增加的魔法值</summary>
     public int IntelligenceAddMana;
-    // 每点智力增加的魔法恢复速度
+    /// <summary> 每点智力增加的魔法恢复速度</summary>
     public int IntelligenceAddManaRecovery;
-    // 每点敏捷增加的护甲值
+    /// <summary> 每点敏捷增加的护甲值</summary>
     public int AgilityAddArmor;
-    // 每点敏捷增加的攻击速度
+    /// <summary> 每点敏捷增加的攻击速度</summary>
     public int AgilityAddAtkSpeed;
 }
 
@@ -32,23 +32,23 @@ public class RoleConfig : AttrObject
     public int Id;
     public string PrefabName;
     public string HeroName;
-    // 主属性
+    /// <summary> 主属性</summary>
     public MajorAttrEnum MajorAttr;
-    /* 力量成长 */
+    /// <summary>  力量成长  </summary> 
     public int StrengthGain;
-    /* 智力成长 */
+    /// <summary>  智力成长  </summary> 
     public int IntelligenceGain;
-    /* 敏捷成长 */
+    /// <summary>  敏捷成长  </summary> 
     public int AgilityGain;
-    /* 攻击类型 */
+    /// <summary>  攻击类型  </summary> 
     public AtkTypeEnum AtkType;
-    /* 攻击前摇时间 */
+    /// <summary>  攻击前摇时间  </summary> 
     public int PreAtkTime;
-    /* 攻击弹道初始位置 */
+    /// <summary>  攻击弹道初始位置  </summary> 
     public int[] AtkProjectilePos;
-    // 弹道击中偏移
+    /// <summary> 弹道击中偏移 </summary>
     public int ProjectileOffset;
-    // 技能数组
+    /// <summary> 技能数组 </summary>
     public int[] Skills;
 
     public RoleConfig Clone()
@@ -60,43 +60,43 @@ public class RoleConfig : AttrObject
 
 public class AttrObject : object
 {
-    /* 力量 */
+    /// <summary>  力量  </summary> 
     public int Strength;
-    /* 智力 */
+    /// <summary>  智力  </summary> 
     public int Intelligence;
-    /* 敏捷 */
+    /// <summary>  敏捷  </summary> 
     public int Agility;
-    /* 攻击 */
+    /// <summary>  攻击  </summary> 
     public int Attack;
-    /* 攻击速度 */
+    /// <summary>  攻击速度  </summary> 
     public int AtkSpeed;
-    /* 攻击间隔 */
+    /// <summary>  攻击间隔  </summary> 
     public int AtkInterval;
-    /* 护甲 */
+    /// <summary>  护甲  </summary> 
     public int Armor;
-    /* 角色基础魔法抗性 */
+    /// <summary>  角色基础魔法抗性  </summary> 
     public int RoleMagicResistance;
-    /* 物品魔法抗性 */
+    /// <summary>  物品魔法抗性  </summary> 
     public int ItemMagicResistance;
-    /* 角色基础闪避 */
+    /// <summary>  角色基础闪避  </summary> 
     public int RoleMiss;
-    /* 物品提供闪避 */
+    /// <summary>  物品提供闪避  </summary> 
     public int ItemMiss;
-    /* 血量 */
+    /// <summary>  血量  </summary> 
     public int Hp;
-    /* 魔法 */
+    /// <summary>  魔法  </summary> 
     public int Mana;
-    /* 血量恢复速率 */
+    /// <summary>  血量恢复速率  </summary> 
     public int HpRecoverySpeed;
-    /* 魔法恢复速率 */
+    /// <summary>  魔法恢复速率  </summary> 
     public int ManaRecoverySpeed;
-    /* 攻击距离 */
+    /// <summary>  攻击距离  </summary> 
     public int AtkRange;
-    /* 移动速度 */
+    /// <summary>  移动速度  </summary> 
     public int MoveSpeed;
-    /* 攻击弹道速度 */
+    /// <summary>  攻击弹道速度  </summary> 
     public int AtkProjectileSpeed;
-    /* 碰撞体积半径 */
+    /// <summary>  碰撞体积半径  </summary> 
     public int ColliderRadius;
 
     public void AddAttrFromTarget(AttrObject target)
@@ -124,26 +124,26 @@ public class AttrObject : object
         ColliderRadius += target.ColliderRadius;
     }
 
-    // public void Reset()
-    // {
-    //     Strength = 0;
-    //     Intelligence = 0;
-    //     Agility = 0;
-    //     Attack = 0;
-    //     AtkSpeed = 0;
-    //     AtkInterval = 0;
-    //     Armor = 0;
-    //     RoleMagicResistance = 0;
-    //     ItemMagicResistance = 0;
-    //     Hp = 0;
-    //     Mana = 0;
-    //     HpRecoverySpeed = 0;
-    //     ManaRecoverySpeed = 0;
-    //     AtkRange = 0;
-    //     MoveSpeed = 0;
-    //     AtkProjectileSpeed = 0;
-    //     ColliderRadius = 0;
-    // }
+    //public void Reset()
+    //{
+    //    Strength = 0;
+    //    Intelligence = 0;
+    //    Agility = 0;
+    //    Attack = 0;
+    //    AtkSpeed = 0;
+    //    AtkInterval = 0;
+    //    Armor = 0;
+    //    RoleMagicResistance = 0;
+    //    ItemMagicResistance = 0;
+    //    Hp = 0;
+    //    Mana = 0;
+    //    HpRecoverySpeed = 0;
+    //    ManaRecoverySpeed = 0;
+    //    AtkRange = 0;
+    //    MoveSpeed = 0;
+    //    AtkProjectileSpeed = 0;
+    //    ColliderRadius = 0;
+    //}
 }
 
 [System.Serializable]
@@ -151,28 +151,30 @@ public class EquipmentConfig : AttrObject
 {
     public int Id;
     public string Name;
-    // 技能数组
+    /// <summary> 技能数组 </summary> 
     public int[] Skills;
 }
 
+/// <summary> 主动技能 </summary> 
 [System.Serializable]
-public class ActiveSkillConfig : SkillConfig// 主动技能
+public class ActiveSkillConfig : SkillConfig
 {
-    // 生命消耗
+    /// <summary> 生命消耗 </summary> 
     public int[] Hp;
-    // 魔法消耗
+    /// <summary> 魔法消耗 </summary> 
     public int[] Mana;
-    // 携带的被动技能ID,有些主动同时也会携带被动技能
+    /// <summary> 携带的被动技能ID,有些主动同时也会携带被动技能 </summary> 
     public int[] PassiveSkills;
 }
 
+/// <summary> 被动技能 </summary> 
 [System.Serializable]
-public class PassiveSkillConfig : SkillConfig// 被动技能
+public class PassiveSkillConfig : SkillConfig
 {
-    // 被动技能类型
+    /// <summary> 被动技能类型 </summary> 
     public PassiveSkillTypeEnum PassiveSkillType;
     public int Sort;
-    // 决定同类型被动技能的执行顺寻,  普通被动技能不关注
+    /// <summary> 决定同类型被动技能的执行顺寻,  普通被动技能不关注 </summary> 
     public bool CanDestroy;
 }
 
@@ -189,20 +191,30 @@ public abstract class SkillConfig
 [System.Serializable]
 public class BuffConfig
 {
-    public int Id; // 唯一Id
-    public string Define;// 定义
-    public int Name; // 名称
-    public DispelTypeEnum DispelType; // 驱散类型
-    public bool IsControll;// 是否属于硬控技能
-    public int ControllSort;// 仅硬控技能有效,控制Buff权重,决定使用哪个动画
-    public string ControllAnimation;// 仅硬控技能有效,返回控制时的动画播放
+    /// <summary> 唯一Id </summary> 
+    public int Id;
+    /// <summary> 定义 </summary> 
+    public string Define;
+    /// <summary> 名称 </summary> 
+    public int Name;
+    /// <summary> 驱散类型 </summary> 
+    public DispelTypeEnum DispelType;
+    /// <summary> 是否属于硬控技能 </summary> 
+    public bool IsControll;
+    /// <summary> 仅硬控技能有效,控制Buff权重,决定使用哪个动画 </summary> 
+    public int ControllSort;
+    /// <summary> 仅硬控技能有效,返回控制时的动画播放 </summary> 
+    public string ControllAnimation;
 }
 
 public enum DispelTypeEnum
 {
-    No,// 不可驱散
-    Strong,// 仅强驱散
-    Weak // 弱驱散
+    /// <summary> 不可驱散 </summary> 
+    No,
+    /// <summary> 仅强驱散 </summary> 
+    Strong,
+    /// <summary> 弱驱散 </summary> 
+    Weak 
 }
 
 public enum SkillTypeEnum
@@ -219,10 +231,10 @@ public enum AtkTypeEnum
 
 public enum MajorAttrEnum
 {
-    // 力量
+    /// <summary> 力量 </summary> 
     Strength,
-    // 智力
+    /// <summary> 智力 </summary> 
     Intelligence,
-    // 敏捷
+    /// <summary> 敏捷 </summary> 
     Agility
 }

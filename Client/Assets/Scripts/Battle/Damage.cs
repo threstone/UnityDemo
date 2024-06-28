@@ -23,29 +23,29 @@ public class Damage
 
     public RoleEntity Entity;
 
-    // 伤害值
+    /// <summary> 伤害值 </summary>
     public int DamageValue { get; set; }
-    // 真实造成的伤害
+    /// <summary> 真实造成的伤害 </summary>
     public int RealValue { get; set; }
-    // 格挡伤害
+    /// <summary> 格挡伤害 </summary>
     public int BlockDamage { get; set; }
-    // 伤害类型
+    /// <summary> 伤害类型 </summary>
     public DamageTypeEnum DamageType { get; set; }
 
     public bool IsShow;
 
-    // 是否是技能伤害
+    /// <summary> 是否是技能伤害 </summary>
     public bool IsSkill { get; set; }
-    // 是否暴击
+    /// <summary> 是否暴击 </summary>
     public bool IsCriticalHit { get; set; }
-    // 无视闪避
+    /// <summary> 无视闪避 </summary>
     public bool NoMiss { get; set; }
-    // 是否闪避
+    /// <summary> 是否闪避 </summary>
     public bool IsMiss { get; set; }
 
     public List<BuffData> BuffList { get; } = new();
 
-    // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
+    /// <summary> 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害     </summary>
     public List<Damage> ExtraDamage { get; } = new();
 
     public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
@@ -68,7 +68,7 @@ public class Damage
         IsMiss = false;
     }
 
-    // 把引用去掉
+    /// <summary> 把引用去掉 </summary>
     private void Reset()
     {
         Entity = null;
@@ -76,7 +76,7 @@ public class Damage
         ExtraDamage.Clear();
     }
 
-    // 设置不可闪避
+    /// <summary> 设置不可闪避 </summary>
     public void SetNoMiss()
     {
         NoMiss = true;
@@ -86,10 +86,10 @@ public class Damage
 
 public enum DamageTypeEnum
 {
-    // 物理伤害
+    /// <summary> 物理伤害 </summary>
     PhysicalDamage,
-    // 魔法伤害
+    /// <summary> 魔法伤害 </summary>
     MagicalDamage,
-    // 纯粹伤害
+    /// <summary> 纯粹伤害 </summary>
     PureDamage
 }

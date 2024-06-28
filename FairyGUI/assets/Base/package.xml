@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="b6h4z8aa">
+  <resources>
+    <component id="r4ks0" name="Main.xml" path="/" exported="true"/>
+    <font id="e2dx1" name="DamageFont.fnt" path="/Prefab/Font/" exported="true"/>
+    <image id="e2dx2" name="0.png" path="/Resources/Font/"/>
+    <image id="e2dx3" name="1.png" path="/Resources/Font/"/>
+    <image id="e2dx4" name="2.png" path="/Resources/Font/"/>
+    <image id="e2dx5" name="3.png" path="/Resources/Font/"/>
+    <image id="e2dx6" name="4.png" path="/Resources/Font/"/>
+    <image id="e2dx7" name="5.png" path="/Resources/Font/"/>
+    <image id="e2dx8" name="6.png" path="/Resources/Font/"/>
+    <image id="e2dx9" name="7.png" path="/Resources/Font/"/>
+    <image id="e2dxa" name="8.png" path="/Resources/Font/"/>
+    <image id="e2dxb" name="9.png" path="/Resources/Font/"/>
+    <component id="e2dxc" name="Damage.xml" path="/Prefab/Damage/" exported="true"/>
+    <component id="e2dxd" name="HpProgressBar.xml" path="/Prefab/ProgressBar/" exported="true"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

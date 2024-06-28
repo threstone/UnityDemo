@@ -33,7 +33,7 @@
         return entity.BuffComponent.GetAnimationName() ?? Status.GetAnimationName();
     }
 
-    // 更新控制状态
+    /// <summary> 更新控制状态 </summary>
     public void UpdateControllStatus()
     {
         BeControlled = entity.BuffComponent.IsControlled();

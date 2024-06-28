@@ -44,13 +44,13 @@ public class BuffComponent
         }
     }
 
-    // 获取当前是否被控制,如果有飓风、眩晕、恐惧等状态时,则表示被控制
+    /// <summary> 获取当前是否被控制,如果有飓风、眩晕、恐惧等状态时,则表示被控制 </summary>
     public bool IsControlled()
     {
         return controllBuffMap.Count != 0;
     }
 
-    // 获取当前动画，如果有飓风、眩晕、恐惧等状态时，需要返回对应的动画
+    /// <summary> 获取当前动画，如果有飓风、眩晕、恐惧等状态时，需要返回对应的动画 </summary>
     public string GetAnimationName()
     {
         string ani = null;
@@ -67,16 +67,16 @@ public class BuffComponent
         return ani;
     }
 
-    //  驱散  DispelType=>驱散类型 强驱散,弱驱散
+    /// <summary> 驱散  DispelType=>驱散类型 强驱散,弱驱散 </summary>
     public void Dispel(RoleEntity from, DispelTypeEnum dispelType)
     {
         if (dispelType == DispelTypeEnum.No) return;
 
         foreach (var buff in buffMap.Values)
         {
-            // 是否可以被驱散
-            // 来自敌人的话 驱散有益buff
-            // 来自友方的话 驱散debuff
+            /// <summary> 是否可以被驱散 </summary>
+            /// <summary> 来自敌人的话 驱散有益buff </summary>
+            /// <summary> 来自友方的话 驱散debuff </summary>
             if (buff.SourceEntity.PlayerId != from.PlayerId && dispelType <= buff.BuffConfig.DispelType)
             {
                 buff.OnBuffClear();
@@ -87,7 +87,7 @@ public class BuffComponent
 
     private void OnHandleDamage(Damage damage)
     {
-        // 消费伤害中的buff
+        /// <summary> 消费伤害中的buff </summary>
         damage.BuffList.ForEach((b) => AddBuff(b.BuffId, b.Duration, damage.Entity));
     }
 }

@@ -13,26 +13,26 @@ public class AttrEntity
         UpdateAttr();
     }
 
-    // 更新属性
+    /// <summary> 更新属性 </summary>
     public void UpdateAttr()
     {
         UpdateBaseAttr();
         UpdateAddAttr();
     }
 
-    // 更新基础属性
+    /// <summary> 更新基础属性 </summary>
     void UpdateBaseAttr()
     {
-        // 基础属性计算
+        /// <summary> 基础属性计算 </summary>
         BaseAttr.Strength += (role.Level - 1) * BaseAttr.StrengthGain;
         BaseAttr.Intelligence += (role.Level - 1) * BaseAttr.IntelligenceGain;
         BaseAttr.Agility += (role.Level - 1) * BaseAttr.AgilityGain;
     }
 
-    // 更新额外属性,来自装备或buff或技能
+    /// <summary> 更新额外属性,来自装备或buff或技能 </summary>
     void UpdateAddAttr()
     {
-        // 装备属性增加
+        /// <summary> 装备属性增加 </summary>
         for (int i = 0; i < role.EquipmentIdList?.Count; i++)
         {
             var equipmentId = role.EquipmentIdList[i];
@@ -41,7 +41,7 @@ public class AttrEntity
         }
     }
 
-    // 根据类型获取指定属性的值
+    /// <summary> 根据类型获取指定属性的值 </summary>
     public int GetAttrByType(MajorAttrEnum type)
     {
         return type switch
@@ -53,11 +53,11 @@ public class AttrEntity
         };
     }
 
-    // ==================================================================
-    // ======================= 以下为获取属性的方法 =======================
-    // ==================================================================
+    /// <summary> ================================================================== </summary>
+    /// <summary> ======================= 以下为获取属性的方法 ======================= </summary>
+    /// <summary> ================================================================== </summary>
 
-    // 生命上限
+    /// <summary> 生命上限 </summary>
     public int MaxHp
     {
         get
@@ -65,7 +65,7 @@ public class AttrEntity
             return (int)(BaseAttr.Hp + AddAttr.Hp + (long)GetAttrByType(MajorAttrEnum.Strength) * ConfigMgr.Common.StrengthAddHp / 10000);
         }
     }
-    // 魔法上限上限
+    /// <summary> 魔法上限上限 </summary>
     public int MaxMana
     {
         get
@@ -74,7 +74,7 @@ public class AttrEntity
         }
     }
 
-    // 生命恢复速度
+    /// <summary> 生命恢复速度 </summary>
     public int HpRecoverySpeed
     {
         get
@@ -84,7 +84,7 @@ public class AttrEntity
         }
     }
 
-    // 魔法恢复速度
+    /// <summary> 魔法恢复速度 </summary>
     public int ManaRecoverySpeed
     {
         get
@@ -94,58 +94,58 @@ public class AttrEntity
         }
     }
 
-    // 移动速度
+    /// <summary> 移动速度 </summary>
     public int MoveSpeed { get { return BaseAttr.MoveSpeed + AddAttr.MoveSpeed; } }
 
-    // 碰撞半径
+    /// <summary> 碰撞半径 </summary>
     public int ColliderRadius { get { return BaseAttr.ColliderRadius + AddAttr.ColliderRadius; } }
 
-    // 攻击距离
+    /// <summary> 攻击距离 </summary>
     public int AtkRange { get { return BaseAttr.AtkRange + AddAttr.AtkRange; } }
 
-    // 攻击力
+    /// <summary> 攻击力 </summary>
     public int Attack { get { return BaseAttr.Attack + AddAttr.Attack + RoleMajorAttr; } }
 
-    // 主属性
+    /// <summary> 主属性 </summary>
     public int RoleMajorAttr { get { return GetAttrByType(BaseAttr.MajorAttr); } }
 
-    // 总攻速 todo 高攻速效果有点差,主要是动画的问题
+    /// <summary> 总攻速 todo 高攻速效果有点差,主要是动画的问题 </summary>
     public int AtkSpeed { get { return BaseAttr.AtkSpeed + AddAttr.AtkSpeed + GetAttrByType(MajorAttrEnum.Agility); } }
 
-    // 攻击间隔  限制最低攻击间隔 万分之1700秒
+    /// <summary> 攻击间隔  限制最低攻击间隔 万分之1700秒 </summary>
     public int AttackInterval { get { return Math.Max(10000 * 10000 / AttackTimesPer10000Sec, 1700); } }
 
-    // 每一万秒攻击次数 (基础攻速+额外攻速)/(基础攻击间隔)
+    /// <summary> 每一万秒攻击次数 (基础攻速+额外攻速)/(基础攻击间隔) </summary>
     public int AttackTimesPer10000Sec { get { return AtkSpeed * 100 / (BaseAttr.AtkInterval + AddAttr.AtkInterval); } }
 
-    // 护甲
+    /// <summary> 护甲 </summary>
     public int Armor { get { return (int)((long)GetAttrByType(MajorAttrEnum.Agility) * ConfigMgr.Common.AgilityAddArmor / 10000 + BaseAttr.Armor + AddAttr.Armor); } }
 
-    // 护甲决定的物理伤害减免万分比
+    /// <summary> 护甲决定的物理伤害减免万分比 </summary>
     public int PhysicalDamageReduceRatio
     {
         get
         {
             var armor = Armor;
-            return (int)((long)130000 * armor / (2250000 + 12 * armor));// 伤害减少万分比
+            return (int)((long)130000 * armor / (2250000 + 12 * armor));/// <summary> 伤害减少万分比 </summary>
         }
     }
 
-    // 技能魔法抗性
+    /// <summary> 技能魔法抗性 </summary>
     public int SkillMagicResistance { get; set; } = 0;
 
-    // 魔抗决定的魔法伤害减免百分比 
+    /// <summary> 魔抗决定的魔法伤害减免百分比  </summary>
     public double MagicalDamageReduceRatio
     {
         get
         {
-            // (1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性)
+            /// <summary> (1-角色基础魔法抗性)*(1-物品魔法抗性)*(1-技能魔法抗性) </summary>
             return (1 - (double)BaseAttr.RoleMagicResistance / 10000)
                   * (1 - (double)AddAttr.ItemMagicResistance / 10000)
                   * (1 - (double)SkillMagicResistance / 10000);
         }
     }
 
-    // 技能提供闪避率
+    /// <summary> 技能提供闪避率 </summary>
     public int SkillMiss { get; set; } = 0;
 }

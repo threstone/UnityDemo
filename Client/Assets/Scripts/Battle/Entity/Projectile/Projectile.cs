@@ -6,21 +6,21 @@ using System.Numerics;
 public abstract class Projectile : SceneEntity
 {
     public RoleEntity Source;
-    // 目标位置
+    /// <summary> 目标位置 </summary>
     protected Vector2 TargetPosition;
-    // 完成击中的最大距离
+    /// <summary> 完成击中的最大距离 </summary>
     protected int TriggerDistance;
-    // 飞行速度
+    /// <summary> 飞行速度 </summary>
     protected int Speed;
 
     protected Projectile(RoleEntity source) : base(source.PlayerId)
     {
         Source = source;
-        // 加入simulator
+        /// <summary> 加入simulator </summary>
         source.Simulator.AddEntity(this);
     }
 
-    // 接近目标
+    /// <summary> 接近目标 </summary>
     public void CloseTarget()
     {
         var move = GetMovePos(TargetPosition, Speed);

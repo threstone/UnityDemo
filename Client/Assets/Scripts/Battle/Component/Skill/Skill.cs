@@ -24,13 +24,13 @@ public abstract class Skill : GameNode
         CD = Math.Max(0, CD - v);
     }
 
-    // 是否可以使用
+    /// <summary> 是否可以使用 </summary>
     public bool IsUseful()
     {
         return CD == 0;
     }
 
-    // 当技能被使用,增加冷却时间
+    /// <summary> 当技能被使用,增加冷却时间 </summary>
     public void OnSkillUsed()
     {
         CD += Config.CD[Level];

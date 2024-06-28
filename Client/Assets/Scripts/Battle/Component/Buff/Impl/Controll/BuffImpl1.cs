@@ -1,6 +1,6 @@
 public class BuffImpl1 : Buff
 {
-    // 眩晕
+    /// <summary> 眩晕 </summary>
     public BuffImpl1(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
     {
     }

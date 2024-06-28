@@ -3,9 +3,9 @@ using System.Collections.Generic;
 public class SkillComponent
 {
     readonly RoleEntity entity;
-    // 主动技能
+    /// <summary> 主动技能 </summary>
     public List<ActiveSkill> ActiveSkillList;
-    // 被动技能
+    /// <summary> 被动技能 </summary>
     public Dictionary<PassiveSkillTypeEnum, List<PassiveSkill>> PassiveSkillMap;
 
     public SkillComponent(RoleEntity entity)
@@ -22,12 +22,12 @@ public class SkillComponent
 
     public void ForEachAllSkill(Action<Skill> action)
     {
-        // 主动技能CD
+        /// <summary> 主动技能CD </summary>
         ActiveSkillList?.ForEach((s) => action(s));
 
         if (PassiveSkillMap != null)
         {
-            // 被动技能CD
+            /// <summary> 被动技能CD </summary>
             foreach (var pair in PassiveSkillMap)
             {
                 pair.Value.ForEach((s) => action(s));
@@ -58,7 +58,7 @@ public class SkillComponent
     {
         ActiveSkillList ??= new();
         ActiveSkillList.Add(skill);
-        // 增加主动技能附带的被动技能
+        /// <summary> 增加主动技能附带的被动技能 </summary>
         foreach (var pSkillId in skillConfig.PassiveSkills)
         {
             var passiveSkillConfig = ConfigMgr.GetSkillConfig<PassiveSkillConfig>(pSkillId);
@@ -77,7 +77,7 @@ public class SkillComponent
         }
 
         list.Add(skill);
-        // 非默认类型即为概率型被动，有些概率性被动需要确定优先级
+        /// <summary> 非默认类型即为概率型被动，有些概率性被动需要确定优先级 </summary>
         if (skill.Config.PassiveSkillType != PassiveSkillTypeEnum.Normal)
         {
             list.Sort((skill1, skill2) =>
@@ -91,14 +91,14 @@ public class SkillComponent
 
     public void InitSkill(RoleEntity entity)
     {
-        // 角色技能初始化
+        /// <summary> 角色技能初始化 </summary>
         for (int i = 0; i < entity.Role.SkillList?.Count; i++)
         {
             var skillInfo = entity.Role.SkillList[i];
             AddSkill(skillInfo);
         }
 
-        // 装备技能初始化
+        /// <summary> 装备技能初始化 </summary>
         for (int i = 0; i < entity.EquipmentComponent.Equipments.Length; i++)
         {
             var equipment = entity.EquipmentComponent.Equipments[i];
@@ -111,7 +111,7 @@ public class SkillComponent
             }
         }
 
-        // 近战增加模型格挡
+        /// <summary> 近战增加模型格挡 </summary>
         if (ConfigMgr.GetRoleInfoById(entity.Role.RoleId).AtkType == AtkTypeEnum.MeleeHero)
         {
             AddSkill(20000001, 1);

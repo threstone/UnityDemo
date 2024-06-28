@@ -5,7 +5,7 @@ public abstract class Entity
 {
     public Simulator Simulator { get; set; }
 
-    // 唯一id
+    /// <summary> 唯一id </summary>
     public int Id { get; set; }
 
     public bool IsDestroy { get; set; } = false;

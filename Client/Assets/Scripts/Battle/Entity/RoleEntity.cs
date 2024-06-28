@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 public class RoleEntity : SceneEntity
 {
-    // 属性组件
+    /// <summary> 属性组件 </summary>
     public AttrComponent AttrComponent { get; set; }
-    // 装备组件
+    /// <summary> 装备组件 </summary>
     public EquipmentComponent EquipmentComponent { get; set; }
-    // Buff组件
+    /// <summary> Buff组件 </summary>
     public BuffComponent BuffComponent { get; set; }
-    // 状态组件
+    /// <summary> 状态组件 </summary>
     public StatusComponent StatusComponent { get; set; }
-    // 攻击组件
+    /// <summary> 攻击组件 </summary>
     public AttackComponent AttackComponent { get; set; }
-    // 技能组件
+    /// <summary> 技能组件 </summary>
     public SkillComponent SkillComponent { get; set; }
 
     public bool Face { get; set; }
@@ -41,15 +41,15 @@ public class RoleEntity : SceneEntity
         StatusComponent = new StatusComponent(this);
         AttackComponent = new AttackComponent(this);
 
-        SkillComponent = new SkillComponent(this);// 依赖装备组件,装备拥有技能
-        AttrComponent = new AttrComponent(this);  // 最后初始化，依赖其他组件
+        SkillComponent = new SkillComponent(this);/// <summary> 依赖装备组件,装备拥有技能 </summary>
+        AttrComponent = new AttrComponent(this);  /// <summary> 最后初始化，依赖其他组件 </summary>
 
         Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
     void InitEvent()
     {
-        // 死亡事件
+        /// <summary> 死亡事件 </summary>
         Event.On(EventEnum.OnRoleDead, new Action(() => IsDestroy = true));
     }
 
@@ -67,24 +67,24 @@ public class RoleEntity : SceneEntity
         SkillComponent.FixedUpdate();
     }
 
-    // 消费伤害
+    /// <summary> 消费伤害 </summary>
     public void HandleDamage(Damage damage)
     {
         CurFranmeDamages.Add(damage);
-        // 消费伤害前
+        /// <summary> 消费伤害前 </summary>
         Event.Emit(EventEnum.OnPreHandleDamage, damage);
 
-        // 伤害消费
+        /// <summary> 伤害消费 </summary>
         Event.Emit(EventEnum.OnHandleDamage, damage);
 
-        // 消费伤害后
+        /// <summary> 消费伤害后 </summary>
         Event.Emit(EventEnum.OnAfterHandleDamage, damage);
 
-        // 消费伤害中的额外伤害
+        /// <summary> 消费伤害中的额外伤害 </summary>
         damage.ExtraDamage.ForEach((d) => HandleDamage(d));
     }
 
-    // 清除已处理伤害列表
+    /// <summary> 清除已处理伤害列表 </summary>
     public void ClearDamageList()
     {
         CurFranmeDamages.ForEach((damage) =>

@@ -1,10 +1,10 @@
 ﻿using System;
 
-public abstract class Buff : GameNode // buff池化
+public abstract class Buff : GameNode /// <summary> buff池化 </summary>
 {
-    // buff的所有者
+    /// <summary> buff的所有者 </summary>
     protected readonly RoleEntity entity;
-    // buff的创建者
+    /// <summary> buff的创建者 </summary>
     public readonly RoleEntity SourceEntity;
  
     public readonly BuffConfig BuffConfig;
@@ -34,11 +34,11 @@ public abstract class Buff : GameNode // buff池化
         Duration = Math.Max(duration, Duration);
     }
 
-    // 当状态自然结束
+    /// <summary> 当状态自然结束 </summary>
     public void OnBuffAdd() { }
-    // 当状态自然结束
+    /// <summary> 当状态自然结束 </summary>
     public void OnBuffEnd() { }
 
-    // 当Buff被驱散
+    /// <summary> 当Buff被驱散 </summary>
     public void OnBuffClear() { }
 }

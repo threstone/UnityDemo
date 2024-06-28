@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="750,1334" bgColorEnabled="true">
+  <displayList>
+    <text id="n1_e2dx" name="n1" xy="2,-1" size="154,24" font="ui://b6h4z8aae2dx1" fontSize="12" autoSize="none" text="12 0123456789"/>
+    <text id="n2_e2dx" name="n2" xy="2,21" size="266,32" font="ui://b6h4z8aae2dx1" fontSize="20" autoSize="none" text="20 0123456789"/>
+    <text id="n3_e2dx" name="n3" xy="2,53" size="391,42" font="ui://b6h4z8aae2dx1" fontSize="30" autoSize="none" text="30 01"/>
+    <text id="n7_e2dx" name="n7" xy="0,137" size="106,24" font="ui://b6h4z8aae2dx1" fontSize="12" letterSpacing="-4" autoSize="none" text="12 0123456789"/>
+    <text id="n8_e2dx" name="n8" xy="0,159" size="218,32" font="ui://b6h4z8aae2dx1" fontSize="20" letterSpacing="-4" autoSize="none" text="20 0123456789"/>
+    <text id="n9_e2dx" name="n9" xy="0,191" size="343,42" font="ui://b6h4z8aae2dx1" fontSize="30" letterSpacing="-4" autoSize="none" text="30 0123456789"/>
+    <text id="n10_e2dx" name="n10" xy="0,283" size="22,24" font="ui://b6h4z8aae2dx1" fontSize="12" letterSpacing="-11" autoSize="none" text="12 0123456789"/>
+    <text id="n11_e2dx" name="n11" xy="0,305" size="134,32" font="ui://b6h4z8aae2dx1" fontSize="20" letterSpacing="-11" autoSize="none" text="20 0123456789"/>
+    <text id="n12_e2dx" name="n12" xy="0,337" size="271,42" font="ui://b6h4z8aae2dx1" fontSize="30" letterSpacing="-10" autoSize="none" text="30 0123456789"/>
+  </displayList>
+</component>
