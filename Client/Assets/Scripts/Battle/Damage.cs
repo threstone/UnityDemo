@@ -22,57 +22,68 @@ public class Damage
     }
 
     public RoleEntity Entity;
-    public bool IsShow;
-    // 伤害类型
-    public DamageTypeEnum DamageType { get; set; }
-    // 是否是技能伤害
-    public bool IsSkill { get; set; }
+
     // 伤害值
     public int DamageValue { get; set; }
     // 真实造成的伤害
     public int RealValue { get; set; }
+    // 格挡伤害
+    public int BlockDamage { get; set; }
+    // 伤害类型
+    public DamageTypeEnum DamageType { get; set; }
+
+    public bool IsShow;
+
+    // 是否是技能伤害
+    public bool IsSkill { get; set; }
     // 是否暴击
     public bool IsCriticalHit { get; set; }
-    // 格挡伤害
-    public int BlockDamage { get; set; } = 0;
-
     // 无视闪避
     public bool NoMiss { get; set; }
     // 是否闪避
     public bool IsMiss { get; set; }
 
-    public List<BuffData> BuffList { get; set; }
+    public List<BuffData> BuffList { get; } = new();
 
     // 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害    
-    public List<Damage> ExtraDamage { get; set; }
+    public List<Damage> ExtraDamage { get; } = new();
 
     public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
+
         InitData(entity, type, damageValue, isSkill, isCriticalHit);
     }
 
     private void InitData(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
         Entity = entity;
-        DamageType = type;
         DamageValue = damageValue;
         RealValue = damageValue;
+        DamageType = type;
         IsSkill = isSkill;
         IsCriticalHit = isCriticalHit;
+        BlockDamage = 0;
         IsShow = false;
         NoMiss = false;
         IsMiss = false;
     }
 
+    // 把引用去掉
     private void Reset()
     {
         Entity = null;
-        NoMiss = false;
+        BuffList.Clear();
+        ExtraDamage.Clear();
+    }
+
+    // 设置不可闪避
+    public void SetNoMiss()
+    {
+        NoMiss = true;
         IsMiss = false;
-        BuffList?.Clear();
-        ExtraDamage?.Clear();
     }
 }
+
 public enum DamageTypeEnum
 {
     // 物理伤害

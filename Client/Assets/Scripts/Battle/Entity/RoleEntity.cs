@@ -81,7 +81,7 @@ public class RoleEntity : SceneEntity
         Event.Emit(EventEnum.OnAfterHandleDamage, damage);
 
         // 消费伤害中的额外伤害
-        damage.ExtraDamage?.ForEach((d) => HandleDamage(d));
+        damage.ExtraDamage.ForEach((d) => HandleDamage(d));
     }
 
     // 清除已处理伤害列表
