@@ -15,10 +15,10 @@ public static class ConfigMgr
     public static void Init()
     {
         Debug.Log("配置初始化");
-        string filePath = Path.Combine(Application.dataPath, "Config/config.json");
-        string json = File.ReadAllText(filePath);
-        AllConfig = JsonUtility.FromJson<ConfigClass>(json);
+        TextAsset jsonText = Resources.Load<TextAsset>("Config/config");
+        AllConfig = JsonUtility.FromJson<ConfigClass>(jsonText.text);
         Debug.Log("配置初始化" + JsonUtility.ToJson(AllConfig));
+
         InitRoleMap();
         InitEquipmentMap();
         InitSkill();
