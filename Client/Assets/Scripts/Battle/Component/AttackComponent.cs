@@ -11,19 +11,19 @@ public class AttackComponent
     public AttackComponent(RoleEntity entity)
     {
         this.entity = entity;
-        /// <summary> 当被控制，需要打断进度 </summary>
+        // 当被控制，需要打断进度
         entity.Event.On(EventEnum.OnBeControlled, new Action(Reset));
     }
 
     public void FixedUpdate(int curFrame)
     {
-        /// <summary> 未在攻击状态下 检查是否可以攻击 </summary>
+        // 未在攻击状态下 检查是否可以攻击
         if (atkFrame == -1 && AllowAtk(curFrame))
         {
             StartAtk();
         }
 
-        /// <summary> 攻击状态下 </summary>
+        // 攻击状态下
         if (atkFrame != -1)
         {
             atkFrame++;
@@ -63,7 +63,7 @@ public class AttackComponent
     public void StartAtk()
     {
         atkFrame = 0;
-        /// <summary> 计算加速 </summary>
+        // 计算加速 
         SpeedUpRate = Math.Max(10000, entity.AttrComponent.AttackTimesPer10000Sec);
     }
 
@@ -82,13 +82,13 @@ public class AttackComponent
     void StartAttack()
     {
         isAtk = true;
-        /// <summary> 近战直接执行攻击 </summary>
+        // 近战直接执行攻击 
         if (entity.AttrComponent.BaseAttr.AtkType == AtkTypeEnum.MeleeHero)
         {
             var enemy = (entity.StatusComponent.Status as AttackStatus).LockEnemy;
             enemy.AttackComponent.BeAttack(entity);
         }
-        /// <summary> 远程生成攻击弹道 </summary>
+        // 远程生成攻击弹道
         else
         {
             new AttackProjectile(entity);

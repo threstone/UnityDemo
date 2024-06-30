@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class RoleEntityController : EntityController
 {
+    public GameObject DamagePrefab;
     public new RoleEntity EntityInfo { get; set; }
 
     public Animator Animator;
@@ -36,7 +38,6 @@ public class RoleEntityController : EntityController
     {
         EntityInfo.CurFranmeDamages.ForEach((damage) =>
         {
-            // todo
             if (damage.IsShow) return;
 
             damage.IsShow = true;
@@ -47,8 +48,14 @@ public class RoleEntityController : EntityController
                 return;
             }
 
-            Utils.Log("[" + EntityInfo.Id + "]受到了来自[" + damage.Entity.Id + "]的" + damage.RealValue + "(" + damage.DamageValue + ")点伤害,当前生命值:"
-            + EntityInfo.AttrComponent.Hp.Current);
+            // todo优化点 池化
+            GameObject damageObj = Instantiate(DamagePrefab, BattleRender.Canvas.transform);
+            var p = transform.position;
+            p.y -= (float)EntityInfo.AttrComponent.BaseAttr.ProjectileOffset / 10000;
+            damageObj.transform.position = p;
+            var uiTextComponent = damageObj.GetComponent<Text>();
+            uiTextComponent.text = "" + damage.DamageValue / 10000;
+            if (PlayerModel.PlayerId == EntityInfo.PlayerId) uiTextComponent.color = Color.gray;
         });
     }
 
@@ -73,7 +80,8 @@ public class RoleEntityController : EntityController
 
     public void UpdateGray()
     {
-        if (PlayerModel.PlayerId != EntityInfo.PlayerId) spriteRenderer.color = new Color(0.5f, 0.5f, 0.5f);
+        if (PlayerModel.PlayerId != EntityInfo.PlayerId) spriteRenderer.color = Color.gray;
+        else statusProgressBarController.SetGreen();
     }
 
     public override void Destroy()

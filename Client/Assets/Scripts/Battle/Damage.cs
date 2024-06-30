@@ -45,7 +45,7 @@ public class Damage
 
     public List<BuffData> BuffList { get; } = new();
 
-    /// <summary> 额外伤害 例如攻击触发的金箍棒特效  火女魔镜带来的技能额外伤害     </summary>
+    /// <summary> 额外伤害 例如攻击触发的金箍棒特效  火女魔晶带来的技能额外伤害     </summary>
     public List<Damage> ExtraDamage { get; } = new();
 
     public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)

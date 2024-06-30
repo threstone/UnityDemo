@@ -2,31 +2,41 @@ using UnityEngine;
 
 public class StatusProgressBarController : MonoBehaviour
 {
-    Transform hpSquare;
+    Transform hpTransform;
     float startHpScale;
     int cur;
     int max;
 
-    public GameObject aaa;
+    bool isInit = false;
 
     public float XScale = 0.74f;
-    private void Start()
+    private void Awake()
     {
-        hpSquare = transform.GetChild(1);
-        startHpScale = hpSquare.transform.localScale.x;
+        hpTransform = transform.GetChild(1);
+        startHpScale = hpTransform.localScale.x;
+        gameObject.transform.localScale = Vector3.zero;
     }
     public void UpdateHp(int cur, int max)
     {
         if (this.cur == cur && this.max == max) return;
+
+        if (!isInit) isInit = true;
+        else gameObject.transform.localScale = Vector3.one;
+
         this.cur = cur;
         this.max = max;
 
-        var scale = hpSquare.transform.localScale;
+        var scale = hpTransform.transform.localScale;
         scale.x = (float)cur / max * startHpScale;
-        hpSquare.transform.localScale = scale;
+        hpTransform.transform.localScale = scale;
 
-        var pos = hpSquare.transform.localPosition;
+        var pos = hpTransform.transform.localPosition;
         pos.x = -(startHpScale - scale.x) / 2;
-        hpSquare.transform.localPosition = pos;
+        hpTransform.transform.localPosition = pos;
+    }
+
+    public void SetGreen()
+    {
+        hpTransform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
     }
 }

@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae840a9d958d0b4408dd314ab2ac6f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamagePrefab: {fileID: 6212579340716215374, guid: f55edceda9445914b946d8f123c6cdda, type: 3}
   Animator: {fileID: 0}
 --- !u!1001 &3833941212710342923
 PrefabInstance:

@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class BattleRender
 {
-    private Dictionary<int, GameObject> entityMap = new Dictionary<int, GameObject>();
+    private readonly Dictionary<int, GameObject> entityMap = new();
+
+    public static System.Random Random = new();
+
+    private static GameObject canvas;
+    public static GameObject Canvas
+    {
+        get
+        {
+            if (canvas == null) canvas = GameObject.Find("Canvas");
+            return canvas;
+        }
+    }
+    
     public BattleRender()
     {
     }
