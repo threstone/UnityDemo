@@ -2,15 +2,11 @@ using System.Collections.Generic;
 
 public class Damage
 {
-    static readonly Stack<Damage> damagePool = new();
+    static readonly Pool<Damage> damagePool = new();
 
     public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
-        if (damagePool.Count == 0)
-        {
-            return new Damage(entity, type, damageValue, isSkill, isCriticalHit);
-        }
-        var result = damagePool.Pop();
+        var result = damagePool.Get();
         result.InitData(entity, type, damageValue, isSkill, isCriticalHit);
         return result;
     }
@@ -18,7 +14,7 @@ public class Damage
     public static void DestroyDamage(Damage damage)
     {
         damage.Reset();
-        damagePool.Push(damage);
+        damagePool.Back(damage);
     }
 
     public RoleEntity Entity;
@@ -47,12 +43,6 @@ public class Damage
 
     /// <summary> 额外伤害 例如攻击触发的金箍棒特效  火女魔晶带来的技能额外伤害     </summary>
     public List<Damage> ExtraDamage { get; } = new();
-
-    public Damage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
-    {
-
-        InitData(entity, type, damageValue, isSkill, isCriticalHit);
-    }
 
     private void InitData(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {

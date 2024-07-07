@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public class EventManager
 {
 
-    public static EventManager instance = new EventManager();
+    public static EventManager instance = new();
+    static readonly Pool<EventObject> pool = new();
 
     private readonly Dictionary<EventEnum, List<EventObject>> eventDictionary = new();
 
@@ -14,7 +15,9 @@ public class EventManager
         {
             eventDictionary[eventName] = new();
         }
-        var eventObj = new EventObject() { Fun = cb }; // todo优化点 池化
+        var eventObj = pool.Get();
+        eventObj.IsOnce = false;
+        eventObj.Fun = cb;
         eventDictionary[eventName].Add(eventObj);
         return eventObj;
     }
@@ -26,8 +29,10 @@ public class EventManager
             var list = eventDictionary[eventName];
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                if (list[i].Fun == cb)
+                var e = list[i];
+                if (e.Fun == cb)
                 {
+                    pool.Back(e.Reset());
                     list.RemoveAt(i);
                 }
             }
@@ -38,6 +43,7 @@ public class EventManager
     {
         if (eventDictionary.ContainsKey(eventName))
         {
+            pool.Back(obj.Reset());
             eventDictionary[eventName].Remove(obj);
         }
     }
@@ -53,6 +59,7 @@ public class EventManager
                 eventObj.Fun.DynamicInvoke(args);
                 if (eventObj.IsOnce)
                 {
+                    pool.Back(eventObj.Reset());
                     list.RemoveAt(i);
                     i--;
                 }
@@ -66,7 +73,9 @@ public class EventManager
         {
             eventDictionary[eventName] = new();
         }
-        var eventObj = new EventObject() { IsOnce = true, Fun = cb };
+        var eventObj = pool.Get();
+        eventObj.IsOnce = true;
+        eventObj.Fun = cb;
         eventDictionary[eventName].Add(eventObj);
         return eventObj;
     }
@@ -76,4 +85,10 @@ public class EventObject
 {
     public bool IsOnce = false;
     public Delegate Fun;
+
+    public EventObject Reset()
+    {
+        Fun = null;
+        return this;
+    }
 }
