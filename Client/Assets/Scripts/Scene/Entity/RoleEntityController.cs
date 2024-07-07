@@ -48,14 +48,13 @@ public class RoleEntityController : EntityController
                 return;
             }
 
-            // todo优化点 池化
-            GameObject damageObj = Instantiate(DamagePrefab, BattleRender.Canvas.transform);
+            GameObject damageObj = DamageController.GetDamage(DamagePrefab);
             var p = transform.position;
             p.y -= (float)EntityInfo.AttrComponent.BaseAttr.ProjectileOffset / 10000;
             damageObj.transform.position = p;
             var uiTextComponent = damageObj.GetComponent<Text>();
             uiTextComponent.text = "" + damage.DamageValue / 10000;
-            if (PlayerModel.PlayerId == EntityInfo.PlayerId) uiTextComponent.color = Color.gray;
+            uiTextComponent.color = PlayerModel.PlayerId == EntityInfo.PlayerId ? Color.gray : Color.yellow;
         });
     }
 
