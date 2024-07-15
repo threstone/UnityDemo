@@ -12,8 +12,8 @@ public class RoleEntity : SceneEntity
     public EquipmentComponent EquipmentComponent { get; set; }
     /// <summary> Buff组件 </summary>
     public BuffComponent BuffComponent { get; set; }
-    /// <summary> 状态组件 </summary>
-    public StatusComponent StatusComponent { get; set; }
+    /// <summary> 行为组件 </summary>
+    public BehaviorComponent BehaviorComponent { get; set; }
     /// <summary> 攻击组件 </summary>
     public AttackComponent AttackComponent { get; set; }
     /// <summary> 技能组件 </summary>
@@ -38,7 +38,7 @@ public class RoleEntity : SceneEntity
     {
         EquipmentComponent = new EquipmentComponent(Role);
         BuffComponent = new BuffComponent(this);
-        StatusComponent = new StatusComponent(this);
+        BehaviorComponent = new BehaviorComponent(this);
         AttackComponent = new AttackComponent(this);
 
         SkillComponent = new SkillComponent(this);/// <summary> 依赖装备组件,装备拥有技能 </summary>
@@ -63,7 +63,7 @@ public class RoleEntity : SceneEntity
         EquipmentComponent.FixedUpdate(curFrame);
         BuffComponent.FixedUpdate(curFrame);
         AttrComponent.FixedUpdate();
-        StatusComponent.FixedUpdate(curFrame);
+        BehaviorComponent.FixedUpdate(curFrame);
         SkillComponent.FixedUpdate();
     }
 

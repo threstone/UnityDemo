@@ -14,16 +14,16 @@ public class BuffImpl2 : Buff
 
     public new void OnBuffAdd()
     {
-        entity.StatusComponent.UpdateControllStatus();
+        entity.BuffComponent.UpdateControllStatus();
     }
 
     public new void OnBuffEnd()
     {
-        entity.StatusComponent.UpdateControllStatus();
+        entity.BuffComponent.UpdateControllStatus();
     }
 
     public new void OnBuffClear()
     {
-        entity.StatusComponent.UpdateControllStatus();
+        entity.BuffComponent.UpdateControllStatus();
     }
 }

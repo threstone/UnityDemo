@@ -73,8 +73,9 @@ public class RoleEntityController : EntityController
 
     private void UpdateAnimation()
     {
-        Animator.speed = (float)EntityInfo.StatusComponent.Status.GetAnimatorSpeed() / 10000;
-        Animator.SetTrigger(EntityInfo.StatusComponent.GetAnimationName());
+        var behavior = EntityInfo.BehaviorComponent.LogicBehavior;
+        Animator.speed = (float)behavior.GetAnimatorSpeed() / 10000;
+        Animator.SetTrigger(behavior.GetAnimationName());
     }
 
     public void UpdateGray()

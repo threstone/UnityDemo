@@ -6,6 +6,21 @@ public class BuffComponent
     readonly Dictionary<int, Buff> controllBuffMap;
 
     readonly RoleEntity entity;
+
+    bool beControlled = false;
+    public bool BeControlled
+    {
+        get { return beControlled; }
+        set
+        {
+            if (beControlled == false && value == true)
+            {
+                entity.Event.Emit(EventEnum.OnBeControlled);
+            }
+            beControlled = value;
+        }
+    }
+
     public BuffComponent(RoleEntity entity)
     {
         this.entity = entity;
@@ -50,21 +65,10 @@ public class BuffComponent
         return controllBuffMap.Count != 0;
     }
 
-    /// <summary> 获取当前动画，如果有飓风、眩晕、恐惧等状态时，需要返回对应的动画 </summary>
-    public string GetAnimationName()
+    /// <summary> 更新控制状态 </summary>
+    public void UpdateControllStatus()
     {
-        string ani = null;
-        int maxSort = int.MinValue;
-        foreach (var buff in controllBuffMap.Values)
-        {
-            if (buff.BuffConfig.ControllSort > maxSort)
-            {
-                maxSort = buff.BuffConfig.ControllSort;
-                ani = buff.BuffConfig.ControllAnimation;
-            }
-        }
-
-        return ani;
+        BeControlled = IsControlled();
     }
 
     /// <summary> 驱散  DispelType=>驱散类型 强驱散,弱驱散 </summary>

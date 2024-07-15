@@ -85,7 +85,7 @@ public class AttackComponent
         // 近战直接执行攻击 
         if (entity.AttrComponent.BaseAttr.AtkType == AtkTypeEnum.MeleeHero)
         {
-            var enemy = (entity.StatusComponent.Status as AttackStatus).LockEnemy;
+            var enemy = entity.BehaviorComponent.TargetEntity;
             enemy.AttackComponent.BeAttack(entity);
         }
         // 远程生成攻击弹道

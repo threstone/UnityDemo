@@ -9,7 +9,7 @@ public class AttackProjectile : Projectile
     readonly RoleEntity target;
     public AttackProjectile(RoleEntity source) : base(source)
     {
-        target = (source.StatusComponent.Status as AttackStatus).LockEnemy;
+        target = source.BehaviorComponent.TargetEntity;
         Speed = source.AttrComponent.BaseAttr.AtkProjectileSpeed;
 
         // 生成位置

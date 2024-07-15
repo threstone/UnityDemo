@@ -1,21 +1,14 @@
-﻿using System.Numerics;
-public class MoveStatus : Status
+using System.Numerics;
+
+public class MoveBehavior : Behavior
 {
-    RoleEntity lockEnemy;
-
-    public MoveStatus(RoleEntity entity) : base(entity)
+    public MoveBehavior(BehaviorComponent behaviorComponent) : base(-1, behaviorComponent)
     {
-        Type = StatusEnum.Move;
-    }
-
-    public MoveStatus(RoleEntity entity, RoleEntity lockEnemy) : this(entity)
-    {
-        this.lockEnemy = lockEnemy;
     }
 
     public override void FixedUpdate(int curFrame)
     {
-        if (lockEnemy == null || lockEnemy.IsDestroy)
+        if (behaviorComponent.TargetEntity == null || behaviorComponent.TargetEntity.IsDestroy)
         {
             TryGetEnemy();
             return;
@@ -26,13 +19,16 @@ public class MoveStatus : Status
             TryClosedEnemy();
             return;
         }
-        entity.StatusComponent.Status = new AttackStatus(entity, lockEnemy);
+        behaviorComponent.AddBehavior(new AttackBehavior(behaviorComponent));
+        behaviorComponent.RemoveBehavior(this);
     }
+
 
     void TryGetEnemy()
     {
+        var entity = behaviorComponent.Entity;
         var playerId = entity.PlayerId;
-        var enemyList = simulator.EntityList.FindAll((entity) =>
+        var enemyList = entity.Simulator.EntityList.FindAll((entity) =>
         {
             return entity is RoleEntity roleEntity && roleEntity.IsDestroy != true && roleEntity.PlayerId != playerId;
         });
@@ -45,7 +41,7 @@ public class MoveStatus : Status
         for (int i = 0; i < enemyList.Count; i++)
         {
             var roleEntity = enemyList[i] as RoleEntity;
-            var distance = Vector2.Distance(roleEntity.Position, this.entity.Position);
+            var distance = Vector2.Distance(roleEntity.Position, entity.Position);
             if (distance < entity.AttrComponent.AtkRange)
             {
                 closedEntity = roleEntity;
@@ -60,31 +56,36 @@ public class MoveStatus : Status
 
         if (closedEntity == null)
         {
-            /// <summary> 找不到敌人就idel一会儿 </summary>
-            entity.StatusComponent.Status = new IdleStatus(entity);
+            // 找不到敌人就idel一会儿
+            behaviorComponent.AddBehavior(new IdleBahavior(10000, behaviorComponent));
+            behaviorComponent.RemoveBehavior(this);
         }
         else
         {
-            lockEnemy = closedEntity;
+            behaviorComponent.TargetEntity = closedEntity;
         }
     }
     bool AttackRangeCheck()
     {
-        if (lockEnemy == null || lockEnemy.IsDestroy)
+        var target = behaviorComponent.TargetEntity;
+        if (target == null || target.IsDestroy)
         {
             return false;
         }
 
-        return Vector2.Distance(lockEnemy.Position, entity.Position) <= entity.AttrComponent.AtkRange;
+        var entity = behaviorComponent.Entity;
+        return Vector2.Distance(target.Position, entity.Position) <= entity.AttrComponent.AtkRange;
     }
 
     void TryClosedEnemy()
     {
-        if (lockEnemy == null || lockEnemy.IsDestroy)
+        var target = behaviorComponent.TargetEntity;
+        if (target == null || target.IsDestroy)
         {
             return;
         }
-        var move = entity.GetMovePos(lockEnemy.Position, entity.AttrComponent.MoveSpeed);
+        var entity = behaviorComponent.Entity;
+        var move = entity.GetMovePos(target.Position, entity.AttrComponent.MoveSpeed);
         entity.Position += move;
         if (MoveCheck() == false)
         {
@@ -95,11 +96,13 @@ public class MoveStatus : Status
     /// <summary> 检查移动是否允许 </summary>
     bool MoveCheck()
     {
+        var entity = behaviorComponent.Entity;
+        var simulator = behaviorComponent.Entity.Simulator;
         /// <summary> 碰撞检测 </summary>
         for (int i = 0; i < simulator.EntityList.Count; i++)
         {
-            var entity = simulator.EntityList[i];
-            if (entity is SceneEntity sceneEntity && entity.Id != this.entity.Id && this.entity.Collider.CheckCollision(sceneEntity))
+            var tempEntity = simulator.EntityList[i];
+            if (tempEntity is SceneEntity sceneEntity && tempEntity.Id != entity.Id && entity.Collider.CheckCollision(sceneEntity))
             {
                 return false;
             }
@@ -116,5 +119,9 @@ public class MoveStatus : Status
     public override int GetAnimatorSpeed()
     {
         return 10000;
+    }
+
+    public override void OnBehaviorEnd()
+    {
     }
 }
