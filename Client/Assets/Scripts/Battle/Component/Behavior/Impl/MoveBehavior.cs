@@ -116,12 +116,11 @@ public class MoveBehavior : Behavior
         return "walk";
     }
 
-    public override int GetAnimatorSpeed()
+    public override void OnBehaviorEnd()
     {
-        return 10000;
     }
 
-    public override void OnBehaviorEnd()
+    public override void OnLogicBehaviorChangeToOther()
     {
     }
 }

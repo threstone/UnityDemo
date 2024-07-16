@@ -60,12 +60,17 @@ public class AttackBehavior : Behavior
         return behaviorComponent.Entity.AttackComponent.IsAttacking() ? "attack" : "idle";
     }
 
-    public override int GetAnimatorSpeed()
+    public new int GetAnimatorSpeed()
     {
         return behaviorComponent.Entity.AttackComponent.SpeedUpRate;
     }
 
     public override void OnBehaviorEnd()
     {
+    }
+
+    public override void OnLogicBehaviorChangeToOther()
+    {
+        behaviorComponent.Entity.AttackComponent.Reset();
     }
 }

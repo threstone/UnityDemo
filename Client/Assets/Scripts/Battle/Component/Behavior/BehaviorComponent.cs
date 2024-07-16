@@ -4,15 +4,7 @@ public class BehaviorComponent
 {
     public List<Behavior> Behaviors = new();
 
-    Behavior logicBehavior;
-    public Behavior LogicBehavior
-    {
-        get { return logicBehavior; }
-        set
-        {
-            logicBehavior = value;
-        }
-    }
+    public Behavior LogicBehavior { get; set; }
     public readonly RoleEntity Entity;
 
     public RoleEntity TargetEntity { get; set; }
@@ -76,6 +68,15 @@ public class BehaviorComponent
             {
                 max = tempBehavior.Sort;
                 LogicBehavior = tempBehavior;
+            }
+        }
+
+        for (int i = Behaviors.Count - 1; i >= 0; i--)
+        {
+            var tempBehavior = Behaviors[i];
+            if (tempBehavior != LogicBehavior)
+            {
+                tempBehavior.OnLogicBehaviorChangeToOther();
             }
         }
     }

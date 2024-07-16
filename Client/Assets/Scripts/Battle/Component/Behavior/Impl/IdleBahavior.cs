@@ -1,6 +1,6 @@
 public class IdleBahavior : Behavior
 {
-    public IdleBahavior(int duration, BehaviorComponent behaviorComponent) : base(duration / Simulator.FrameInterval, behaviorComponent)
+    public IdleBahavior(int timeUnit, BehaviorComponent behaviorComponent) : base(timeUnit / Simulator.FrameInterval, behaviorComponent)
     {
     }
 
@@ -12,13 +12,13 @@ public class IdleBahavior : Behavior
     {
         return "idle";
     }
-    public override int GetAnimatorSpeed()
-    {
-        return 10000;
-    }
 
     public override void OnBehaviorEnd()
     {
         behaviorComponent.AddBehavior(new MoveBehavior(behaviorComponent));
+    }
+
+    public override void OnLogicBehaviorChangeToOther()
+    {
     }
 }

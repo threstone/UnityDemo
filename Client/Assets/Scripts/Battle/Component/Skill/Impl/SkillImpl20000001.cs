@@ -11,7 +11,8 @@ public class SkillImpl20000001 : PassiveSkill
 
     public void OnPreBeAttacked(Damage damage)
     {
-        if (damage.IsMiss || damage.BlockDamage >= Config.Param1[1])
+        var blockDamage = Config.Param2[0];
+        if (damage.IsMiss || damage.BlockDamage >= blockDamage)
         {
             return;
         }
@@ -20,7 +21,7 @@ public class SkillImpl20000001 : PassiveSkill
         /// <summary> 判断概率 </summary>
         if (entity.Simulator.RandomNext(0, 10000) < rate)
         {
-            damage.BlockDamage = Config.Param1[1];
+            damage.BlockDamage = blockDamage;
             OnSkillUsed();
         }
     }

@@ -7,20 +7,6 @@ public class BuffComponent
 
     readonly RoleEntity entity;
 
-    bool beControlled = false;
-    public bool BeControlled
-    {
-        get { return beControlled; }
-        set
-        {
-            if (beControlled == false && value == true)
-            {
-                entity.Event.Emit(EventEnum.OnBeControlled);
-            }
-            beControlled = value;
-        }
-    }
-
     public BuffComponent(RoleEntity entity)
     {
         this.entity = entity;
@@ -43,17 +29,17 @@ public class BuffComponent
         map.Remove(buffId);
     }
 
-    public void AddBuff(int buffId, int duration, RoleEntity sourceEntity)
+    public void AddBuff(int buffId, int duration, RoleEntity sourceEntity, params int[] args)
     {
         var config = ConfigMgr.GetBuffConfig(buffId);
         Dictionary<int, Buff> map = config.IsControll ? controllBuffMap : buffMap;
         if (map.TryGetValue(buffId, out var buff))
         {
-            buff.UpdateDuration(duration);
+            buff.UpdateBuff(duration, args);
         }
         else
         {
-            var newBuff = BuffMgr.GetBuffByType(buffId, duration, entity, sourceEntity);
+            var newBuff = BuffMgr.GetBuffByType(buffId, duration, entity, sourceEntity,args);
             newBuff.OnBuffAdd();
             map.Add(buffId, newBuff);
         }
@@ -65,12 +51,6 @@ public class BuffComponent
         return controllBuffMap.Count != 0;
     }
 
-    /// <summary> 更新控制状态 </summary>
-    public void UpdateControllStatus()
-    {
-        BeControlled = IsControlled();
-    }
-
     /// <summary> 驱散  DispelType=>驱散类型 强驱散,弱驱散 </summary>
     public void Dispel(RoleEntity from, DispelTypeEnum dispelType)
     {
@@ -78,9 +58,9 @@ public class BuffComponent
 
         foreach (var buff in buffMap.Values)
         {
-            /// <summary> 是否可以被驱散 </summary>
-            /// <summary> 来自敌人的话 驱散有益buff </summary>
-            /// <summary> 来自友方的话 驱散debuff </summary>
+            // 是否可以被驱散
+            // 来自敌人的话 驱散有益buff
+            // 来自友方的话 驱散debuff
             if (buff.SourceEntity.PlayerId != from.PlayerId && dispelType <= buff.BuffConfig.DispelType)
             {
                 buff.OnBuffClear();
@@ -91,7 +71,7 @@ public class BuffComponent
 
     private void OnHandleDamage(Damage damage)
     {
-        /// <summary> 消费伤害中的buff </summary>
+        // 消费伤害中的buff
         damage.BuffList.ForEach((b) => AddBuff(b.BuffId, b.Duration, damage.Entity));
     }
 }

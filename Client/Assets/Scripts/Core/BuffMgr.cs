@@ -30,12 +30,12 @@ public static class BuffMgr
         Utils.Log("buff init end use ms: " + (((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds() - now));
     }
 
-    public static Buff GetBuffByType(int buffId, int duration, RoleEntity entity, RoleEntity sourceEntity)
+    public static Buff GetBuffByType(int buffId, int duration, RoleEntity entity, RoleEntity sourceEntity, params int[] args)
     {
         if (buffTypeMap.TryGetValue(buffId, out var t))
         {
             var config = ConfigMgr.GetBuffConfig(buffId);
-            return Activator.CreateInstance(t, config, duration, entity, sourceEntity) as Buff;
+            return Activator.CreateInstance(t, config, duration, entity, sourceEntity, args) as Buff;
         }
         return null;
     }

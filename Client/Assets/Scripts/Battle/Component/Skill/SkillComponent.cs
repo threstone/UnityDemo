@@ -17,7 +17,11 @@ public class SkillComponent
     public void FixedUpdate()
     {
         var interval = Simulator.FrameInterval;
-        ForEachAllSkill((Skill s) => s.ReduceCD(interval));
+        ForEachAllSkill((Skill s) =>
+        {
+            s.FixedUpdate();
+            s.ReduceCD(interval);
+        });
     }
 
     public void ForEachAllSkill(Action<Skill> action)
@@ -70,20 +74,23 @@ public class SkillComponent
     public void AddSkill(PassiveSkill skill)
     {
         PassiveSkillMap ??= new();
-        if (PassiveSkillMap.TryGetValue(skill.Config.PassiveSkillType, out var list) == false)
+        var config = skill.Config as PassiveSkillConfig;
+        if (PassiveSkillMap.TryGetValue(config.PassiveSkillType, out var list) == false)
         {
             list = new();
-            PassiveSkillMap.Add(skill.Config.PassiveSkillType, list);
+            PassiveSkillMap.Add(config.PassiveSkillType, list);
         }
 
         list.Add(skill);
         /// <summary> 非默认类型即为概率型被动，有些概率性被动需要确定优先级 </summary>
-        if (skill.Config.PassiveSkillType != PassiveSkillTypeEnum.Normal)
+        if (config.PassiveSkillType != PassiveSkillTypeEnum.Normal)
         {
             list.Sort((skill1, skill2) =>
             {
-                if (skill1.Config.Sort > skill2.Config.Sort) return 1;
-                if (skill1.Config.Sort < skill2.Config.Sort) return -1;
+                var config1 = skill1.Config as PassiveSkillConfig;
+                var config2 = skill2.Config as PassiveSkillConfig;
+                if (config1.Sort > config2.Sort) return 1;
+                if (config1.Sort < config2.Sort) return -1;
                 return 0;
             });
         }

@@ -1,22 +1,33 @@
+/// <summary> 眩晕 </summary>
 public class BuffImpl1 : Buff
 {
-    /// <summary> 眩晕 </summary>
-    public BuffImpl1(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
+    StunBehavior behavior;
+    public BuffImpl1(
+        BuffConfig buffConfig,
+        int duration,
+        RoleEntity entity,
+        RoleEntity sourceEntity,
+        params int[] args
+    ) : base(buffConfig, duration, entity, sourceEntity)
     {
     }
 
     public new void OnBuffAdd()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        behavior = new StunBehavior(entity.BehaviorComponent)
+        {
+            Sort = BuffConfig.ControllSort
+        };
+        entity.BehaviorComponent.AddBehavior(behavior);
     }
 
     public new void OnBuffEnd()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        entity.BehaviorComponent.RemoveBehavior(behavior);
     }
 
     public new void OnBuffClear()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        entity.BehaviorComponent.RemoveBehavior(behavior);
     }
 }

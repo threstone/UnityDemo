@@ -16,7 +16,9 @@ public class BattleSimulator
     {
         var enemyPlayerId = PlayerModel.PlayerId + 1;
         List<Role> roleList = new() {
-            new Role(1001,1,PlayerModel.PlayerId),
+            new Role(1001,1,PlayerModel.PlayerId){
+                SkillList= new (){new SkillData(){Id=21001001,level=1}}
+            },
             // new Role(1001,1,PlayerController.PlayerId),
             // new Role(1001,1,PlayerController.PlayerId),
             // new Role(1001,1,PlayerController.PlayerId),
@@ -25,7 +27,9 @@ public class BattleSimulator
             // new Role(1001,1,enemyPlayerId),
             // new Role(1001,1,enemyPlayerId),
             // new Role(1001,1,enemyPlayerId),
-            new Role(1001,1,enemyPlayerId)
+            new Role(1001,1,enemyPlayerId){
+                SkillList= new (){new SkillData(){Id=21001001,level=0}}
+            },
         };
         Dictionary<int, Frame> frameDic = new();
         int randSeed = 1;

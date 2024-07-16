@@ -6,7 +6,7 @@ public abstract class Buff : GameNode /// <summary> buff池化 </summary>
     protected readonly RoleEntity entity;
     /// <summary> buff的创建者 </summary>
     public readonly RoleEntity SourceEntity;
- 
+
     public readonly BuffConfig BuffConfig;
     public int Duration { get; set; }
 
@@ -29,7 +29,7 @@ public abstract class Buff : GameNode /// <summary> buff池化 </summary>
         }
     }
 
-    public void UpdateDuration(int duration)
+    public void UpdateBuff(int duration, params int[] args)
     {
         Duration = Math.Max(duration, Duration);
     }

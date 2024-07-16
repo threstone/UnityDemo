@@ -203,8 +203,6 @@ public class BuffConfig
     public bool IsControll;
     /// <summary> 仅硬控技能有效,控制Buff权重,决定使用哪个动画 </summary> 
     public int ControllSort;
-    /// <summary> 仅硬控技能有效,返回控制时的动画播放 </summary> 
-    public string ControllAnimation;
 }
 
 public enum DispelTypeEnum

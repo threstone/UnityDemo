@@ -1,29 +1,35 @@
+/// <summary> 恐惧 </summary>
 public class BuffImpl2 : Buff
 {
-    /// <summary> 恐惧 </summary>
-    public BuffImpl2(BuffConfig buffConfig, int duration, RoleEntity entity, RoleEntity sourceEntity) : base(buffConfig, duration, entity, sourceEntity)
+    FearBehavior behavior;
+    public BuffImpl2(
+        BuffConfig buffConfig,
+        int duration,
+        RoleEntity entity,
+        RoleEntity sourceEntity,
+        params int[] args
+    ) : base(buffConfig, duration, entity, sourceEntity)
     {
         /// <summary> 恐惧只要有其他控制技能,就没办法动,属于是硬控技能里最垃圾的 </summary>
     }
 
-    public new void FixedUpdate(int curFrame)
-    {
-        base.FixedUpdate(curFrame);
-        /// <summary> 恐惧的具体逻辑... </summary>
-    }
-
     public new void OnBuffAdd()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        behavior = new FearBehavior(entity.BehaviorComponent)
+        {
+            Sort = BuffConfig.ControllSort
+        };
+        entity.BehaviorComponent.AddBehavior(behavior);
     }
 
     public new void OnBuffEnd()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        entity.BehaviorComponent.RemoveBehavior(behavior);
     }
 
     public new void OnBuffClear()
     {
-        entity.BuffComponent.UpdateControllStatus();
+        entity.BehaviorComponent.RemoveBehavior(behavior);
     }
+
 }
