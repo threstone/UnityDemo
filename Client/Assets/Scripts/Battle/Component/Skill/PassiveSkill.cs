@@ -1,5 +1,5 @@
 /// <summary> 被动技能 </summary>
-public class PassiveSkill : Skill
+public abstract class PassiveSkill : Skill
 {
     public PassiveSkill(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
     {

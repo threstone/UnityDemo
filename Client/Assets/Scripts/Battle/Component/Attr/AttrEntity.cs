@@ -126,8 +126,9 @@ public class AttrEntity
     {
         get
         {
-            var armor = Armor;
-            return (int)((long)130000 * armor / (2250000 + 12 * armor));/// <summary> 伤害减少万分比 </summary>
+            var armor = Math.Abs(Armor);
+            var result = (int)((long)130000 * armor / (2250000 + 12 * armor));
+            return Armor < 0 ? -result : result;// 伤害减少万分比
         }
     }
 

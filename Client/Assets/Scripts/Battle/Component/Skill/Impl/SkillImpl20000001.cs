@@ -8,6 +8,9 @@ public class SkillImpl20000001 : PassiveSkill
         On(EventEnum.OnPreBeAttacked, new Action<Damage>(OnPreBeAttacked));
     }
 
+    public override void FixedUpdate()
+    {
+    }
 
     public void OnPreBeAttacked(Damage damage)
     {

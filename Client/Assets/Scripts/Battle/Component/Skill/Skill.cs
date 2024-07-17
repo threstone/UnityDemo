@@ -18,7 +18,7 @@ public abstract class Skill : GameNode
         this.entity = entity;
     }
 
-    public void FixedUpdate() { }
+    public abstract void FixedUpdate();
 
     public void ReduceCD(int v)
     {

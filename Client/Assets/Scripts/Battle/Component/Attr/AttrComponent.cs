@@ -41,24 +41,24 @@ public class AttrComponent : AttrEntity
     /// <summary> 消费伤害 </summary>
     public void OnHandleDamage(Damage damage)
     {
-        /// <summary> 伤害 </summary>
+        // 伤害 
         switch (damage.DamageType)
-        {   /// <summary> 物理伤害 </summary>
+        {   // 物理伤害 
             case DamageTypeEnum.PhysicalDamage:
                 HandlePhysicalDamage(damage);
                 break;
-            /// <summary> 魔法伤害 </summary>
+            // 魔法伤害
             case DamageTypeEnum.MagicalDamage:
                 HandleMagicalDamage(damage);
                 break;
-            /// <summary> 纯粹伤害 </summary>
+            // 纯粹伤害
             case DamageTypeEnum.PureDamage:
                 HandlePureDamage(damage);
                 break;
         }
-        /// <summary> 派发伤害成功被消费,多用于造成伤害者的吸血 </summary>
+        // 派发伤害成功被消费,多用于造成伤害者的吸血
         damage.Entity.Event.Emit(EventEnum.OnDamageBeHandled, damage);
-        /// <summary> 死亡检查 </summary>
+        // 死亡检查
         if (Hp.Current <= 0) entity.Event.Emit(EventEnum.OnRoleDead);
     }
 
@@ -66,7 +66,7 @@ public class AttrComponent : AttrEntity
     void HandlePhysicalDamage(Damage damage)
     {
         damage.RealValue -= damage.BlockDamage;
-        /// <summary> 物理伤害计算护甲 </summary>
+        // 物理伤害计算护甲 
         damage.RealValue = (int)((long)damage.RealValue * (10000 - PhysicalDamageReduceRatio) / 10000);
         Hp.Add(-damage.RealValue);
     }
@@ -91,7 +91,7 @@ public class AttrComponent : AttrEntity
     {
         if (recoverProgress >= recoverInterval)
         {
-            /// <summary> 每N帧恢复一次生命和血量,减少计算量 </summary>
+            // 每N帧恢复一次生命和血量,减少计算量 
             Hp.Add(recoverInterval * HpRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
             Mana.Add(recoverInterval * ManaRecoverySpeed * Simulator.FrameInterval / Simulator.TimeUnitRatioBySecond);
             recoverProgress = -1;
@@ -110,7 +110,7 @@ public class AttrComponent : AttrEntity
     public Damage GetAttack()
     {
         var attack = Attack;
-        /// <summary> 百分之5波动,未来角色可能引入波动值 </summary>
+        // 百分之5波动,未来角色可能引入波动值
         var limit = attack * 5 / 100;
         attack += entity.Simulator.RandomNext(-limit, limit);
         var damage = Damage.GetDamage(entity, DamageTypeEnum.PhysicalDamage, attack, false);
@@ -123,13 +123,11 @@ public class AttrComponent : AttrEntity
     {
         if (BaseAttr.RoleMiss == 0 && BaseAttr.ItemMiss == 0 && SkillMiss == 0) return false;
 
-        /// <summary> (1-角色基础闪避)*(1-物品提供闪避)*(1-技能提供闪避) </summary>
+        // (1-角色基础闪避)*(1-物品提供闪避)*(1-技能提供闪避) 
         var ratio = (1 - (double)BaseAttr.RoleMiss / 10000)
               * (1 - (double)AddAttr.ItemMiss / 10000)
               * (1 - (double)SkillMiss / 10000);
 
         return entity.Simulator.RandomNext(0, 10000) > Convert.ToInt32(ratio * 10000);
     }
-
-
 }

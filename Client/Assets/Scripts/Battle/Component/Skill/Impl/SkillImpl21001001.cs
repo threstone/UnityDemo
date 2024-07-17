@@ -8,16 +8,18 @@ public class SkillImpl21001001 : PassiveSkill
     {
     }
 
-    public new void FixedUpdate()
+    public override void FixedUpdate()
     {
-        if (Level < 1 && Level > 4)
+        if (Level < 1 || Level > 4)
         {
             return;
         }
 
         var simulator = entity.Simulator;
         var distance = Config.Param2[0];
-        /// <summary> 碰撞检测 </summary>
+        var reduceArmor = Config.Param1[Level - 1];
+        var duration = Config.Param3[0];
+        // 碰撞检测
         for (int i = 0; i < simulator.EntityList.Count; i++)
         {
             var tempEntity = simulator.EntityList[i];
@@ -25,7 +27,7 @@ public class SkillImpl21001001 : PassiveSkill
              roleEntity.PlayerId != entity.PlayerId &&
              Vector2.Distance(roleEntity.Position, entity.Position) <= distance)
             {
-                roleEntity.BuffComponent.AddBuff(Config.Id, Config.Param3[0], entity, Config.Param1[Level - 1]);
+                roleEntity.BuffComponent.AddBuff(Config.Id, duration, entity, reduceArmor * 10);
             }
         }
     }

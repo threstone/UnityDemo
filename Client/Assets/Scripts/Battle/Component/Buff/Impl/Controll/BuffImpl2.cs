@@ -13,7 +13,7 @@ public class BuffImpl2 : Buff
         /// <summary> 恐惧只要有其他控制技能,就没办法动,属于是硬控技能里最垃圾的 </summary>
     }
 
-    public new void OnBuffAdd()
+    public override void OnBuffAdd()
     {
         behavior = new FearBehavior(entity.BehaviorComponent)
         {
@@ -22,12 +22,12 @@ public class BuffImpl2 : Buff
         entity.BehaviorComponent.AddBehavior(behavior);
     }
 
-    public new void OnBuffEnd()
+    public override void OnBuffEnd()
     {
         entity.BehaviorComponent.RemoveBehavior(behavior);
     }
 
-    public new void OnBuffClear()
+    public override void OnBuffClear()
     {
         entity.BehaviorComponent.RemoveBehavior(behavior);
     }

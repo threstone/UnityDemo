@@ -39,7 +39,7 @@ public class BuffComponent
         }
         else
         {
-            var newBuff = BuffMgr.GetBuffByType(buffId, duration, entity, sourceEntity,args);
+            var newBuff = BuffMgr.GetBuffByType(buffId, duration, entity, sourceEntity, args);
             newBuff.OnBuffAdd();
             map.Add(buffId, newBuff);
         }

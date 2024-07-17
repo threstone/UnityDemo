@@ -35,10 +35,10 @@ public abstract class Buff : GameNode /// <summary> buff池化 </summary>
     }
 
     /// <summary> 当状态自然结束 </summary>
-    public void OnBuffAdd() { }
+    public abstract void OnBuffAdd();
     /// <summary> 当状态自然结束 </summary>
-    public void OnBuffEnd() { }
+    public abstract void OnBuffEnd();
 
     /// <summary> 当Buff被驱散 </summary>
-    public void OnBuffClear() { }
+    public abstract void OnBuffClear();
 }

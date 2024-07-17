@@ -53,7 +53,7 @@ public class RoleEntityController : EntityController
             p.y -= (float)EntityInfo.AttrComponent.BaseAttr.ProjectileOffset / 10000;
             damageObj.transform.position = p;
             var uiTextComponent = damageObj.GetComponent<Text>();
-            uiTextComponent.text = "" + damage.DamageValue / 10000;
+            uiTextComponent.text = "" + damage.RealValue / 10000;
             uiTextComponent.color = PlayerModel.PlayerId == EntityInfo.PlayerId ? Color.gray : Color.yellow;
         });
     }

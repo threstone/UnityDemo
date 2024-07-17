@@ -30,13 +30,17 @@ public class BuffImpl21001001 : Buff
         }
     }
 
-    public new void OnBuffAdd()
+    public override void OnBuffAdd()
     {
         entity.AttrComponent.AddAttr.Armor -= reduceArmor;
     }
 
-    public new void OnBuffEnd()
+    public override void OnBuffEnd()
     {
         entity.AttrComponent.AddAttr.Armor += reduceArmor;
+    }
+
+    public override void OnBuffClear()
+    {
     }
 }

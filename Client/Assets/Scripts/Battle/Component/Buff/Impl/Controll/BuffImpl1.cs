@@ -12,7 +12,7 @@ public class BuffImpl1 : Buff
     {
     }
 
-    public new void OnBuffAdd()
+    public override void OnBuffAdd()
     {
         behavior = new StunBehavior(entity.BehaviorComponent)
         {
@@ -21,12 +21,12 @@ public class BuffImpl1 : Buff
         entity.BehaviorComponent.AddBehavior(behavior);
     }
 
-    public new void OnBuffEnd()
+    public override void OnBuffEnd()
     {
         entity.BehaviorComponent.RemoveBehavior(behavior);
     }
 
-    public new void OnBuffClear()
+    public override void OnBuffClear()
     {
         entity.BehaviorComponent.RemoveBehavior(behavior);
     }
