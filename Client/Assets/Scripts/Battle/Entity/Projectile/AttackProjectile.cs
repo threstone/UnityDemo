@@ -7,8 +7,11 @@ using System.Numerics;
 public class AttackProjectile : Projectile
 {
     readonly RoleEntity target;
-    public AttackProjectile(RoleEntity source) : base(source)
+    readonly Damage damage;
+
+    public AttackProjectile(RoleEntity source, Damage damage) : base(source)
     {
+        this.damage = damage;
         target = source.BehaviorComponent.TargetEntity;
         Speed = source.AttrComponent.BaseAttr.AtkProjectileSpeed;
 
@@ -44,7 +47,7 @@ public class AttackProjectile : Projectile
     // 当弹道到达目标
     public void OnTrigger()
     {
-        target.AttackComponent.BeAttack(Source);
+        target.AttackComponent.BeAttack(damage);
         IsDestroy = true;
     }
 }

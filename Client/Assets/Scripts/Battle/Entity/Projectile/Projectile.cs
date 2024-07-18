@@ -16,7 +16,7 @@ public abstract class Projectile : SceneEntity
     protected Projectile(RoleEntity source) : base(source.PlayerId)
     {
         Source = source;
-        /// <summary> 加入simulator </summary>
+        // 加入simulator 
         source.Simulator.AddEntity(this);
     }
 

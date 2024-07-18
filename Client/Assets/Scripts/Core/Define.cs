@@ -42,11 +42,10 @@ public enum EventEnum
     /// 当攻击前 
     /// 被动技能影响的暴击等特效   冰眼、暴击等
     /// 主动技能影响的攻击特效     小黑冰箭等
-    /// buff 蓝猫超负荷  todo
     /// 致盲使IsMiss = true ; 克敌机先使IsMiss = false和NoMiss = true
     /// </summary>
     OnPreAttack,
-    /// <summary> 当创造的伤害被消费,多用于吸血 </summary>
+    /// <summary> 当创造的伤害被消费,多用于吸血   蓝猫超负荷(在伤害被处理后再次给目标一个damage对象去消费)</summary>
     OnDamageBeHandled,
     /// <summary> 角色死亡 </summary>
     OnRoleDead,

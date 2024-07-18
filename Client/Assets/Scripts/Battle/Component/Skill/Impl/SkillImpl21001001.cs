@@ -27,7 +27,7 @@ public class SkillImpl21001001 : PassiveSkill
              roleEntity.PlayerId != entity.PlayerId &&
              Vector2.Distance(roleEntity.Position, entity.Position) <= distance)
             {
-                roleEntity.BuffComponent.AddBuff(Config.Id, duration, entity, reduceArmor * 10);
+                roleEntity.BuffComponent.AddBuff(Config.Id, duration, entity, reduceArmor);
             }
         }
     }

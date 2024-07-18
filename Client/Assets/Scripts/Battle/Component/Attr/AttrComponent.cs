@@ -57,7 +57,7 @@ public class AttrComponent : AttrEntity
                 break;
         }
         // 派发伤害成功被消费,多用于造成伤害者的吸血
-        damage.Entity.Event.Emit(EventEnum.OnDamageBeHandled, damage);
+        damage.SourceEntity.Event.Emit(EventEnum.OnDamageBeHandled, damage);
         // 死亡检查
         if (Hp.Current <= 0) entity.Event.Emit(EventEnum.OnRoleDead);
     }

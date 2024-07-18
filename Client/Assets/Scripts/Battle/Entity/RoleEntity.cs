@@ -41,15 +41,15 @@ public class RoleEntity : SceneEntity
         BehaviorComponent = new BehaviorComponent(this);
         AttackComponent = new AttackComponent(this);
 
-        SkillComponent = new SkillComponent(this);/// <summary> 依赖装备组件,装备拥有技能 </summary>
-        AttrComponent = new AttrComponent(this);  /// <summary> 最后初始化，依赖其他组件 </summary>
+        SkillComponent = new SkillComponent(this);// 依赖装备组件,装备拥有技能 
+        AttrComponent = new AttrComponent(this);  // 最后初始化，依赖其他组件 
 
         Collider = new CircleCollider(this, AttrComponent.ColliderRadius);
     }
 
     void InitEvent()
     {
-        /// <summary> 死亡事件 </summary>
+        // 死亡事件 
         Event.On(EventEnum.OnRoleDead, new Action(() => IsDestroy = true));
     }
 
@@ -71,16 +71,16 @@ public class RoleEntity : SceneEntity
     public void HandleDamage(Damage damage)
     {
         CurFranmeDamages.Add(damage);
-        /// <summary> 消费伤害前 </summary>
+        // 消费伤害前 
         Event.Emit(EventEnum.OnPreHandleDamage, damage);
 
-        /// <summary> 伤害消费 </summary>
+        // 伤害消费 
         Event.Emit(EventEnum.OnHandleDamage, damage);
 
-        /// <summary> 消费伤害后 </summary>
+        // 消费伤害后 
         Event.Emit(EventEnum.OnAfterHandleDamage, damage);
 
-        /// <summary> 消费伤害中的额外伤害 </summary>
+        // 消费伤害中的额外伤害
         damage.ExtraDamage.ForEach((d) => HandleDamage(d));
     }
 

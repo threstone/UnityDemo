@@ -4,20 +4,23 @@ public class Damage
 {
     static readonly Pool<Damage> damagePool = new();
 
-    public static Damage GetDamage(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
+    public static Damage GetDamage(RoleEntity sourceEntity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
         var result = damagePool.Get();
-        result.InitData(entity, type, damageValue, isSkill, isCriticalHit);
+        result.InitData(sourceEntity,  type, damageValue, isSkill, isCriticalHit);
         return result;
     }
 
     public static void DestroyDamage(Damage damage)
     {
+        if (damage == null) { return; }
         damage.Reset();
         damagePool.Back(damage);
     }
 
-    public RoleEntity Entity;
+    public RoleEntity SourceEntity;
+
+    public RoleEntity TargetEntity { get; set; }
 
     /// <summary> 伤害值 </summary>
     public int DamageValue { get; set; }
@@ -44,9 +47,9 @@ public class Damage
     /// <summary> 额外伤害 例如攻击触发的金箍棒特效  火女魔晶带来的技能额外伤害     </summary>
     public List<Damage> ExtraDamage { get; } = new();
 
-    private void InitData(RoleEntity entity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
+    private void InitData(RoleEntity sourceEntity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit)
     {
-        Entity = entity;
+        SourceEntity = sourceEntity;
         DamageValue = damageValue;
         RealValue = damageValue;
         DamageType = type;
@@ -61,7 +64,8 @@ public class Damage
     /// <summary> 把引用去掉 </summary>
     private void Reset()
     {
-        Entity = null;
+        SourceEntity = null;
+        TargetEntity = null;
         BuffList.Clear();
         ExtraDamage.Clear();
     }

@@ -8,6 +8,8 @@ public class AttackComponent
     bool isAtk = false;
     /// <summary> 当攻击间隔低于1时需要加速攻击,否则无法成功实现高攻速 </summary>
     public int SpeedUpRate { get; set; } = 10000;
+
+    public Damage AttackDamage { get; set; }
     public AttackComponent(RoleEntity entity)
     {
         this.entity = entity;
@@ -43,6 +45,11 @@ public class AttackComponent
     public void Reset()
     {
         atkFrame = -1;
+        if (isAtk == false)
+        {
+            Damage.DestroyDamage(AttackDamage);
+            return;
+        }
         isAtk = false;
     }
 
@@ -63,6 +70,7 @@ public class AttackComponent
         atkFrame = 0;
         // 计算加速 
         SpeedUpRate = Math.Max(10000, entity.AttrComponent.AttackTimesPer10000Sec);
+        AttackDamage = entity.AttrComponent.GetAttack();
     }
 
     /// <summary> 前摇是否执行完毕 </summary>
@@ -84,35 +92,34 @@ public class AttackComponent
         if (entity.AttrComponent.BaseAttr.AtkType == AtkTypeEnum.MeleeHero)
         {
             var enemy = entity.BehaviorComponent.TargetEntity;
-            enemy.AttackComponent.BeAttack(entity);
+            enemy.AttackComponent.BeAttack(AttackDamage);
         }
         // 远程生成攻击弹道
         else
         {
-            new AttackProjectile(entity);
+            new AttackProjectile(entity, AttackDamage);
         }
     }
 
     /// <summary> 被攻击 </summary>
-    public void BeAttack(RoleEntity attacker)
+    public void BeAttack(Damage damage)
     {
-        var targetAttr = attacker.AttrComponent;
-        var damage = targetAttr.GetAttack();
+        damage.TargetEntity = entity;
 
-        /// <summary> 被攻击前 </summary>
+        // 被攻击前 
         entity.Event.Emit(EventEnum.OnPreBeAttacked, damage);
 
-        /// <summary> 被闪避也需要增加到伤害列表,但不需要被消费 </summary>
+        // 被闪避也需要增加到伤害列表,但不需要被消费 
         if (damage.IsMiss && !damage.NoMiss)
         {
             entity.CurFranmeDamages.Add(damage);
             return;
         }
 
-        /// <summary> 消费伤害 </summary>
+        // 消费伤害 
         entity.HandleDamage(damage);
 
-        /// <summary> 被攻击后 </summary>
+        // 被攻击后
         entity.Event.Emit(EventEnum.OnAfterBeAttacked, damage);
     }
 }

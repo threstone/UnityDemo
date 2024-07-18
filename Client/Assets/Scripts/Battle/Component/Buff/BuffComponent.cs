@@ -72,6 +72,6 @@ public class BuffComponent
     private void OnHandleDamage(Damage damage)
     {
         // 消费伤害中的buff
-        damage.BuffList.ForEach((b) => AddBuff(b.BuffId, b.Duration, damage.Entity));
+        damage.BuffList.ForEach((b) => AddBuff(b.BuffId, b.Duration, damage.SourceEntity));
     }
 }
