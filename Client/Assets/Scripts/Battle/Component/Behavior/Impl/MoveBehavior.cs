@@ -4,10 +4,14 @@ public class MoveBehavior : Behavior
 {
     public MoveBehavior(BehaviorComponent behaviorComponent) : base(-1, behaviorComponent)
     {
+        behaviorComponent.ActiveSkillSpellCheck();
     }
 
     public override void FixedUpdate(int curFrame)
     {
+        // 检查是否有主动技能要执行
+        if (curFrame % 25 == 0 && behaviorComponent.ActiveSkillSpellCheck()) return;
+
         if (behaviorComponent.TargetEntity == null || behaviorComponent.TargetEntity.IsDestroy)
         {
             TryGetEnemy();
@@ -22,7 +26,6 @@ public class MoveBehavior : Behavior
         behaviorComponent.AddBehavior(new AttackBehavior(behaviorComponent));
         behaviorComponent.RemoveBehavior(this);
     }
-
 
     void TryGetEnemy()
     {

@@ -27,7 +27,7 @@ public abstract class Skill : GameNode
     }
 
     /// <summary> 是否可以使用 </summary>
-    public bool IsUseful()
+    public bool AllowToUse()
     {
         return CD == 0;
     }
@@ -35,6 +35,6 @@ public abstract class Skill : GameNode
     /// <summary> 当技能被使用,增加冷却时间 </summary>
     public void OnSkillUsed()
     {
-        CD += Config.CD[Level];
+        CD += Config.CD[Level - 1];
     }
 }

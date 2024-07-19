@@ -1,1 +1,1 @@
-[{"Id":20000001,"CD":[0],"CanDestroy":false,"PassiveSkillType":2,"Sort":170000,"Param1":[4000],"Param2":[200000]},{"Id":21001001,"CD":[0],"CanDestroy":true,"PassiveSkillType":0,"Param1":[30000,50000,70000,90000],"Param2":[90000],"Param3":[15000]}]
+[{"Id":20000001,"CanDestroy":false,"PassiveSkillType":2,"Sort":170000,"Param1":[4000],"Param2":[200000]},{"Id":21001001,"CanDestroy":true,"PassiveSkillType":0,"Param1":[30000,50000,70000,90000],"Param2":[90000],"Param3":[15000]}]

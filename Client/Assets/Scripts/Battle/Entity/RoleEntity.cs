@@ -19,6 +19,7 @@ public class RoleEntity : SceneEntity
     /// <summary> 技能组件 </summary>
     public SkillComponent SkillComponent { get; set; }
 
+    /// <summary> 朝向,true表示右侧 </summary>
     public bool Face { get; set; }
 
     public Role Role { get; set; }

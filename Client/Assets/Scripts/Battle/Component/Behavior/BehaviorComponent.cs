@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class BehaviorComponent
@@ -81,4 +82,21 @@ public class BehaviorComponent
         }
     }
 
+    /// <summary>
+    /// 主动技能释放检查
+    /// </summary>
+    public bool ActiveSkillSpellCheck()
+    {
+        for (int i = 0; i < Entity.SkillComponent.ActiveSkillList?.Count; i++)
+        {
+            var skill = Entity.SkillComponent.ActiveSkillList[i];
+            if (skill.AllowToUse() && skill.WhetherToUse())
+            {
+                AddBehavior(new SpellBehavior(skill, this));
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

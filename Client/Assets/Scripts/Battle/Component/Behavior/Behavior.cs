@@ -1,7 +1,7 @@
 public abstract class Behavior
 {
     public int Duration { get; set; }
-    public int Sort { get; set; } = 0;
+    public int Sort { get; set; } = -1;
     protected readonly BehaviorComponent behaviorComponent;
 
     public Behavior(int duration, BehaviorComponent behaviorComponent)

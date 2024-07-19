@@ -165,6 +165,10 @@ public class ActiveSkillConfig : SkillConfig
     public int[] Mana;
     /// <summary> 携带的被动技能ID,有些主动同时也会携带被动技能 </summary> 
     public int[] PassiveSkills;
+    /// <summary> 施法前摇 </summary> 
+    public int PreSpellTime;
+    /// <summary> 施法后摇 </summary> 
+    public int AfterSpellTime;
 }
 
 /// <summary> 被动技能 </summary> 

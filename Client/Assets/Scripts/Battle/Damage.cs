@@ -7,7 +7,7 @@ public class Damage
     public static Damage GetDamage(RoleEntity sourceEntity, DamageTypeEnum type, int damageValue, bool isSkill, bool isCriticalHit = false)
     {
         var result = damagePool.Get();
-        result.InitData(sourceEntity,  type, damageValue, isSkill, isCriticalHit);
+        result.InitData(sourceEntity, type, damageValue, isSkill, isCriticalHit);
         return result;
     }
 
@@ -41,6 +41,8 @@ public class Damage
     public bool NoMiss { get; set; }
     /// <summary> 是否闪避 </summary>
     public bool IsMiss { get; set; }
+    /// <summary> 攻击伤害的执行动画,可考虑重构出AttackDamage </summary>
+    public string AttackAnimation { get; set; }
 
     public List<BuffData> BuffList { get; } = new();
 

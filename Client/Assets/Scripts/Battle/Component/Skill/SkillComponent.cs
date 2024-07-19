@@ -54,21 +54,29 @@ public class SkillComponent
         }
         else if (skill is ActiveSkill aSkill)
         {
-            AddSkill(aSkill, skillConfig as ActiveSkillConfig);
+            AddSkill(aSkill);
         }
     }
 
-    public void AddSkill(ActiveSkill skill, ActiveSkillConfig skillConfig)
+    public void AddSkill(ActiveSkill skill)
     {
         ActiveSkillList ??= new();
         ActiveSkillList.Add(skill);
+
         /// <summary> 增加主动技能附带的被动技能 </summary>
-        foreach (var pSkillId in skillConfig.PassiveSkills)
+        for (int i = 0; i < skill.ActiveConfig.PassiveSkills?.Length; i++)
         {
+            var pSkillId = skill.ActiveConfig.PassiveSkills[i];
             var passiveSkillConfig = ConfigMgr.GetSkillConfig<PassiveSkillConfig>(pSkillId);
             var passiveSkill = SkillMgr.GetSkillById(passiveSkillConfig, skill.Level, entity) as PassiveSkill;
             AddSkill(passiveSkill);
         }
+        // foreach (var pSkillId in skill.PassiveConfig.PassiveSkills)
+        // {
+        //     var passiveSkillConfig = ConfigMgr.GetSkillConfig<PassiveSkillConfig>(pSkillId);
+        //     var passiveSkill = SkillMgr.GetSkillById(passiveSkillConfig, skill.Level, entity) as PassiveSkill;
+        //     AddSkill(passiveSkill);
+        // }
     }
 
     public void AddSkill(PassiveSkill skill)

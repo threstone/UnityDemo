@@ -1,6 +1,6 @@
-/// <summary> 近战模型格挡 </summary>
 using System;
 
+/// <summary> 近战模型格挡 </summary>
 public class SkillImpl20000001 : PassiveSkill
 {
     public SkillImpl20000001(PassiveSkillConfig config, int lv, RoleEntity entity) : base(config, lv, entity)
@@ -14,6 +14,8 @@ public class SkillImpl20000001 : PassiveSkill
 
     public void OnPreBeAttacked(Damage damage)
     {
+        if (AllowToUse() == false) return;
+        
         var blockDamage = Config.Param2[0];
         if (damage.IsMiss || damage.BlockDamage >= blockDamage)
         {

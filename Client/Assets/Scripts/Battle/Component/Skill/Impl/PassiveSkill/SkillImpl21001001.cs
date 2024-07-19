@@ -10,10 +10,7 @@ public class SkillImpl21001001 : PassiveSkill
 
     public override void FixedUpdate()
     {
-        if (Level < 1 || Level > 4)
-        {
-            return;
-        }
+        if (AllowToUse() == false||Level < 1 || Level > 4) return;
 
         var simulator = entity.Simulator;
         var distance = Config.Param2[0];

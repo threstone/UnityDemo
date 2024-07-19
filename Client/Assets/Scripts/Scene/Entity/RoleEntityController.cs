@@ -31,6 +31,7 @@ public class RoleEntityController : EntityController
     private void UpdateStatusProgressBar()
     {
         statusProgressBarController.UpdateHp(EntityInfo.AttrComponent.Hp.Current, EntityInfo.AttrComponent.Hp.Maximum);
+        statusProgressBarController.UpdateMana(EntityInfo.AttrComponent.Mana.Current, EntityInfo.AttrComponent.Mana.Maximum);
     }
 
     /// <summary> 在元素上弹出伤害提示  </summary>

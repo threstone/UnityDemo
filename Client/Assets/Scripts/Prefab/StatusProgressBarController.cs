@@ -4,27 +4,34 @@ public class StatusProgressBarController : MonoBehaviour
 {
     Transform hpTransform;
     float startHpScale;
-    int cur;
-    int max;
+    int curHp;
+    int maxHp;
+
+    Transform manaTransform;
+    float startManaScale;
+    int curMana;
+    int maxMana;
 
     bool isInit = false;
-
-    public float XScale = 0.74f;
     private void Awake()
     {
         hpTransform = transform.GetChild(1);
         startHpScale = hpTransform.localScale.x;
+
+        manaTransform = transform.GetChild(3);
+        startManaScale = manaTransform.localScale.x;
+
         gameObject.transform.localScale = Vector3.zero;
     }
     public void UpdateHp(int cur, int max)
     {
-        if (this.cur == cur && this.max == max) return;
+        if (curHp == cur && maxHp == max) return;
 
         if (!isInit) isInit = true;
         else gameObject.transform.localScale = Vector3.one;
 
-        this.cur = cur;
-        this.max = max;
+        curHp = cur;
+        maxHp = max;
 
         var scale = hpTransform.transform.localScale;
         scale.x = (float)cur / max * startHpScale;
@@ -33,6 +40,25 @@ public class StatusProgressBarController : MonoBehaviour
         var pos = hpTransform.transform.localPosition;
         pos.x = -(startHpScale - scale.x) / 2;
         hpTransform.transform.localPosition = pos;
+    }
+
+    public void UpdateMana(int cur, int max)
+    {
+        if (curMana == cur && maxMana == max) return;
+
+        if (!isInit) isInit = true;
+        else gameObject.transform.localScale = Vector3.one;
+
+        curMana = cur;
+        maxMana = max;
+
+        var scale = manaTransform.transform.localScale;
+        scale.x = (float)cur / max * startManaScale;
+        manaTransform.transform.localScale = scale;
+
+        var pos = manaTransform.transform.localPosition;
+        pos.x = -(startManaScale - scale.x) / 2;
+        manaTransform.transform.localPosition = pos;
     }
 
     public void SetGreen()

@@ -20,6 +20,8 @@ public class AttackComponent
         // 未在攻击状态下 检查是否可以攻击
         if (atkFrame == -1 && AllowAtk(curFrame))
         {
+            // 在开始攻击前检查是否有主动技能要执行
+            if (entity.BehaviorComponent.ActiveSkillSpellCheck()) return;
             StartAtk();
         }
 
