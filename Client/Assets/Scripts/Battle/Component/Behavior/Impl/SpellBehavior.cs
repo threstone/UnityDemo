@@ -38,7 +38,7 @@ public class SpellBehavior : Behavior
 
     public override string GetAnimationName()
     {
-        return "spell";
+        return skill.GetAnimationName();
     }
 
     public override void OnBehaviorEnd()

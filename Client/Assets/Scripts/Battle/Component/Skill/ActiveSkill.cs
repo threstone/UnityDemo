@@ -19,6 +19,9 @@ public abstract class ActiveSkill : Skill
     /// <summary> 执行使用技能逻辑 </summary>
     public abstract void DoUseSkill();
 
+    /// <summary> 动画名称 </summary>
+    public abstract string GetAnimationName();
+
     public new bool AllowToUse()
     {
         return base.AllowToUse() && ConsumeCheck();

@@ -19,7 +19,7 @@ public static class SkillMgr
         foreach (Type type in types)
         {
             var className = type.FullName;
-            if (className != "Skill" && className.StartsWith("SkillImpl"))
+            if (className != "Skill" && className.StartsWith("SkillImpl") && className.Length == 17)
             {
                 var id = Convert.ToInt32(className[9..]);
                 Utils.Log("add skill :" + className + "   " + id);

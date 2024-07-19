@@ -19,7 +19,7 @@ public class BattleSimulator
             new Role(1001,1,PlayerModel.PlayerId){
                 SkillList= new (){
                     new SkillData(){Id=21001001,level=1},
-                    new SkillData(){Id=11001001,level=1}
+                    new SkillData(){Id=11001001,level=3}
                 }
             },
             // new Role(1001,1,PlayerController.PlayerId),

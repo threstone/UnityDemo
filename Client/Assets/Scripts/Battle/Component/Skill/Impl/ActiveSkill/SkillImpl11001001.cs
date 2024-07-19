@@ -9,6 +9,20 @@ public class SkillImpl11001001 : ActiveSkill
 
     public override void DoUseSkill()
     {
+        var config = ActiveConfig;
+        var damageValue = config.Param3[Level - 1];
+        Vector2 targetPos = new(entity.Face ? entity.Position.X + config.Param1[0] : entity.Position.X - config.Param1[0], entity.Position.Y);
+        for (int i = 0; i < entity.Simulator.EntityList.Count; i++)
+        {
+            var tempEntity = entity.Simulator.EntityList[i];
+            if (tempEntity is RoleEntity roleEntity &&
+             roleEntity.PlayerId != entity.PlayerId &&
+              Vector2.Distance(targetPos, roleEntity.Position) < config.Param2[0])
+            {
+                roleEntity.HandleDamage(Damage.GetDamage(entity, DamageTypeEnum.MagicalDamage, damageValue, true));
+            }
+        }
+
         Utils.Log("使用毁灭阴影");
     }
 
@@ -33,5 +47,10 @@ public class SkillImpl11001001 : ActiveSkill
 
     public override void FixedUpdate()
     {
+    }
+
+    public override string GetAnimationName()
+    {
+        return "spell";
     }
 }
