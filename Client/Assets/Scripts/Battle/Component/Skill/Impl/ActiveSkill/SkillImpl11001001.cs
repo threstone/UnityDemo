@@ -51,6 +51,6 @@ public class SkillImpl11001001 : ActiveSkill
 
     public override string GetAnimationName()
     {
-        return "spell";
+        return "Spell";
     }
 }

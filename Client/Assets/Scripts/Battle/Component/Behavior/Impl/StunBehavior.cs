@@ -10,7 +10,7 @@ public class StunBehavior : Behavior
 
     public override string GetAnimationName()
     {
-        return "stun";
+        return "Stun";
     }
 
     public override void OnBehaviorEnd()

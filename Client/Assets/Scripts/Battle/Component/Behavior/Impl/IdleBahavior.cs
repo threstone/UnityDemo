@@ -10,7 +10,7 @@ public class IdleBahavior : Behavior
 
     public override string GetAnimationName()
     {
-        return "idle";
+        return "Idle";
     }
 
     public override void OnBehaviorEnd()

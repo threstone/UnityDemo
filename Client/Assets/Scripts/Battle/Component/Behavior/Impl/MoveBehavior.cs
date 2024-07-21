@@ -116,7 +116,7 @@ public class MoveBehavior : Behavior
 
     public override string GetAnimationName()
     {
-        return "walk";
+        return "Walk";
     }
 
     public override void OnBehaviorEnd()

@@ -11,7 +11,7 @@ public class FearBehavior : Behavior
 
     public override string GetAnimationName()
     {
-        return "walk";
+        return "Walk";
     }
 
     public override void OnBehaviorEnd()

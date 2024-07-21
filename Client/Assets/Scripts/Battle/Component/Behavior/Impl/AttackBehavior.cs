@@ -58,7 +58,7 @@ public class AttackBehavior : Behavior
     public override string GetAnimationName()
     {
         var attackComp = behaviorComponent.Entity.AttackComponent;
-        return attackComp.IsAttacking() ? attackComp.AttackDamage.AttackAnimation : "idle";
+        return attackComp.IsAttacking() ? attackComp.AttackDamage.AttackAnimation : "Idle";
     }
 
     public new int GetAnimatorSpeed()

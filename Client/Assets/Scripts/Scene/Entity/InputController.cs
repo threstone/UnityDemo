@@ -46,11 +46,11 @@ public class InputController : MonoBehaviour
     }
     private void Attack()
     {
-        controller.Animator.SetTrigger("attack");
+        controller.Animator.SetTrigger("Attack");
     }
 
     private void Spell()
     {
-        controller.Animator.SetTrigger("spell");
+        controller.Animator.SetTrigger("Spell");
     }
 }

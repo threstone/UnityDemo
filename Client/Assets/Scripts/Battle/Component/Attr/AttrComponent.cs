@@ -114,7 +114,7 @@ public class AttrComponent : AttrEntity
         var limit = attack * 5 / 100;
         attack += entity.Simulator.RandomNext(-limit, limit);
         var damage = Damage.GetDamage(entity, DamageTypeEnum.PhysicalDamage, attack, false);
-        damage.AttackAnimation = "attack";
+        damage.AttackAnimation = "Attack";
         // 顺劈斩会修改攻击动画
         entity.Event.Emit(EventEnum.OnPreAttack, damage);
         return damage;

@@ -88,7 +88,7 @@ namespace Assets.Scripts
                 spriteRenderer.flipX = false;
             }
             // 执行攻击动画
-            animator.SetTrigger("attack");
+            animator.SetTrigger("Attack");
             actionCbList.Add(Timer.Register(PreAttackTime, () => OnPreAtkEnd(target)));
             Timer.Register(0.2f, () => DoStun(2f));
             Timer.Register(1.2f, () => DoStun(2f));
@@ -105,7 +105,7 @@ namespace Assets.Scripts
             }
             stopStunTicks = tempTicks;
             Debug.Log("Stun" + stunTime + "  DateTime.Now" + DateTime.Now + "   DateTime.UtcNow" + DateTime.UtcNow);
-            animator.SetTrigger("stun");
+            animator.SetTrigger("Stun");
             actionCbList.ForEach((timer) =>
             {
                 Timer.Cancel(timer);
@@ -138,7 +138,7 @@ namespace Assets.Scripts
             {
                 return;
             }
-            animator.SetTrigger("spell" + spellIndex);
+            animator.SetTrigger("Spell" + spellIndex);
         }
 
         public void DoSpell()
@@ -147,7 +147,7 @@ namespace Assets.Scripts
             {
                 return;
             }
-            animator.SetTrigger("spell");
+            animator.SetTrigger("Spell");
         }
     }
 }
