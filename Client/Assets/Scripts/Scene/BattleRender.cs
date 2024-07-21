@@ -17,7 +17,7 @@ public class BattleRender
             return canvas;
         }
     }
-    
+
     public BattleRender()
     {
     }
@@ -51,6 +51,7 @@ public class BattleRender
 
         if (entity is RoleEntity roleEntity) AddEntity(roleEntity);
         else if (entity is AttackProjectile atkProjectile) AddEntity(atkProjectile);
+        else if (entity is SkillDisplayEntity skillDisplayEntity) AddEntity(skillDisplayEntity);
     }
 
     private void AddEntity(RoleEntity roleEntity)
@@ -73,6 +74,19 @@ public class BattleRender
         controller.EntityInfo = atkProjectile;
         controller.UpdateGray();
         entityMap.Add(atkProjectile.Id, atkProjectileObject);
+    }
+
+    private void AddEntity(SkillDisplayEntity skillDisplayEntity)
+    {
+        GameObject prefab = Resources.Load<GameObject>(skillDisplayEntity.PrafabPath);
+        GameObject skillDisplayObject = Object.Instantiate(prefab, new Vector2(skillDisplayEntity.Position.X / 10000, skillDisplayEntity.Position.Y / 10000), Quaternion.identity);
+        skillDisplayObject.AddComponent<SkillDisplayController>();
+        if (PlayerModel.PlayerId != skillDisplayEntity.PlayerId)
+        {
+            var sr = skillDisplayObject.GetComponent<SpriteRenderer>();
+            sr.color = Color.gray;
+        }
+        entityMap.Add(skillDisplayEntity.Id, skillDisplayObject);
 
     }
 

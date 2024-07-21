@@ -68,7 +68,7 @@ public class AttrComponent : AttrEntity
         damage.RealValue -= damage.BlockDamage;
         // 物理伤害计算护甲 
         damage.RealValue = (int)((long)damage.RealValue * (10000 - PhysicalDamageReduceRatio) / 10000);
-        Hp.Add(-damage.RealValue);
+        Hp.Add(-Math.Max(0, damage.RealValue));
     }
 
     /// <summary> 消费魔法伤害 </summary>
@@ -76,14 +76,14 @@ public class AttrComponent : AttrEntity
     {
         damage.RealValue -= damage.BlockDamage;
         damage.RealValue = Convert.ToInt32(damage.RealValue * MagicalDamageReduceRatio);
-        Hp.Add(-damage.RealValue);
+        Hp.Add(-Math.Max(0, damage.RealValue));
     }
 
     /// <summary> 消费纯粹伤害 </summary>
     void HandlePureDamage(Damage damage)
     {
         damage.RealValue -= damage.BlockDamage;
-        Hp.Add(-damage.RealValue);
+        Hp.Add(-Math.Max(0, damage.RealValue));
     }
 
     /// <summary> 魔法、生命恢复 </summary>

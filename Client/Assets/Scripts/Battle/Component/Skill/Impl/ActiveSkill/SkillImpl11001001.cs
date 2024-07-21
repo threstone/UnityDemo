@@ -16,14 +16,14 @@ public class SkillImpl11001001 : ActiveSkill
         {
             var tempEntity = entity.Simulator.EntityList[i];
             if (tempEntity is RoleEntity roleEntity &&
-             roleEntity.PlayerId != entity.PlayerId &&
+              roleEntity.PlayerId != entity.PlayerId &&
               Vector2.Distance(targetPos, roleEntity.Position) < config.Param2[0])
             {
                 roleEntity.HandleDamage(Damage.GetDamage(entity, DamageTypeEnum.MagicalDamage, damageValue, true));
             }
         }
 
-        Utils.Log("使用毁灭阴影");
+        new SkillDisplayEntity(entity, targetPos, "Role/Hero/SF/Skill/W/W");
     }
 
     public override bool WhetherToUse()

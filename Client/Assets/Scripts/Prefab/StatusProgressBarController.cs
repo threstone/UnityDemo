@@ -23,12 +23,9 @@ public class StatusProgressBarController : MonoBehaviour
 
         gameObject.transform.localScale = Vector3.zero;
     }
-    public void UpdateHp(int cur, int max)
+    public bool UpdateHp(int cur, int max)
     {
-        if (curHp == cur && maxHp == max) return;
-
-        if (!isInit) isInit = true;
-        else gameObject.transform.localScale = Vector3.one;
+        if (curHp == cur && maxHp == max) return false;
 
         curHp = cur;
         maxHp = max;
@@ -40,14 +37,12 @@ public class StatusProgressBarController : MonoBehaviour
         var pos = hpTransform.transform.localPosition;
         pos.x = -(startHpScale - scale.x) / 2;
         hpTransform.transform.localPosition = pos;
+        return true;
     }
 
-    public void UpdateMana(int cur, int max)
+    public bool UpdateMana(int cur, int max)
     {
-        if (curMana == cur && maxMana == max) return;
-
-        if (!isInit) isInit = true;
-        else gameObject.transform.localScale = Vector3.one;
+        if (curMana == cur && maxMana == max) return false;
 
         curMana = cur;
         maxMana = max;
@@ -59,6 +54,18 @@ public class StatusProgressBarController : MonoBehaviour
         var pos = manaTransform.transform.localPosition;
         pos.x = -(startManaScale - scale.x) / 2;
         manaTransform.transform.localPosition = pos;
+        return true;
+    }
+
+    public void UpdateProgress(RoleEntity entityInfo)
+    {
+        bool isUpdateHp = UpdateHp(entityInfo.AttrComponent.Hp.Current, entityInfo.AttrComponent.Hp.Maximum);
+        bool isUpdateMana = UpdateMana(entityInfo.AttrComponent.Mana.Current, entityInfo.AttrComponent.Mana.Maximum);
+        if (isUpdateHp || isUpdateMana)
+        {
+            if (!isInit) isInit = true;
+            else gameObject.transform.localScale = Vector3.one;
+        }
     }
 
     public void SetGreen()

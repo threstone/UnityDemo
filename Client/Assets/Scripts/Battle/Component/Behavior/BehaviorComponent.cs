@@ -13,7 +13,7 @@ public class BehaviorComponent
     public BehaviorComponent(RoleEntity entity)
     {
         Entity = entity;
-        AddBehavior(new IdleBahavior(10000, this));
+        AddBehavior(new IdleBahavior(5000, this));
     }
 
     public void FixedUpdate(int curFrame)
